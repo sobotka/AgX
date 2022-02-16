@@ -24,11 +24,12 @@ file_rules:
   - !<Rule> {name: Default, colorspace: default}
 
 displays:
-  Display P3:
-    - !<View> {name: AgX Kraken Log, colorspace: AgX Kraken Log}
-    - !<View> {name: Display Native, colorspace: Display P3}
   sRGB:
     - !<View> {name: Display Native, colorspace: sRGB}
+    - !<View> {name: AgX, colorspace: sRGB AgX}
+  Display P3:
+    - !<View> {name: Display Native, colorspace: Display P3}
+    - !<View> {name: AgX, colorspace: Display P3 AgX}
 
 active_displays: []
 active_views: []
@@ -98,6 +99,34 @@ colorspaces:
       children:
         - !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear Open Domain Colour, dst: 2.2 EOTF}
+
+  - !<ColorSpace>
+    name: sRGB AgX
+    aliases: [Filmic]
+    family: Images
+    equalitygroup: ""
+    bitdepth: unknown
+    description: AgX Kraken Testing
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Agx Kraken Log}
+        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+
+  - !<ColorSpace>
+    name: Display P3 AgX
+    family: Images
+    equalitygroup: ""
+    bitdepth: unknown
+    description: AgX Kraken Testing
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Agx Kraken Log}
+        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+        - !<ColorSpaceTransform> {src: 2.2 EOTF, dst: Display P3}
 
   - !<ColorSpace>
     name: Generic Data
