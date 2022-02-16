@@ -34,13 +34,6 @@ displays:
 active_displays: []
 active_views: []
 
-looks:
-  - !<Look>
-    name: AgX Default Contrast
-    process_space: AgX Kraken Log
-    transform: !<FileTransform> {src: AgX_Default_Contrast.spi1d}
-
-
 colorspaces:
   - !<ColorSpace>
     name: Linear BT.709
@@ -124,8 +117,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Agx Kraken Log}
-        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: sRGB AgX}
         - !<ColorSpaceTransform> {src: 2.2 EOTF, dst: Display P3}
 
   - !<ColorSpace>
