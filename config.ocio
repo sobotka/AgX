@@ -106,7 +106,7 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear BT.709, dst: Agx Kraken Log}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
-        - !<RangeTransform> {min_in_value: 0, max_in_value: 1, min_out_value: 0, max_out_value: 1}
+        - !<ExponentTransform> {value: 1}
 
   - !<ColorSpace>
     name: Display P3 AgX
@@ -120,7 +120,7 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear BT.709, dst: sRGB AgX}
         - !<ColorSpaceTransform> {src: 2.2 EOTF, dst: Display P3}
-        - !<RangeTransform> {min_in_value: 0, max_in_value: 1, min_out_value: 0, max_out_value: 1}
+        - !<ExponentTransform> {value: 1}
 
   - !<ColorSpace>
     name: Generic Data
