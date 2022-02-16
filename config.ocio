@@ -1,0 +1,109 @@
+ocio_profile_version: 2
+
+environment:
+  {}
+search_path: LUTs
+strictparsing: true
+luma: [0.2126, 0.7152, 0.0722]
+
+roles:
+  color_picking: sRGB
+  color_timing: sRGB
+  compositing_log: sRGB
+  data: Generic Data
+  default: sRGB
+  default_byte: sRGB
+  default_float: Linear BT.709
+  default_sequencer: sRGB
+  matte_paint: sRGB
+  reference: Linear BT.709
+  scene_linear: Linear BT.709
+  texture_paint: sRGB
+
+file_rules:
+  - !<Rule> {name: Default, colorspace: default}
+
+displays:
+  Display P3:
+    - !<View> {name: AgX Kraken Log, colorspace: AgX Kraken Log}
+    - !<View> {name: Display Native, colorspace: Display P3}
+  sRGB:
+    - !<View> {name: Display Native, colorspace: sRGB}
+
+active_displays: []
+active_views: []
+
+looks:
+  - !<Look>
+    name: AgX Default Contrast
+    process_space: AgX Kraken Log
+    transform: !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+
+
+colorspaces:
+  - !<ColorSpace>
+    name: Linear BT.709
+    aliases: [Linear, Linear Open Domain Colour]
+    family: Colourspaces
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Open Domain Linear BT.709 Tristimulus
+    isdata: false
+    allocation: uniform
+
+  - !<ColorSpace>
+    name: AgX Kraken Log
+    aliases: [Kraken]
+    family: Colourspaces
+    equalitygroup: ""
+    bitdepth: unknown
+    description: AgX Kraken Log Encoding
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<MatrixTransform> {matrix: [0.858241671309422, 0.0705902399999996, 0.0713080187764586, 0, 0.0380870808175375, 0.890626152381516, 0.0712489606470568, 0, 0.0381356787783477, 0.07059024, 0.891225228137931, 0, 0, 0, 0, 1]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
+
+  - !<ColorSpace>
+    name: 2.2 EOTF
+    family: Utilities
+    equalitygroup: ""
+    bitdepth: unknown
+    description: 2.2 Exponent EOTF
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
+
+  - !<ColorSpace>
+    name: sRGB
+    family: Displays/SDR
+    equalitygroup: ""
+    bitdepth: unknown
+    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<ColorSpaceTransform> {src: Linear BT.709, dst: 2.2 EOTF}
+
+  - !<ColorSpace>
+    name: Display P3
+    family: Displays/SDR
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Display P3 2.2 Exponent Reference EOTF Display
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
+        - !<ColorSpaceTransform> {src: Linear Open Domain Colour, dst: 2.2 EOTF}
+
+  - !<ColorSpace>
+    name: Generic Data
+    aliases: [Non-Color, Raw]
+    family: Data Types
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Generic Data Encoding
+    isdata: true
+    allocation: uniform
