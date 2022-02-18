@@ -25,42 +25,61 @@ file_rules:
 
 displays:
   sRGB:
-    - !<View> {name: Display Native, colorspace: sRGB}
-    - !<View> {name: AgX, colorspace: AgX Base}
-    - !<View> {name: Appearance Golden, colorspace: Appearance Golden sRGB}
-    - !<View> {name: Appearance Punchy, colorspace: Appearance Punchy sRGB}
-  Display P3:
-    - !<View> {name: Display Native, colorspace: Display P3}
-    - !<View> {name: AgX, colorspace: AgX Base Display P3}
-    - !<View> {name: Appearance Golden, colorspace: Appearance Golden Display P3}
-    - !<View> {name: Appearance Punchy, colorspace: Appearance Punchy Display P3}
-  BT.1886:
-    - !<View> {name: Display Native, colorspace: BT.1886}
-    - !<View> {name: AgX, colorspace: AgX Base BT.1886}
-    - !<View> {name: Appearance Golden, colorspace: Appearance Golden BT.1886}
-    - !<View> {name: Appearance Punchy, colorspace: Appearance Punchy BT.1886}
+    - !<View> {name: AgX, view_transform: AgX Log View, display_colorspace: sRGB, looks: Look AgX Base, description: AgX Base Image Encoding for sRGB displays}
 
 active_displays: []
 active_views: []
 
 looks:
   - !<Look>
-    name: Golden
-    process_space: AgX Base
-    description: A golden tinted, slightly washed look
-    transform: !<CDLTransform> {slope: [1, 0.9, 0.5], power: [0.8, 0.8, 0.8], sat: 1.3}
+    name: Look AgX Base
+    process_space: AgX Log
+    description: AgX Base image appearance.
+    transform: !<FileTransform> {src: AgX_Default_Contrast.spi1d}
 
-  - !<Look>
-    name: Punchy
-    process_space: AgX Base
-    description: A punchy and more chroma laden look
-    transform: !<CDLTransform> {power: [1.35, 1.35, 1.35], sat: 1.4}
 
+view_transforms:
+  - !<ViewTransform>
+    name: AgX Log View
+    family: Log Encodings
+    description: AgX Base Log View
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
+        - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 7.526069]}
+
+  - !<ViewTransform>
+    name: AgX Base
+    family: Imagery
+    description: AgX Base Image Encoding
+    from_display_reference: !<LookTransform> {src: Linear BT.709, dst: AgX Log, looks: Look AgX Base}
+
+display_colorspaces:
+  - !<ColorSpace>
+    name: Linear BT.709 Closed Domain
+    aliases: [Linear Closed Domain, Linear Tristimulus Closed Domain]
+    family: Colourspaces
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Closed Domain Linear BT.709 Tristimulus
+    isdata: false
+    allocation: uniform
+
+  - !<ColorSpace>
+    name: sRGB
+    family: Displays/SDR
+    equalitygroup: ""
+    bitdepth: unknown
+    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+    isdata: false
+    allocation: uniform
+    from_display_reference: !<ColorSpaceTransform> {src: Linear BT.709 Closed Domain, dst: 2.2 EOTF Encoding}
 
 colorspaces:
   - !<ColorSpace>
     name: Linear BT.709
-    aliases: [Linear, Linear Tristimulus]
+    aliases: [Linear, Linear Tristimulus, Linear Open Domain]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
@@ -69,12 +88,12 @@ colorspaces:
     allocation: uniform
 
   - !<ColorSpace>
-    name: AgX Log (Kraken)
-    aliases: [Log, AgX Log, Kraken, AgX Kraken Log]
+    name: AgX Log
+    aliases: [Log]
     family: Log Encodings
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Log, (Kraken)
+    description: AgX Log
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -93,161 +112,6 @@ colorspaces:
     isdata: false
     allocation: uniform
     from_scene_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
-
-  - !<ColorSpace>
-    name: 2.4 EOTF Encoding
-    aliases: [BT.1886 EOTF Encoding]
-    family: Utilities/Curves
-    equalitygroup: ""
-    bitdepth: unknown
-    description: 2.4 Exponent EOTF Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<ExponentTransform> {value: 2.4, direction: inverse}
-
-  - !<ColorSpace>
-    name: sRGB
-    family: Displays/SDR
-    equalitygroup: ""
-    bitdepth: unknown
-    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<ColorSpaceTransform> {src: Linear BT.709, dst: 2.2 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: Display P3
-    family: Displays/SDR
-    equalitygroup: ""
-    bitdepth: unknown
-    description: Display P3 2.2 Exponent EOTF Display
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
-        - !<ColorSpaceTransform> {src: Linear BT.709, dst: 2.2 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: BT.1886
-    family: Displays/SDR
-    equalitygroup: ""
-    bitdepth: unknown
-    description: BT.1886 2.4 Exponent EOTF Display
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<ColorSpaceTransform> {src: Linear BT.709, dst: 2.4 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: AgX Base
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear BT.709, dst: AgX Log (Kraken)}
-        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
-
-  - !<ColorSpace>
-    name: AgX Base BT.1886
-    family: Views/AgX BT.1886
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding for BT.1886 Displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear BT.709, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: AgX Base Display P3
-    family: Views/AgX Display P3
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding for Display P3 Displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear BT.709, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: Display P3}
-
-  - !<ColorSpace>
-    name: Appearance Golden sRGB
-    family: Appearances/Golden
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A golden tinted, slightly washed look for sRGB displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<LookTransform> {src: Linear BT.709, dst: AgX Base, looks: Golden}
-
-  - !<ColorSpace>
-    name: Appearance Golden Display P3
-    family: Appearances/Golden
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A golden tinted, slightly washed look for Display P3 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<LookTransform> {src: Linear BT.709, dst: AgX Base, looks: Golden}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: Display P3}
-
-  - !<ColorSpace>
-    name: Appearance Golden BT.1886
-    family: Appearances/Golden
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A golden tinted, slightly washed look for BT.1886 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<LookTransform> {src: Linear BT.709, dst: AgX Base, looks: Golden}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: Appearance Punchy sRGB
-    family: Appearances/Punchy
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A punchy and more chroma laden look for sRGB displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<LookTransform> {src: Linear BT.709, dst: AgX Base, looks: Punchy}
-
-  - !<ColorSpace>
-    name: Appearance Punchy Display P3
-    family: Appearances/Punchy
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A punchy and more chroma laden look for Display P3 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<LookTransform> {src: Linear BT.709, dst: AgX Base, looks: Punchy}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: Display P3}
-
-  - !<ColorSpace>
-    name: Appearance Punchy BT.1886
-    family: Appearances/Punchy
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A punchy and more chroma laden look for BT.1886 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<LookTransform> {src: Linear BT.709, dst: AgX Base, looks: Punchy}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
     name: Generic Data
