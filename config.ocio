@@ -26,6 +26,7 @@ file_rules:
 displays:
   sRGB:
     - !<View> {name: AgX, view_transform: AgX Log View, display_colorspace: sRGB, looks: Look AgX Base, description: AgX Base Image Encoding for sRGB displays}
+    - !<View> {name: Display Native, view_transform: Colorimetry, display_colorspace: sRGB}
 
 active_displays: []
 active_views: []
@@ -39,6 +40,13 @@ looks:
 
 
 view_transforms:
+  # The first ViewTransform is the config's "default". It *must* define the relationship between the "scene" and "display" reference spaces.
+  - !<ViewTransform>
+    name: Colorimetry
+    family: Utility
+    description: Scene-reference to Display-reference bridge
+    from_scene_reference: !<BuiltinTransform> {style: IDENTITY}
+
   - !<ViewTransform>
     name: AgX Log View
     family: Log Encodings
@@ -48,12 +56,6 @@ view_transforms:
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 7.526069]}
-
-  - !<ViewTransform>
-    name: AgX Base
-    family: Imagery
-    description: AgX Base Image Encoding
-    from_display_reference: !<LookTransform> {src: Linear BT.709, dst: AgX Log, looks: Look AgX Base}
 
 display_colorspaces:
   - !<ColorSpace>
