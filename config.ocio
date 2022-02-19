@@ -25,42 +25,49 @@ file_rules:
 
 displays:
   sRGB:
-    - !<View> {name: AgX, view_transform: AgX Log View, display_colorspace: sRGB, looks: Look AgX Base, description: AgX Base Image Encoding for sRGB displays}
-    - !<View> {name: Display Native, view_transform: Colorimetry, display_colorspace: sRGB}
+    - !<View> {name: Display Native, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear BT.709 Closed Domain, description: sRGB Encoding}
+    - !<View> {name: Image, view_transform: Image Log View, display_colorspace: sRGB, description: Default image view}
+    - !<View> {name: Image Look, view_transform: Identity View, display_colorspace: sRGB, looks: Look Base, description: Default image view}
 
 active_displays: []
 active_views: []
 
 looks:
   - !<Look>
-    name: Look AgX Base
-    process_space: AgX Log
-    description: AgX Base image appearance.
-    transform: !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+    name: Look Base
+    process_space: Linear BT.709 Closed Domain
+    description: Base image look.
+    transform: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Image Log}
+        - !<ExponentTransform> {value: 2.2, direction: inverse}
+        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+        - !<ExponentTransform> {value: 2.2}
 
 
 view_transforms:
-  # The first ViewTransform is the config's "default". It *must* define the relationship between the "scene" and "display" reference spaces.
   - !<ViewTransform>
-    name: Colorimetry
-    family: Utility
-    description: Scene-reference to Display-reference bridge
+    name: Identity View
+    family: Views
+    description: Identity view transform bridge
     from_scene_reference: !<BuiltinTransform> {style: IDENTITY}
 
   - !<ViewTransform>
-    name: AgX Log View
-    family: Log Encodings
-    description: AgX Base Log View
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
-        - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 7.526069]}
+    name: Image Log View
+    family: Imagery
+    description: Reference image
+    from_scene_reference: !<ColorSpaceTransform> {src: Linear BT.709, dst: Image Log}
+
+  - !<ViewTransform>
+    name: 2.2 EOTF Encoding
+    family: Views/Curves
+    description: 2.2 Exponent EOTF Encoding View
+    from_scene_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
 
 display_colorspaces:
   - !<ColorSpace>
     name: Linear BT.709 Closed Domain
-    aliases: [Linear Closed Domain, Linear Tristimulus Closed Domain]
+    aliases: [Linear Closed, Linear Closed Tristimulus, Linear Closed Domain]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
@@ -70,13 +77,26 @@ display_colorspaces:
 
   - !<ColorSpace>
     name: sRGB
-    family: Displays/SDR
+    family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
-    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+    description: BT.709 Encoded
     isdata: false
     allocation: uniform
-    from_display_reference: !<ColorSpaceTransform> {src: Linear BT.709 Closed Domain, dst: 2.2 EOTF Encoding}
+    from_display_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
+
+  - !<ColorSpace>
+    name: Image Log
+    family: Imagery
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Reference image
+    isdata: false
+    allocation: uniform
+    from_display_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Log}
+        - !<ExponentTransform> {value: 2.2}
 
 colorspaces:
   - !<ColorSpace>
@@ -90,30 +110,18 @@ colorspaces:
     allocation: uniform
 
   - !<ColorSpace>
-    name: AgX Log
-    aliases: [Log]
+    name: Log
     family: Log Encodings
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Log
+    description: Log
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 7.526069]}
-
-  - !<ColorSpace>
-    name: 2.2 EOTF Encoding
-    aliases: [sRGB EOTF Encoding]
-    family: Utilities/Curves
-    equalitygroup: ""
-    bitdepth: unknown
-    description: 2.2 Exponent EOTF Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
 
   - !<ColorSpace>
     name: Generic Data
