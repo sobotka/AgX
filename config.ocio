@@ -25,7 +25,9 @@ file_rules:
 
 displays:
   sRGB:
-    - !<View> {name: Display Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear BT.709 Closed Domain, description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display}
+    - !<View> {name: Inverse EOTF Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear BT.709 Closed Domain, description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display}
+  Display P3:
+    - !<View> {name: Inverse EOTF Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear Display P3 Closed Domain, description: Display P3 2.2 Exponent EOTF Display}
 
 active_displays: []
 active_views: []
@@ -53,6 +55,17 @@ display_colorspaces:
     description: Closed Domain Linear BT.709 Tristimulus
     isdata: false
     allocation: uniform
+
+  - !<ColorSpace>
+    name: Linear Display P3 Closed Domain
+    aliases: [Linear Closed Domain Display P3, Linear Closed Domain Display P3 Tristimulus]
+    family: Colourimetry
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Closed Domain Linear Display P3 Tristimulus
+    isdata: false
+    allocation: uniform
+    from_display_reference: !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
 
   - !<ColorSpace>
     name: Display - sRGB
@@ -101,11 +114,11 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear Display P3
-    aliases: [Linear Closed Domain Display P3, Linear Closed Domain Display P3 Tristimulus]
+    aliases: [Linear Display P3 Tristimulus]
     family: Colourimetry
     equalitygroup: ""
     bitdepth: unknown
-    description: Closed Domain Linear Display P3 Tristimulus
+    description: Open Domain Linear Display P3 Tristimulus
     isdata: false
     allocation: uniform
     from_scene_reference: !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
