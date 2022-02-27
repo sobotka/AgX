@@ -28,9 +28,18 @@ displays:
     - !<View> {name: Inverse EOTF Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear BT.709 Closed Domain, description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display}
   Display P3:
     - !<View> {name: Inverse EOTF Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear Display P3 Closed Domain, description: Display P3 2.2 Exponent EOTF Display}
+    - !<View> {name: Flat Image, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear Display P3 Closed Domain, looks: Flat Image, description: Display P3 2.2 Exponent EOTF Display}
 
 active_displays: []
 active_views: []
+
+looks:
+  - !<Look>
+    name: Flat Image
+    process_space: Identity No Operation
+    description: A flattened contrast image
+    transform: !<ColorSpaceTransform> {src: Linear BT.709, dst: Image - AgX Flat}
+
 
 view_transforms:
   - !<ViewTransform>
@@ -100,6 +109,16 @@ display_colorspaces:
       children:
         - !<ExponentTransform> {value: 3.42428723917301}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 Closed Domain}
+
+  - !<ColorSpace>
+    name: Identity No Operation
+    family: Utilities
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Identity transform that results in no operation
+    isdata: false
+    allocation: uniform
+    to_display_reference: !<BuiltinTransform> {style: IDENTITY}
 
 colorspaces:
   - !<ColorSpace>
