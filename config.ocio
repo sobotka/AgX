@@ -7,58 +7,44 @@ strictparsing: true
 luma: [0.2126, 0.7152, 0.0722]
 
 roles:
-  color_picking: Display - sRGB
-  color_timing: Display - sRGB
-  compositing_log: Display - sRGB
+  color_picking: sRGB Display
+  color_timing: sRGB Display
+  compositing_log: sRGB Display
   data: Generic Data
-  default: Display - sRGB
-  default_byte: Display - sRGB
+  default: sRGB Display
+  default_byte: sRGB Display
   default_float: Linear BT.709
-  default_sequencer: Display - sRGB
-  matte_paint: Display - sRGB
+  default_sequencer: sRGB Display
+  matte_paint: sRGB Display
   reference: Linear BT.709
   scene_linear: Linear BT.709
-  texture_paint: Display - sRGB
+  texture_paint: sRGB Display
 
 file_rules:
   - !<Rule> {name: Default, colorspace: default}
 
+shared_views:
+  - !<View> {name: No Encoding, view_transform: No Operation View, display_colorspace: Linear BT.709 Closed Domain, description: No Encoding Operation View}
+
 displays:
   sRGB:
-    - !<View> {name: Inverse EOTF Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear BT.709 Closed Domain, description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display}
-  Display P3:
-    - !<View> {name: Inverse EOTF Encoding, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear Display P3 Closed Domain, description: Display P3 2.2 Exponent EOTF Display}
-    - !<View> {name: Flat Image, view_transform: 2.2 EOTF Encoding, display_colorspace: Linear Display P3 Closed Domain, looks: Flat Image, description: Display P3 2.2 Exponent EOTF Display}
+    - !<Views> [No Encoding]
 
 active_displays: []
 active_views: []
-
-looks:
-  - !<Look>
-    name: Flat Image
-    process_space: Identity No Operation
-    description: A flattened contrast image
-    transform: !<ColorSpaceTransform> {src: Linear BT.709, dst: Image - AgX Flat}
-
+inactive_colorspaces: [Linear BT.709 Closed Domain, sRGB Display]
 
 view_transforms:
   - !<ViewTransform>
-    name: Identity View
-    family: Views
-    description: No operation identity view
+    name: No Operation View
+    description: Default No Operation View Transform
     from_scene_reference: !<BuiltinTransform> {style: IDENTITY}
-
-  - !<ViewTransform>
-    name: 2.2 EOTF Encoding
-    family: Views
-    description: 2.2 EOTF Encoding
-    from_display_reference: !<ColorSpaceTransform> {src: Linear BT.709 Closed Domain, dst: 2.2 EOTF Encoding}
 
 display_colorspaces:
   - !<ColorSpace>
     name: Linear BT.709 Closed Domain
-    aliases: [Linear Closed Domain, Linear Closed Domain Tristimulus]
-    family: Colourimetry
+    aliases: [Linear Closed Domain, Linear Tristimulus Closed Domain]
+    family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
     description: Closed Domain Linear BT.709 Tristimulus
@@ -66,65 +52,19 @@ display_colorspaces:
     allocation: uniform
 
   - !<ColorSpace>
-    name: Linear Display P3 Closed Domain
-    aliases: [Linear Closed Domain Display P3, Linear Closed Domain Display P3 Tristimulus]
-    family: Colourimetry
+    name: sRGB Display
+    family: Displays
     equalitygroup: ""
     bitdepth: unknown
-    description: Closed Domain Linear Display P3 Tristimulus
+    description: IEC 61966-2-1:1999 Reference sRGB Display
     isdata: false
     allocation: uniform
-    from_display_reference: !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
-
-  - !<ColorSpace>
-    name: Display - sRGB
-    family: Displays/SDR
-    equalitygroup: ""
-    bitdepth: unknown
-    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
-    isdata: false
-    allocation: uniform
-    from_display_reference: !<ColorSpaceTransform> {src: Linear BT.709, dst: 2.2 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: Image - sRGB
-    aliases: [sRGB]
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: sRGB IEC 61966-2-1 2.2 Reference Image Encoding
-    isdata: false
-    allocation: uniform
-    from_display_reference: !<ColorSpaceTransform> {src: Linear BT.709, dst: 2.2 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: Image - AgX Flat
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: Flat AgX image
-    isdata: false
-    allocation: uniform
-    to_display_reference: !<GroupTransform>
-      children:
-        - !<ExponentTransform> {value: 3.42428723917301}
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 Closed Domain}
-
-  - !<ColorSpace>
-    name: Identity No Operation
-    family: Utilities
-    equalitygroup: ""
-    bitdepth: unknown
-    description: Identity transform that results in no operation
-    isdata: false
-    allocation: uniform
-    to_display_reference: !<BuiltinTransform> {style: IDENTITY}
 
 colorspaces:
   - !<ColorSpace>
     name: Linear BT.709
-    aliases: [Linear, Linear Tristimulus]
-    family: Colourimetry
+    aliases: [Linear, Linear Open Domain, Linear Tristimulus Open Domain]
+    family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
     description: Open Domain Linear BT.709 Tristimulus
@@ -132,59 +72,26 @@ colorspaces:
     allocation: uniform
 
   - !<ColorSpace>
-    name: Linear Display P3
-    aliases: [Linear Display P3 Tristimulus]
-    family: Colourimetry
-    equalitygroup: ""
-    bitdepth: unknown
-    description: Open Domain Linear Display P3 Tristimulus
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<MatrixTransform> {matrix: [0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1]}
-
-  - !<ColorSpace>
-    name: AgX Log (Kraken-0.1)
-    aliases: [Log, AgX Log, Kraken]
-    family: Log Encodings
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Log (Kraken-0.1)
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
-        - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
-
-  - !<ColorSpace>
-    name: 2.2 EOTF Encoding
-    aliases: [sRGB EOTF Encoding]
-    family: Utilities/Curves
-    equalitygroup: ""
-    bitdepth: unknown
-    description: 2.2 Exponent EOTF Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
-
-  - !<ColorSpace>
-    name: 2.4 EOTF Encoding
-    aliases: [BT.1886 EOTF Encoding]
-    family: Utilities/Curves
-    equalitygroup: ""
-    bitdepth: unknown
-    description: 2.4 Exponent EOTF Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<ExponentTransform> {value: 2.4, direction: inverse}
-
-  - !<ColorSpace>
     name: Generic Data
     aliases: [Non-Color, Raw]
-    family: Data/Generic Data
+    family: Data
     equalitygroup: ""
     bitdepth: unknown
-    description: Generic data encoding
+    description: Generic Data Encoding
     isdata: true
     allocation: uniform
+
+named_transforms:
+  - !<NamedTransform>
+    name: 2.2 EOTF Encoding
+    aliases: [sRGB EOTF Encoding]
+    description: 2.2 Exponent Inverse EOTF Encoding
+    family: Utilities/Curves
+    transform: !<ExponentTransform> {value: 2.2, direction: inverse}
+
+  - !<NamedTransform>
+    name: Identity Transform
+    aliases: [No Operation Transform]
+    description: No Operation Transform
+    family: Utilities
+    transform: !<BuiltinTransform> {style: IDENTITY}
