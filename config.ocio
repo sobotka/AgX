@@ -25,20 +25,37 @@ file_rules:
 
 shared_views:
   - !<View> {name: No Encoding, view_transform: No Operation View, display_colorspace: Linear BT.709 Closed Domain, description: No Encoding Operation View}
+  - !<View> {name: 2.2 Inverse EOTF Encoding, view_transform: 2.2 Inverse EOTF Encoding View, display_colorspace: Linear BT.709 Closed Domain, description: sRGB Reference Display Inverse EOTF Encoding}
 
 displays:
   sRGB:
-    - !<Views> [No Encoding]
+    - !<Views> [No Encoding, 2.2 Inverse EOTF Encoding]
 
 active_displays: []
 active_views: []
 inactive_colorspaces: [Linear BT.709 Closed Domain, sRGB Display]
+
+looks:
+  - !<Look>
+    name: Test Bug
+    process_space: Linear BT.709 Closed Domain
+    transform: !<GradingPrimaryTransform>
+      style: log
+      contrast: {rgb: [1, 1, 1], master: 1.3}
+      saturation: 3.3
+      pivot: {contrast: -0.2}
+
 
 view_transforms:
   - !<ViewTransform>
     name: No Operation View
     description: Default No Operation View Transform
     from_scene_reference: !<BuiltinTransform> {style: IDENTITY}
+
+  - !<ViewTransform>
+    name: 2.2 Inverse EOTF Encoding View
+    description: IEC 61966-2-1:1999 Reference sRGB Display
+    from_display_reference: !<ExponentTransform> {value: 2.2, direction: inverse}
 
 display_colorspaces:
   - !<ColorSpace>
@@ -82,13 +99,6 @@ colorspaces:
     allocation: uniform
 
 named_transforms:
-  - !<NamedTransform>
-    name: 2.2 EOTF Encoding
-    aliases: [sRGB EOTF Encoding]
-    description: 2.2 Exponent Inverse EOTF Encoding
-    family: Utilities/Curves
-    transform: !<ExponentTransform> {value: 2.2, direction: inverse}
-
   - !<NamedTransform>
     name: Identity Transform
     aliases: [No Operation Transform]
