@@ -2,6 +2,8 @@
 
 The goal was making the proof-of-concept config more "production-ready" because, well that's a damn solid concept.
 
+>  Compatible with OCIO v2 and OCIO v1.
+
 # Changes
 
 - Slight update in the colorspaces names / families 
@@ -12,7 +14,7 @@ The goal was making the proof-of-concept config more "production-ready" because,
 - Edited display's views :
     - New view `Disabled`, data directly to the display.
     - Removed Golden appearance.
-    - Making `Agx Punchy` the default view
+    - Making `Agx Punchy` the default view
 - New `ACEScg`, `ACES2065-1` colorspace.
 - New `CIE - XYZ -D65`
 - **OCIO v1 supports**
