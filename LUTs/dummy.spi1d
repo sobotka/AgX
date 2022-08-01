@@ -1,0 +1,11 @@
+# this LUT does nothing. Credit to Remi Achard for idea.
+Version 1
+From -1.0 2.0
+Length 4
+Components 1
+{
+ 0
+ 0
+ 1
+ 1
+}
