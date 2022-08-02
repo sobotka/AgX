@@ -28,16 +28,22 @@ displays:
     - !<View> {name: Display's Native, colorspace: sRGB}
     - !<View> {name: AgX, colorspace: AgX Base}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden}
+    - !<View> {name: AgX Log,colorspace: AgX Log}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: Appearance Golden, colorspace: Appearance Golden sRGB}
   Display P3:
     - !<View> {name: Display's Native, colorspace: Display P3}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
+    - !<View> {name: AgX Log,colorspace: AgX Log}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: Appearance Golden, colorspace: Appearance Golden Display P3}
   BT.1886:
     - !<View> {name: Display's Native, colorspace: BT.1886}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden BT.1886}
+    - !<View> {name: AgX Log,colorspace: AgX Log}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: Appearance Golden, colorspace: Appearance Golden BT.1886}
 
 active_displays: []
@@ -325,6 +331,24 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear BT.709, dst: AgX Base Chroma Laden}
         - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: Display P3}
+
+  - !<ColorSpace>
+    name: AgX False Color
+    aliases: [False Color, False Colour]
+    family: Imagery
+    equalitygroup:
+    bitdepth: 32f
+    description: |
+      AgX false color view transform
+    isdata: false
+    from_reference: !<GroupTransform>
+        children:
+            - !<ColorSpaceTransform> {src: Linear BT.709, dst: AgX Base}
+            - !<ColorSpaceTransform> {src: sRGB, dst: Linear BT.709}
+            - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
+            - !<ColorSpaceTransform> {src: Linear BT.709, dst: sRGB}
+            - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Log}
+            - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
   - !<ColorSpace>
     name: Filmic sRGB
