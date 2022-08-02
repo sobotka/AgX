@@ -19,6 +19,7 @@ roles:
   reference: Linear BT.709
   scene_linear: Linear BT.709
   texture_paint: sRGB
+  XYZ: Linear XYZ D65
 
 file_rules:
   - !<Rule> {name: Default, colorspace: default}
@@ -30,21 +31,21 @@ displays:
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
-    - !<View> {name: Appearance Golden, colorspace: Appearance Golden sRGB}
+    - !<View> {name: AgX Golden, colorspace: Appearance Golden sRGB}
   Display P3:
     - !<View> {name: Display's Native, colorspace: Display P3}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
-    - !<View> {name: Appearance Golden, colorspace: Appearance Golden Display P3}
+    - !<View> {name: AgX Golden, colorspace: Appearance Golden Display P3}
   BT.1886:
     - !<View> {name: Display's Native, colorspace: BT.1886}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden BT.1886}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
-    - !<View> {name: Appearance Golden, colorspace: Appearance Golden BT.1886}
+    - !<View> {name: AgX Golden, colorspace: Appearance Golden BT.1886}
 
 active_displays: []
 active_views: []
@@ -174,6 +175,31 @@ looks:
 
 
 colorspaces:
+  - !<ColorSpace>
+    name: Linear XYZ D65
+    family: Chromaticity
+    equalitygroup:
+    bitdepth: 32f
+    description: |
+      XYZ transform with assumed D65 white point
+    isdata: false
+    from_reference: !<GroupTransform>
+      children:
+        - !<MatrixTransform> {matrix: [ 0.4123865632529917, 0.3575914909206254, 0.1804504912035637, 0, 0.2126368216773238, 0.7151829818412507, 0.0721801964814255, 0, 0.0193306201524840, 0.1191971636402084, 0.9503725870054353, 0, 0, 0, 0, 1]}
+
+  - !<ColorSpace>
+    name: Linear XYZ IE
+    family: Chromaticity
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      XYZ transform with assumed IE white point
+    isdata: false
+    allocation: lg2
+    allocationvars: [-12.4739, 12.5261]
+    to_reference: !<MatrixTransform> {matrix: [0.496921, 0.33909, 0.163989, 0, 0.256225, 0.678179, 0.0655957, 0, 0.0232932, 0.11303, 0.863677, 0, 0, 0, 0, 1], direction: inverse}
+    from_reference: !<MatrixTransform> {matrix: [0.496921, 0.33909, 0.163989, 0, 0.256225, 0.678179, 0.0655957, 0, 0.0232932, 0.11303, 0.863677, 0, 0, 0, 0, 1]}
+
   - !<ColorSpace>
     name: Linear BT.709
     aliases: [Linear, Linear Tristimulus]
