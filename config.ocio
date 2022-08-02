@@ -18,7 +18,7 @@ roles:
   default_sequencer: sRGB 2.2 EOTF
   matte_paint: sRGB 2.2 EOTF
   reference: Linear CIE-XYZ I-E
-  scene_linear: Linear BT.709 I-E 
+  scene_linear: Linear BT.709 I-E
   texture_paint: sRGB 2.2 EOTF
   XYZ: Linear CIE-XYZ I-D65
 
@@ -56,13 +56,13 @@ inactive_colorspaces: [sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, 
 looks:
   - !<Look>
     name: Punchy
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A punchy look
     transform: !<CDLTransform> {power: [1.1865, 1.1865, 1.1865]}
 
   - !<Look>
     name: Green Ink
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A High Contrast Look with Green Tint in Low Range and Warm Tint in Mid Range
     transform: !<GroupTransform>
       children:
@@ -93,7 +93,7 @@ looks:
 
   - !<Look>
     name: Very High Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
@@ -105,7 +105,7 @@ looks:
 
   - !<Look>
     name: High Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
@@ -117,7 +117,7 @@ looks:
 
   - !<Look>
     name: Medium High Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
@@ -129,7 +129,7 @@ looks:
 
   - !<Look>
     name: Base Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Base Contrast Look
     transform: !<GroupTransform>
       children:
@@ -141,7 +141,7 @@ looks:
 
   - !<Look>
     name: Medium Low Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Medium Low Contrast Look
     transform: !<GroupTransform>
       children:
@@ -153,7 +153,7 @@ looks:
 
   - !<Look>
     name: Low Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Low Contrast Look
     transform: !<GroupTransform>
       children:
@@ -165,7 +165,7 @@ looks:
 
   - !<Look>
     name: Very Low Contrast
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Very Low Contrast Look
     transform: !<GroupTransform>
       children:
