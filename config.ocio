@@ -225,6 +225,30 @@ colorspaces:
         - !<MatrixTransform> {matrix: [0.412391, 0.357584, 0.180481, 0, 0.212639, 0.715169, 0.0721923, 0, 0.0193308, 0.119195, 0.950532, 0, 0, 0, 0, 1], direction: inverse}
 
   - !<ColorSpace>
+    name: Linear BT.2020
+    family: Colourspaces
+    equalitygroup: ""
+    bitdepth: 32f
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Linear XYZ D65}
+        - !<MatrixTransform> {matrix: [1.7166634277958803, -0.3556733197301398, -0.2533680878902478, 0, -0.6666738361988868, 1.6164557398246979, 0.0157682970961337, 0, 0.0176424817849773, -0.0427769763827532, 0.9422432810184307, 0, 0, 0, 0, 1]}
+
+  - !<ColorSpace>
+    name: Power 2.2 BT.2020
+    family: Colourspaces
+    equalitygroup: ""
+    bitdepth: 32f
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear BT.709, dst: Linear BT.2020}
+        - !<ExponentTransform> {value: 2.2, direction: inverse}
+
+  - !<ColorSpace>
     name: AgX Log (Kraken)
     aliases: [Log, AgX Log, Kraken, AgX Kraken Log]
     family: Log Encodings
