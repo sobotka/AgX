@@ -38,7 +38,7 @@ displays:
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log Display P3}
-    - !<View> {name: AgX False Color, colorspace: AgX False Color}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden Display P3}
   BT.1886:
     - !<View> {name: Display's Native, colorspace: BT.1886}
@@ -87,7 +87,7 @@ looks:
 
   - !<Look>
     name: Greyscale AgX
-    process_space: AgX Log
+    process_space: AgX Log Display P3
     description: A Black and White Look with Illuminance Coefficient Processed in AgX Log
     transform: !<CDLTransform> {sat: 0}
 
@@ -431,10 +431,28 @@ colorspaces:
     from_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: sRGB, dst: Linear BT.709 I-E }
+        - !<ColorSpaceTransform> {src: sRGB, dst: Linear BT.709 I-E}
         - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-E , dst: sRGB}
+        - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: sRGB}
         - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Log}
+        - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
+
+  - !<ColorSpace>
+    name: AgX False Color Display P3
+    aliases: []
+    family: Imagery
+    equalitygroup:
+    bitdepth: 32f
+    description: |
+      AgX false color view transform
+    isdata: false
+    from_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
+        - !<ColorSpaceTransform> {src: Display P3, dst: Linear DCI-P3 I-E}
+        - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: Display P3}
+        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Log Display P3}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
   - !<ColorSpace>
