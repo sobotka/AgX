@@ -444,7 +444,7 @@ colorspaces:
     equalitygroup:
     bitdepth: 32f
     description: |
-      AgX false color view transform
+      AgX false color view transform for Display P3
     isdata: false
     from_reference: !<GroupTransform>
       children:
