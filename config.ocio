@@ -197,7 +197,7 @@ colorspaces:
     isdata: false
     from_scene_reference: !<GroupTransform>
       children:
-        - !<MatrixTransform> {matrix: [0.9531874, -0.0265906, 0.0238731, 0, -0.0382467, 1.0288406, 0.0094060, 0, 0.0026068, -0.0030332, 1.0892565, 0, 0, 0, 0, 1]}
+        - !<FileTransform> {src: xyz_D65_to_E.spimtx, interpolation: linear, direction: inverse}
 
   - !<ColorSpace>
     name: Linear BT.709 I-E
@@ -319,9 +319,9 @@ colorspaces:
     isdata: false
     from_scene_reference: !<GroupTransform>
       children:
-          - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-          - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-D65, dst: Filmic Log}
-          - !<FileTransform> {src: filmic_to_0-70_1-03.spi1d, interpolation: linear}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-D65, dst: Filmic Log}
+        - !<FileTransform> {src: filmic_to_0-70_1-03.spi1d, interpolation: linear}
 
   - !<ColorSpace>
     name: Filmic Log
