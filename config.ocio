@@ -319,8 +319,7 @@ colorspaces:
     isdata: false
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-D65, dst: Filmic Log}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Filmic Log}
         - !<FileTransform> {src: filmic_to_0-70_1-03.spi1d, interpolation: linear}
 
   - !<ColorSpace>
@@ -339,7 +338,10 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
         - !<FileTransform> {src: filmic_desat65cube.spi3d, interpolation: best}
         - !<AllocationTransform> {allocation: uniform, vars: [0, 0.66]}
-    to_scene_reference: !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 4.026068812], direction: inverse}
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 4.026068812], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65, direction: inverse}
 
   - !<ColorSpace>
     name: AgX Base
