@@ -393,12 +393,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<CDLTransform> {sat: 1.65}
-        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-E, direction: inverse}
         - !<CDLTransform> {sat: 0.63}
-        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-E}
-        - !<CDLTransform> {sat: 1.5}
-
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-E}
+        - !<CDLTransform> {sat: 2.4}
+        
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
     family: Views/AgX BT.1886
