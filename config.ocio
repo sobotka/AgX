@@ -393,7 +393,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<CDLTransform> {sat: 1.48}
+        - !<CDLTransform> {sat: 1.65}
+        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-E, direction: inverse}
+        - !<CDLTransform> {sat: 0.63}
+        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-E}
+        - !<CDLTransform> {sat: 1.5}
 
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
@@ -419,7 +423,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<CDLTransform> {sat: 1.48}
+        - !<CDLTransform> {sat: 1.65}
+        - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-E, direction: inverse}
+        - !<CDLTransform> {sat: 0.63}
+        - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-E}
+        - !<CDLTransform> {sat: 1.5}
 
   - !<ColorSpace>
     name: AgX False Color
