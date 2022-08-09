@@ -394,9 +394,9 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-E, direction: inverse}
-        - !<CDLTransform> {sat: 0.5}
+        - !<CDLTransform> {sat: 0.505}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-E}
-        - !<CDLTransform> {sat: 3.1}
+        - !<CDLTransform> {sat: 3}
         
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
@@ -423,9 +423,9 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
         - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-E, direction: inverse}
-        - !<CDLTransform> {sat: 0.5}
+        - !<CDLTransform> {sat: 0.505}
         - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-E}
-        - !<CDLTransform> {sat: 3.1}
+        - !<CDLTransform> {sat: 3}
 
   - !<ColorSpace>
     name: AgX False Color
