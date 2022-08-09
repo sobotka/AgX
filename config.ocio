@@ -393,9 +393,9 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-D65, direction: inverse}
         - !<CDLTransform> {sat: 0.505}
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-E}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-D65}
         - !<CDLTransform> {sat: 3}
         
   - !<ColorSpace>
@@ -422,9 +422,9 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-D65, direction: inverse}
         - !<CDLTransform> {sat: 0.505}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-E}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-D65}
         - !<CDLTransform> {sat: 3}
 
   - !<ColorSpace>
