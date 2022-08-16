@@ -391,7 +391,7 @@ colorspaces:
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Upper Range (Experimental)
+    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma (Experimental)
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -399,21 +399,21 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-E}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 3.8, 1], slope: [1, 0.85, 1]}
-        - !<CDLTransform> {power: [1, 0.25, 1]}
+        - !<CDLTransform> {slope: [1, 0.86, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: AgX Log}
-        - !<CDLTransform> {sat: 0.5}
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-D65}
-        - !<CDLTransform> {sat: 4.3}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {slope: [1, 1.52, 1]}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Base Chroma Laden}
 
   - !<ColorSpace>
     name: AgX Base Aggressive BT.1886
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Upper Range for BT.1886 Displays (Experimental)
+    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma for BT.1886 Displays (Experimental)
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -426,7 +426,7 @@ colorspaces:
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Upper Range for Display P3 Displays (Experimental)
+    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma for Display P3 Displays (Experimental)
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -434,14 +434,14 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-E}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 3.8, 1], slope: [1, 0.85, 1]}
-        - !<CDLTransform> {power: [1, 0.25, 1]}
+        - !<CDLTransform> {slope: [1, 0.86, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: AgX Base Display P3}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: AgX Log Display P3}
-        - !<CDLTransform> {sat: 0.5}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-D65}
-        - !<CDLTransform> {sat: 4.3}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {slope: [1, 1.52, 1]}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Base Chroma Laden Display P3}
 
   - !<ColorSpace>
     name: AgX Base Chroma Laden
