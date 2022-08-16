@@ -402,9 +402,6 @@ colorspaces:
         - !<CDLTransform> {power: [1, 0.25, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: AgX Base}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1.05, 1]}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: AgX Log}
         - !<CDLTransform> {sat: 0.5}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-D65}
@@ -440,9 +437,6 @@ colorspaces:
         - !<CDLTransform> {power: [1, 0.25, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: AgX Base Display P3}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1.05, 1]}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: AgX Log Display P3}
         - !<CDLTransform> {sat: 0.5}
         - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-D65}
