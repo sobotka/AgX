@@ -399,11 +399,11 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-E}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 0.86, 1]}
+        - !<CDLTransform> {slope: [1, 0.87, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: AgX Base}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.52, 1]}
+        - !<CDLTransform> {slope: [1, 1.85, 1], offset: [0, -0.05, 0], power: [1, 1.15, 1]}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Base Chroma Laden}
@@ -434,12 +434,12 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-E}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 0.86, 1]}
+        - !<CDLTransform> {slope: [1, 0.87, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: AgX Base Display P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.52, 1]}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<CDLTransform> {slope: [1, 1.85, 1], offset: [0, -0.05, 0], power: [1, 1.15, 1]}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Base Chroma Laden Display P3}
 
