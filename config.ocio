@@ -287,7 +287,7 @@ colorspaces:
     family: Log Encodings
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Log, (Kraken)
+    description: AgX Log
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -303,7 +303,7 @@ colorspaces:
     family: Log Encodings
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Log, (Kraken)
+    description: AgX Log for Display P3
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -526,7 +526,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: sRGB 2.2 EOTF
-    aliases: [sRGB]
+    aliases: [sRGB, sRGB 2.2 EOTF I-D65]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -555,7 +555,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: BT.1886 2.4 EOTF
-    aliases: [BT.1886]
+    aliases: [BT.1886, BT.1886 2.4 EOTF I-D65]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -569,7 +569,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Display P3 2.2 EOTF
-    aliases: [Display P3]
+    aliases: [Display P3, Display P3 2.2 EOTF I-D65]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -583,7 +583,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: BT.2020 2.4 EOTF
-    aliases: [BT.2020]
+    aliases: [BT.2020, BT.2020 2.4 EOTF I-D65]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
