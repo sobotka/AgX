@@ -204,7 +204,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.709 I-E
-    aliases: [Linear, Linear Tristimulus]
+    aliases: [Linear Tristimulus]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
@@ -217,6 +217,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.709 I-D65
+    aliases: [Linear]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
