@@ -217,7 +217,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.709 I-D65
-    aliases: [Linear]
+    aliases: [Linear, Linear BT.709]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
