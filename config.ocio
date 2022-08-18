@@ -399,14 +399,16 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-E}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 0.87, 1]}
+        - !<CDLTransform> {slope: [1, 0.88, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: AgX Base}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.85, 1], offset: [0, -0.05, 0], power: [1, 1.15, 1]}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1}
+        - !<CDLTransform> {slope: [1, 1.25, 1]}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Base Chroma Laden}
+        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-D65}
+        - !<CDLTransform> {sat: 1.5}
+        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-D65, direction: inverse}
 
   - !<ColorSpace>
     name: AgX Base Aggressive BT.1886
@@ -434,14 +436,16 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-E}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 0.87, 1]}
+        - !<CDLTransform> {slope: [1, 0.88, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: AgX Base Display P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.85, 1], offset: [0, -0.05, 0], power: [1, 1.15, 1]}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1}
+        - !<CDLTransform> {slope: [1, 1.25, 1]}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Base Chroma Laden Display P3}
+        - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-D65}
+        - !<CDLTransform> {sat: 1.5}
+        - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-D65, direction: inverse}
 
   - !<ColorSpace>
     name: AgX Base Chroma Laden
@@ -454,10 +458,10 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: AgX Log}
-        - !<CDLTransform> {sat: 0.505}
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear BT.709 I-D65}
-        - !<CDLTransform> {sat: 3}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {slope: [1, 1.3, 1]}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
 
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
@@ -483,10 +487,10 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: AgX Log Display P3}
-        - !<CDLTransform> {sat: 0.505}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear DCI-P3 I-D65}
-        - !<CDLTransform> {sat: 3}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {slope: [1, 1.3, 1]}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
 
   - !<ColorSpace>
     name: AgX False Color
