@@ -403,7 +403,7 @@ colorspaces:
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: AgX Base}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.33, 1], power: [1, 1.2, 1]}
+        - !<CDLTransform> {slope: [1, 1.23, 1], power: [1, 1.15, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<CDLTransform> {power: [1, 1, 2.2]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
@@ -444,7 +444,7 @@ colorspaces:
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: AgX Base Display P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.33, 1], power: [1, 1.2, 1]}
+        - !<CDLTransform> {slope: [1, 1.23, 1], power: [1, 1.15, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<CDLTransform> {power: [1, 1, 2.2]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
