@@ -402,7 +402,7 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.235, 1], power: [1, 1, 1]}
+        - !<CDLTransform> {slope: [1, 1.235, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-D65}
@@ -438,7 +438,7 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.235, 1], power: [1, 1, 1]}
+        - !<CDLTransform> {slope: [1, 1.235, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-D65}
