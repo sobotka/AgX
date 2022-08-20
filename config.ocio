@@ -30,7 +30,7 @@ displays:
     - !<View> {name: Display's Native, colorspace: sRGB}
     - !<View> {name: AgX, colorspace: AgX Base}
     - !<View> {name: AgX Chroma Laden, colorspace: AgX Base Chroma Laden}
-    - !<View> {name: AgX Aggressive (Experimental), colorspace: AgX Base Aggressive}
+    - !<View> {name: AgX Lighter, colorspace: AgX Base Lighter}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden sRGB}
@@ -38,7 +38,7 @@ displays:
     - !<View> {name: Display's Native, colorspace: Display P3}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
-    - !<View> {name: AgX Aggressive (Experimental), colorspace: AgX Base Aggressive Display P3}
+    - !<View> {name: AgX Lighter, colorspace: AgX Base Lighter Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log Display P3}
     - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden Display P3}
@@ -46,7 +46,7 @@ displays:
     - !<View> {name: Display's Native, colorspace: BT.1886}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden BT.1886}
-    - !<View> {name: AgX Aggressive (Experimental), colorspace: AgX Base Aggressive BT.1886}
+    - !<View> {name: AgX Lighter, colorspace: AgX Base Lighter BT.1886}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden BT.1886}
@@ -387,11 +387,11 @@ colorspaces:
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
 
   - !<ColorSpace>
-    name: AgX Base Aggressive
+    name: AgX Base Lighter
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma (Experimental)
+    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -402,15 +402,17 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.25, 1]}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.1, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-D65}
-        - !<CDLTransform> {sat: 1.7}
-        - !<ColorSpaceTransform> {src: sRGB 2.2 EOTF, dst: Linear BT.709 I-D65, direction: inverse}
+        - !<CDLTransform> {sat: 2}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.2, max_out_value: 1}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {power: [1, 1, 2.2], direction: inverse}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1.0864}
 
   - !<ColorSpace>
-    name: AgX Base Aggressive BT.1886
+    name: AgX Base Lighter BT.1886
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
@@ -423,11 +425,11 @@ colorspaces:
         - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
-    name: AgX Base Aggressive Display P3
+    name: AgX Base Lighter Display P3
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma for Display P3 Displays (Experimental)
+    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma for Display P3 Displays
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -438,12 +440,14 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.25, 1]}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.1, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-D65}
-        - !<CDLTransform> {sat: 1.7}
-        - !<ColorSpaceTransform> {src: Display P3 2.2 EOTF, dst: Linear DCI-P3 I-D65, direction: inverse}
+        - !<CDLTransform> {sat: 2}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.2, max_out_value: 1}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {power: [1, 1, 2.2], direction: inverse}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1.0864}
 
   - !<ColorSpace>
     name: AgX Base Chroma Laden
