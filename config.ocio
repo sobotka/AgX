@@ -420,7 +420,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Aggressive}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Lighter}
         - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
