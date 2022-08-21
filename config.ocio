@@ -459,9 +459,11 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.3, 1]}
+        - !<CDLTransform> {slope: [1, 1.2, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<CDLTransform> {sat: 1.2}
+
 
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
@@ -488,9 +490,11 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.3, 1]}
+        - !<CDLTransform> {slope: [1, 1.2, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<CDLTransform> {sat: 1.2}
+
 
   - !<ColorSpace>
     name: AgX False Color
