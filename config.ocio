@@ -397,19 +397,19 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<MatrixTransform> {matrix: [0.606039926408184, 0.196084, 0.197959640717353, 0, 0.105945663913133, 0.696105897793607, 0.19792362966284, 0, 0.105975296816066, 0.196084, 0.69790915862069, 0, 0, 0, 0, 1]}
+        - !<MatrixTransform> {matrix: [0.700615580746148, 0.14902384, 0.150465282489518, 0, 0.0804986952522844, 0.769050993264073, 0.150420628781921, 0, 0.0805354400519214, 0.14902384, 0.770402684689655, 0, 0, 0, 0, 1]}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1], direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: AgX Base}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.1, 1]}
+        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.21, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 2}
+        - !<CDLTransform> {sat: 1.52}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.2, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
         - !<CDLTransform> {power: [1, 1, 2.2], direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1.0864}
-
+        
   - !<ColorSpace>
     name: AgX Base Lighter BT.1886
     family: Imagery
@@ -434,13 +434,13 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<MatrixTransform> {matrix: [0.606039926408184, 0.196084, 0.197959640717353, 0, 0.105945663913133, 0.696105897793607, 0.19792362966284, 0, 0.105975296816066, 0.196084, 0.69790915862069, 0, 0, 0, 0, 1]}
+        - !<MatrixTransform> {matrix: [0.700615580746148, 0.14902384, 0.150465282489518, 0, 0.0804986952522844, 0.769050993264073, 0.150420628781921, 0, 0.0805354400519214, 0.14902384, 0.770402684689655, 0, 0, 0, 0, 1]}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1], direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: AgX Base Display P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.1, 1]}
+        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.21, 1]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 2}
+        - !<CDLTransform> {sat: 1.52}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.2, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
         - !<CDLTransform> {power: [1, 1, 2.2], direction: inverse}
