@@ -14,7 +14,7 @@ roles:
   data: Generic Data
   default: sRGB 2.2 EOTF
   default_byte: sRGB 2.2 EOTF
-  default_float: Linear BT.709 I-E 
+  default_float: Linear BT.709 I-D65 
   default_sequencer: sRGB 2.2 EOTF
   matte_paint: sRGB 2.2 EOTF
   reference: Linear CIE-XYZ I-E
