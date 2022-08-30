@@ -18,7 +18,7 @@ roles:
   default_sequencer: sRGB 2.2 EOTF
   matte_paint: sRGB 2.2 EOTF
   reference: Linear CIE-XYZ I-E
-  scene_linear: Linear BT.709 I-E
+  scene_linear: Linear DCI-P3 I-E
   texture_paint: sRGB 2.2 EOTF
   XYZ: Linear CIE-XYZ I-D65
 
