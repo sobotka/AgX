@@ -8,7 +8,7 @@ luma: [0.2126, 0.7152, 0.0722]
 
 
 roles:
-  color_picking: sRGB 2.2 EOTF I-E
+  color_picking: Display P3 2.2 EOTF I-E
   color_timing: sRGB 2.2 EOTF
   compositing_log: sRGB 2.2 EOTF
   data: Generic Data
@@ -50,7 +50,7 @@ displays:
 
 active_displays: []
 active_views: []
-inactive_colorspaces: [sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color, Appearance Punchy sRGB, Appearance Punchy Display P3, Appearance Punchy BT.1886, Appearance Golden sRGB, Appearance Golden Display P3, Appearance Golden BT.1886]
+inactive_colorspaces: [Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color, Appearance Punchy sRGB, Appearance Punchy Display P3, Appearance Punchy BT.1886, Appearance Golden sRGB, Appearance Golden Display P3, Appearance Golden BT.1886]
 
 
 looks:
@@ -495,7 +495,20 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-E}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.2 EOTF Encoding}
-
+        
+  - !<ColorSpace>
+    name: Display P3 2.2 EOTF I-E
+    aliases: []
+    family: Displays/SDR
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Display P3 2.2 Exponent EOTF Display with I-E white point
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-E}
+        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.2 EOTF Encoding}
 
   - !<ColorSpace>
     name: BT.1886 2.4 EOTF
