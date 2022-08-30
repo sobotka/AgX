@@ -30,7 +30,6 @@ displays:
     - !<View> {name: Display's Native, colorspace: sRGB}
     - !<View> {name: AgX, colorspace: AgX Base}
     - !<View> {name: AgX Chroma Laden, colorspace: AgX Base Chroma Laden}
-    - !<View> {name: AgX Lighter, colorspace: AgX Base Lighter}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden sRGB}
@@ -38,7 +37,6 @@ displays:
     - !<View> {name: Display's Native, colorspace: Display P3}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
-    - !<View> {name: AgX Lighter, colorspace: AgX Base Lighter Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log Display P3}
     - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden Display P3}
@@ -46,7 +44,6 @@ displays:
     - !<View> {name: Display's Native, colorspace: BT.1886}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden BT.1886}
-    - !<View> {name: AgX Lighter, colorspace: AgX Base Lighter BT.1886}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: AgX Golden, colorspace: Appearance Golden BT.1886}
@@ -292,6 +289,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
+        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
@@ -308,6 +306,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
+        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
@@ -384,69 +383,8 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
-        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
-
-  - !<ColorSpace>
-    name: AgX Base Lighter
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<MatrixTransform> {matrix: [0.700615580746148, 0.14902384, 0.150465282489518, 0, 0.0804986952522844, 0.769050993264073, 0.150420628781921, 0, 0.0805354400519214, 0.14902384, 0.770402684689655, 0, 0, 0, 0, 1]}
-        - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: AgX Base}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.21, 1]}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 1.52}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.2, max_out_value: 1}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1, 2.2], direction: inverse}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1.0864}
+        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}   
         
-  - !<ColorSpace>
-    name: AgX Base Lighter BT.1886
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma for BT.1886 Displays (Experimental)
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Lighter}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: AgX Base Lighter Display P3
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding with More Aggressively Attenuated Chroma for Display P3 Displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<MatrixTransform> {matrix: [0.700615580746148, 0.14902384, 0.150465282489518, 0, 0.0804986952522844, 0.769050993264073, 0.150420628781921, 0, 0.0805354400519214, 0.14902384, 0.770402684689655, 0, 0, 0, 0, 1]}
-        - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: AgX Base Display P3}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1, 2.2], slope: [1, 1.21, 1]}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 1.52}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.2, max_out_value: 1}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {power: [1, 1, 2.2], direction: inverse}
-        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1, max_out_value: 1.0864}
-
   - !<ColorSpace>
     name: AgX Base Chroma Laden
     family: Imagery
@@ -459,12 +397,11 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.2, 1]}
+        - !<CDLTransform> {slope: [1, 1.25, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 1.2}
-
-
+        - !<CDLTransform> {sat: 1.3}
+        
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
     family: Views/AgX BT.1886
@@ -490,11 +427,10 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.2, 1]}
+        - !<CDLTransform> {slope: [1, 1.25, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 1.2}
-
+        - !<CDLTransform> {sat: 1.3}
 
   - !<ColorSpace>
     name: AgX False Color
