@@ -289,7 +289,6 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
@@ -306,7 +305,6 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
@@ -356,6 +354,8 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
 
@@ -382,6 +382,8 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}   
         
