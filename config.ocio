@@ -62,10 +62,13 @@ looks:
 
   - !<Look>
     name: Green Ink
-    process_space: AgX Log Display P3
+    process_space: Linear BT.709 I-E
     description: A High Contrast Look with Green Tint in Low Range and Warm Tint in Mid Range
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<CDLTransform> {slope: [1, 0.85, 0.9]}
         - !<GradingToneTransform>
          shadows: {rgb: [0.55, 0.8357, 0.7363], master: 1, start: 2, pivot: 0.1}
@@ -78,6 +81,7 @@ looks:
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
           saturation: 0.75
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: Greyscale
@@ -93,87 +97,115 @@ looks:
 
   - !<Look>
     name: Very High Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.57, 1.57, 1.57], master: 1}
           saturation: 0.75
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: High Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
           saturation: 0.81
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: Medium High Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.2, 1.2, 1.2], master: 1}
           saturation: 0.87
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: Base Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A Base Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1, 1, 1], master: 1}
           saturation: 1
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: Medium Low Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A Medium Low Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.9, 0.9, 0.9], master: 1}
           saturation: 1.05
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: Low Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A Low Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.8, 0.8, 0.8], master: 1}
           saturation: 1.1
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
   - !<Look>
     name: Very Low Contrast
-    process_space: AgX Log Display P3
+    process_space: Linear CIE-XYZ I-E
     description: A Very Low Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.7, 0.7, 0.7], master: 1}
           saturation: 1.15
           pivot: {contrast: 0.21212}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3, direction: inverse}
 
 colorspaces:
   - !<ColorSpace>
