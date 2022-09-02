@@ -73,10 +73,12 @@ looks:
          shadows: {rgb: [0.2, 1.5, 0.2], master: 0.2, start: 0.5, pivot: 0.1}
         - !<CDLTransform> {power: [0.78, 0.78377, 0.7799]}
         - !<CDLTransform> {slope: [1.0969, 1.0972, 1.0969]}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
-          saturation: 0.75
+          saturation: 0.85
           pivot: {contrast: 0.21212}
 
   - !<Look>
@@ -97,6 +99,8 @@ looks:
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.57, 1.57, 1.57], master: 1}
@@ -109,10 +113,12 @@ looks:
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
-          saturation: 0.9
+          saturation: 0.85
           pivot: {contrast: 0.21212}
 
   - !<Look>
@@ -121,10 +127,12 @@ looks:
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.2, 1.2, 1.2], master: 1}
-          saturation: 1
+          saturation: 0.95
           pivot: {contrast: 0.21212}
 
   - !<Look>
