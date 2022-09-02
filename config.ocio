@@ -72,7 +72,7 @@ looks:
         - !<GradingToneTransform>
          shadows: {rgb: [0.2, 1.5, 0.2], master: 0.2, start: 0.5, pivot: 0.1}
         - !<CDLTransform> {power: [0.78, 0.78377, 0.7799]}
-        - !<CDLTransform> {slope: [1.0969, 1.0972, 1.0969]}
+        - !<CDLTransform> {slope: [1.09693, 1.0972, 1.0969]}
         - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
         - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
