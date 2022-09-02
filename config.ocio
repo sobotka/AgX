@@ -50,7 +50,7 @@ displays:
 
 active_displays: []
 active_views: []
-inactive_colorspaces: [Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color, Appearance Punchy sRGB, Appearance Punchy Display P3, Appearance Punchy BT.1886, Appearance Golden sRGB, Appearance Golden Display P3, Appearance Golden BT.1886]
+inactive_colorspaces: [Spherical Compression, Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color, Appearance Punchy sRGB, Appearance Punchy Display P3, Appearance Punchy BT.1886, Appearance Golden sRGB, Appearance Golden Display P3, Appearance Golden BT.1886]
 
 
 looks:
@@ -289,9 +289,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812]}
-        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Spherical Compression}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
@@ -308,9 +306,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812]}
-        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Spherical Compression}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
@@ -583,6 +579,21 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
         - !<ExponentTransform> {value: 2.4, direction: inverse}
+
+  - !<ColorSpace>
+    name: Spherical Compression
+    aliases: []
+    family: Utilities
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Spherically Compress Chroma in Linear CIE-XYZ I-E
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812]}
+        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
+        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812], direction: inverse}
 
   - !<ColorSpace>
     name: Appearance Golden sRGB
