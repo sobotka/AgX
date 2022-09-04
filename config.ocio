@@ -47,7 +47,7 @@ displays:
 
 active_displays: []
 active_views: []
-inactive_colorspaces: [Spherical Compression, Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color]
+inactive_colorspaces: [Spherical Compression, Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, AgX False Color]
 
 
 looks:
@@ -499,7 +499,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-E}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.2 EOTF Encoding}
+        - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: 2.2 EOTF Encoding}
         
   - !<ColorSpace>
     name: Display P3 2.2 EOTF I-E
@@ -513,7 +513,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-E}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.2 EOTF Encoding}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: 2.2 EOTF Encoding}
 
   - !<ColorSpace>
     name: BT.1886 2.4 EOTF
@@ -541,7 +541,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.2 EOTF Encoding}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: 2.2 EOTF Encoding}
 
   - !<ColorSpace>
     name: BT.2020 2.4 EOTF
@@ -555,35 +555,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.4 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: 2.2 EOTF Encoding
-    aliases: [sRGB EOTF Encoding]
-    family: Utilities/Curves
-    equalitygroup: ""
-    bitdepth: unknown
-    description: 2.2 Exponent EOTF Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<ExponentTransform> {value: 2.2, direction: inverse}
-
-  - !<ColorSpace>
-    name: 2.4 EOTF Encoding
-    aliases: [BT.1886 EOTF Encoding]
-    family: Utilities/Curves
-    equalitygroup: ""
-    bitdepth: unknown
-    description: 2.4 Exponent EOTF Encoding
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<ExponentTransform> {value: 2.4, direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
     name: Spherical Compression
@@ -609,3 +581,18 @@ colorspaces:
     description: Generic data encoding
     isdata: true
     allocation: uniform
+
+named_transforms:
+  - !<NamedTransform>
+    name: 2.2 EOTF Encoding
+    aliases: [sRGB EOTF Encoding]
+    description: 2.2 Exponent EOTF Encoding
+    family: Utilities/Curves
+    transform: !<ExponentTransform> {value: 2.2}
+
+  - !<NamedTransform>
+    name: 2.4 EOTF Encoding
+    aliases: [BT.1886 EOTF Encoding]
+    description: 2.4 Exponent EOTF Encoding
+    family: Utilities/Curves
+    transform: !<ExponentTransform> {value: 2.4}
