@@ -27,19 +27,19 @@ file_rules:
 
 displays:
   sRGB:
-    - !<View> {name: Display's Native, colorspace: sRGB}
+    - !<View> {name: Display's Native, colorspace: sRGB 2.2}
     - !<View> {name: AgX, colorspace: AgX Base}
     - !<View> {name: AgX Chroma Laden, colorspace: AgX Base Chroma Laden}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
   Display P3:
-    - !<View> {name: Display's Native, colorspace: Display P3}
+    - !<View> {name: Display's Native, colorspace: Display P3 2.2}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log Display P3}
     - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
   BT.1886:
-    - !<View> {name: Display's Native, colorspace: BT.1886}
+    - !<View> {name: Display's Native, colorspace: BT.1886 2.4}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden BT.1886}
     - !<View> {name: AgX Log,colorspace: AgX Log}
@@ -449,9 +449,9 @@ colorspaces:
     from_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: sRGB, dst: Linear BT.709 I-E}
+        - !<ColorSpaceTransform> {src: sRGB 2.2, dst: Linear BT.709 I-E}
         - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: sRGB}
+        - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: sRGB 2.2}
         - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Log}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
@@ -516,8 +516,8 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: 2.2 EOTF Encoding}
 
   - !<ColorSpace>
-    name: BT.1886 2.4 EOTF
-    aliases: [BT.1886, BT.1886 2.4 EOTF I-D65]
+    name: BT.1886 2.4
+    aliases: [BT.1886, BT.1886 2.4 I-D65]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
