@@ -47,7 +47,7 @@ displays:
 
 active_displays: []
 active_views: []
-inactive_colorspaces: [Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, AgX False Color]
+inactive_colorspaces: [Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, AgX False Color, AgX False Color Display P3]
 
 
 looks:
