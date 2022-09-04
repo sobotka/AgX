@@ -32,25 +32,22 @@ displays:
     - !<View> {name: AgX Chroma Laden, colorspace: AgX Base Chroma Laden}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
-    - !<View> {name: AgX Golden, colorspace: Appearance Golden sRGB}
   Display P3:
     - !<View> {name: Display's Native, colorspace: Display P3}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log Display P3}
     - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
-    - !<View> {name: AgX Golden, colorspace: Appearance Golden Display P3}
   BT.1886:
     - !<View> {name: Display's Native, colorspace: BT.1886}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden BT.1886}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
-    - !<View> {name: AgX Golden, colorspace: Appearance Golden BT.1886}
 
 active_displays: []
 active_views: []
-inactive_colorspaces: [Spherical Compression, Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color, Appearance Punchy sRGB, Appearance Punchy Display P3, Appearance Punchy BT.1886, Appearance Golden sRGB, Appearance Golden Display P3, Appearance Golden BT.1886]
+inactive_colorspaces: [Spherical Compression, Display P3 2.2 EOTF I-E, sRGB 2.2 EOTF I-E, 2.2 EOTF Encoding, 2.4 EOTF Encoding, AgX False Color]
 
 
 looks:
@@ -602,80 +599,6 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812]}
         - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
         - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812], direction: inverse}
-
-  - !<ColorSpace>
-    name: Appearance Golden sRGB
-    family: Appearances/Golden
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A golden tinted, slightly washed look for sRGB displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<CDLTransform> {slope: [1, 0.9, 0.5], power: [0.8, 0.8, 0.8], sat: 1.3}
-
-  - !<ColorSpace>
-    name: Appearance Golden Display P3
-    family: Appearances/Golden
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A golden tinted, slightly washed look for Display P3 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<CDLTransform> {slope: [1, 0.9, 0.5], power: [0.8, 0.8, 0.8], sat: 1.3}
-
-  - !<ColorSpace>
-    name: Appearance Golden BT.1886
-    family: Appearances/Golden
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A golden tinted, slightly washed look for BT.1886 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Appearance Golden sRGB}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
-
-  - !<ColorSpace>
-    name: Appearance Punchy sRGB
-    family: Appearances/Punchy
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A punchy and more chroma laden look for sRGB displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<LookTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base, looks: Punchy}
-
-  - !<ColorSpace>
-    name: Appearance Punchy Display P3
-    family: Appearances/Punchy
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A punchy and more chroma laden look for Display P3 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<LookTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3, looks: Punchy}
-
-  - !<ColorSpace>
-    name: Appearance Punchy BT.1886
-    family: Appearances/Punchy
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A punchy and more chroma laden look for BT.1886 displays
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<LookTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base, looks: Punchy}
-        - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
     name: Generic Data
