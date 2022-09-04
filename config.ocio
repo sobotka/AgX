@@ -206,7 +206,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.709 I-E
-    aliases: [Linear Tristimulus]
+    aliases: []
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
@@ -219,7 +219,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.709 I-D65
-    aliases: [Linear, Linear BT.709]
+    aliases: [Linear, Linear BT.709, Linear Tristimulus]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: unknown
@@ -467,9 +467,9 @@ colorspaces:
     from_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<ColorSpaceTransform> {src: Display P3, dst: Linear DCI-P3 I-E}
+        - !<ColorSpaceTransform> {src: Display P3 2.2, dst: Linear DCI-P3 I-E}
         - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: Display P3}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: Display P3 2.2}
         - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Log Display P3}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
