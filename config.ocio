@@ -401,11 +401,13 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
+        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: Linear CIE-XYZ I-E}
+        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.2, 1]}
+        - !<CDLTransform> {slope: [1, 1.2, 1], power: [1, 1.1, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 1.2}
         
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
@@ -431,11 +433,13 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Linear CIE-XYZ I-E}
+        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.2, 1]}
+        - !<CDLTransform> {slope: [1, 1.2, 1], power: [1, 1.1, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<CDLTransform> {sat: 1.2}
 
   - !<ColorSpace>
     name: AgX False Color
