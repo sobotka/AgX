@@ -75,7 +75,7 @@ looks:
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
-          saturation: 0.85
+          saturation: 0.95
           pivot: {contrast: 0.21212}
 
   - !<Look>
@@ -101,7 +101,7 @@ looks:
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.57, 1.57, 1.57], master: 1}
-          saturation: 0.8
+          saturation: 0.9
           pivot: {contrast: 0.21212}
 
   - !<Look>
@@ -115,7 +115,7 @@ looks:
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
-          saturation: 0.85
+          saturation: 0.95
           pivot: {contrast: 0.21212}
 
   - !<Look>
@@ -129,7 +129,7 @@ looks:
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.2, 1.2, 1.2], master: 1}
-          saturation: 0.95
+          saturation: 1
           pivot: {contrast: 0.21212}
 
   - !<Look>
