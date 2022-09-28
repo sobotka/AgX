@@ -36,7 +36,7 @@ displays:
     - !<View> {name: Display's Native, colorspace: Display P3 2.2}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Chroma Laden,colorspace: AgX Base Chroma Laden Display P3}
-    - !<View> {name: AgX Log,colorspace: AgX Log Display P3}
+    - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
   BT.1886:
     - !<View> {name: Display's Native, colorspace: BT.1886 2.4}
@@ -47,19 +47,19 @@ displays:
 
 active_displays: []
 active_views: []
-inactive_colorspaces: [Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, AgX False Color, AgX False Color Display P3]
+inactive_colorspaces: [Moment Spherical Compression, Moment Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, AgX False Color, AgX False Color Display P3]
 
 
 looks:
   - !<Look>
     name: Punchy
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A punchy look
     transform: !<CDLTransform> {power: [1.1865, 1.1865, 1.1865]}
 
   - !<Look>
     name: Green Ink
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A High Contrast Look with Green Tint in Low Range and Warm Tint in Mid Range
     transform: !<GroupTransform>
       children:
@@ -70,8 +70,8 @@ looks:
          shadows: {rgb: [0.2, 1.5, 0.2], master: 0.2, start: 0.5, pivot: 0.1}
         - !<CDLTransform> {power: [0.78, 0.78377, 0.7799]}
         - !<CDLTransform> {slope: [1.09693, 1.0972, 1.0969]}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
@@ -86,18 +86,18 @@ looks:
 
   - !<Look>
     name: Greyscale AgX
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Black and White Look with Illuminance Coefficient Processed in AgX Log
     transform: !<CDLTransform> {sat: 0}
 
   - !<Look>
     name: Very High Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.57, 1.57, 1.57], master: 1}
@@ -106,12 +106,12 @@ looks:
 
   - !<Look>
     name: High Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
@@ -120,12 +120,12 @@ looks:
 
   - !<Look>
     name: Medium High Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Spherical Compression}
-        - !<ColorSpaceTransform> {src: AgX Log Display P3, dst: Linear CIE-XYZ I-E, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [1.2, 1.2, 1.2], master: 1}
@@ -134,7 +134,7 @@ looks:
 
   - !<Look>
     name: Base Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Base Contrast Look
     transform: !<GroupTransform>
       children:
@@ -146,7 +146,7 @@ looks:
 
   - !<Look>
     name: Medium Low Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Medium Low Contrast Look
     transform: !<GroupTransform>
       children:
@@ -158,7 +158,7 @@ looks:
 
   - !<Look>
     name: Low Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Low Contrast Look
     transform: !<GroupTransform>
       children:
@@ -170,7 +170,7 @@ looks:
 
   - !<Look>
     name: Very Low Contrast
-    process_space: AgX Log Display P3
+    process_space: AgX Log
     description: A Very Low Contrast Look
     transform: !<GroupTransform>
       children:
@@ -289,29 +289,12 @@ colorspaces:
     family: Log Encodings
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Log
+    description: AgX Log Encoding
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Spherical Compression}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
-        - !<MatrixTransform> {matrix: [0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1]}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
-
-  - !<ColorSpace>
-    name: AgX Log Display P3
-    aliases: []
-    family: Log Encodings
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Log for Display P3
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Spherical Compression}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Moment Spherical Compression}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.847082894736842, 0.0659657894736842, 0.0869513157894736, 0, 0.0470828947368421, 0.865965789473684, 0.0869513157894738, 0, 0.0470828947368421, 0.0659657894736842, 0.886951315789474, 0, 0, 0, 0, 1]}
@@ -361,8 +344,10 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
-        - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
+        - !<ColorSpaceTransform> {src: Display P3 2.2, dst: Moment Compression}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Display P3 2.2}
+        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Linear BT.709 I-D65}
 
   - !<ColorSpace>
     name: AgX Base BT.1886
@@ -387,7 +372,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log Display P3}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
         
   - !<ColorSpace>
@@ -401,13 +386,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: Linear CIE-XYZ I-E}
-        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.2, 1], power: [1, 1.1, 1]}
+        - !<CDLTransform> {slope: [1, 1.2, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<CDLTransform> {sat: 1.2}
         
   - !<ColorSpace>
     name: AgX Base Chroma Laden BT.1886
@@ -433,13 +416,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Linear CIE-XYZ I-E}
-        - !<MatrixTransform> {matrix: [0.87716207529218792604552845659782, 0.06141907529218797873182822399940, 0.06141884941562408828374941549555, 0, 0.06141907529218797179293432009217, 0.87716207529218803706783091911348, 0.06141884941562408828374941549555, 0, 0.06142007529341387411792041461922, 0.06142007529341388105681431852645, 0.87715984941317270973115682863863, 0, 0, 0, 0, 1], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
-        - !<CDLTransform> {slope: [1, 1.2, 1], power: [1, 1.1, 1]}
+        - !<CDLTransform> {slope: [1, 1.2, 1]}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
+        - !<CDLTransform> {sat: 1.2}
 
   - !<ColorSpace>
     name: AgX False Color
@@ -456,7 +437,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: sRGB 2.2, dst: Linear BT.709 I-E}
         - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: sRGB 2.2}
-        - !<ColorSpaceTransform> {src: AgX Base, dst: AgX Log}
+        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX log}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
   - !<ColorSpace>
@@ -474,7 +455,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Display P3 2.2, dst: Linear DCI-P3 I-E}
         - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: Display P3 2.2}
-        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Log Display P3}
+        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Log}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
   - !<ColorSpace>
@@ -562,19 +543,34 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
-    name: Spherical Compression
+    name: Moment Spherical Compression
     aliases: []
     family: Utilities
     equalitygroup: ""
     bitdepth: unknown
-    description: Spherically Compress Chroma in Linear CIE-XYZ I-E
+    description: Compress Pre-Formation Chroma Both in the Moment Plane and Spherically, Processed in Linear CIE-XYZ I-E
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812]}
-        - !<FileTransform> {src: Spherical_Compression.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311879, 12.526068812], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117]}
+        - !<FileTransform> {src: moment_spherical_compression.cube, interpolation: best}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117], direction: inverse}
+
+  - !<ColorSpace>
+    name: Moment Compression
+    aliases: []
+    family: Utilities
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Compress Post-Formation Chroma in the Moment Plane, Processed in Linear CIE-XYZ I-E
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-17.4739311883, 0.02606881166]}
+        - !<FileTransform> {src: moment_compression.cube, interpolation: best}
+        - !<AllocationTransform> {allocation: lg2, vars: [-17.4739311883, 0.02606881166], direction: inverse}
 
   - !<ColorSpace>
     name: Generic Data
