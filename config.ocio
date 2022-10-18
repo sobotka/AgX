@@ -52,7 +52,7 @@ displays:
     - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Moment Spherical Compression, Post Formation Compression sRGB, Post Formation Compression P3, Display P3 2.2 I-E, sRGB 2.2 I-E, AgX False Color, AgX False Color Display P3, AgX False Color BT.2020]
+inactive_colorspaces: [Moment Spherical Compression, Post Formation Compression sRGB, Post Formation Compression P3, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color, AgX False Color Display P3, AgX False Color BT.2020]
 
 
 looks:
