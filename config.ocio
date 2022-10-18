@@ -581,9 +581,9 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 0.52606881166]}
         - !<FileTransform> {src: post_formation_compression_srgb.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 0.52606881166], direction: inverse}
 
   - !<ColorSpace>
     name: Post Formation Compression P3
@@ -596,9 +596,9 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 0.52606881166]}
         - !<FileTransform> {src: post_formation_compression_p3.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 0.52606881166], direction: inverse}
 
   - !<ColorSpace>
     name: Generic Data
