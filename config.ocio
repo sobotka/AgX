@@ -8,7 +8,7 @@ luma: [0.2126, 0.7152, 0.0722]
 
 
 roles:
-  color_picking: BT.2020 2.4 I-E
+  color_picking: sRGB 2.2 I-E
   color_timing: sRGB 2.2
   compositing_log: sRGB 2.2
   data: Generic Data
@@ -18,7 +18,7 @@ roles:
   default_sequencer: sRGB 2.2
   matte_paint: sRGB 2.2
   reference: Linear CIE-XYZ I-E
-  scene_linear: Linear BT.2020 I-E
+  scene_linear: Linear BT.709 I-E
   texture_paint: sRGB 2.2
   XYZ: Linear CIE-XYZ I-D65
   
