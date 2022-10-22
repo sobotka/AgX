@@ -112,6 +112,13 @@ uniform bool DEBUG_A <
     ui_category_closed = true;
 > = false;
 
+uniform bool DEBUG_B <
+    ui_label = "Apply Outset";
+    ui_tooltip = "Opposite of inset (applied during AgX Log). Does't used on the first AgX versions.";
+    ui_category = "DEBUG";
+    ui_category_closed = true;
+> = false;
+
 
 texture LUTTex < source = "AgX-default_contrast.lut.png"; > { Width = LUT_DIMENSIONS.x; Height = LUT_DIMENSIONS.y; Format = RGBA8; };
 sampler LUTSampler {Texture = LUTTex; Format = RGBA8;};
@@ -123,8 +130,11 @@ static const float3x3 agx_compressed_matrix = float3x3(
     0.04232824, 0.87846864, 0.07916613,
     0.04237565, 0.0784336, 0.87914297
 );
-
-
+static const float3x3 agx_compressed_matrix_inverse = float3x3(
+    1.1968790, -0.09802088, -0.09902975,
+    -0.05289685, 1.15190313, -0.09896118,
+    -0.05297163, -0.09804345, 1.15107368
+);
 
 float getLuminance(float3 image)
 // Return approximative perceptive luminance of the image.
@@ -263,8 +273,8 @@ float3 applyAgXLUT(float3 Image)
 /*
     Apply the AgX 1D curve on log encoded data.
 
-    The output is a ready-for-display image encoded for sRGB.
-    Specified originally as "AgX Base".
+    The output is similar to AgX Base which is considered
+    sRGB - Display, but here we linearize it.
 
     -- ref[3] for LUT implementation
 */
@@ -290,6 +300,32 @@ float3 applyAgXLUT(float3 Image)
 		tex2D(LUTSampler, lut2D[1]).rgb, // Back Z
 		frac(lut3D.z)
 	);
+    // LUT apply the transfer function so we remove it to keep working on linear data.
+    Image = cctf_decoding_sRGB(Image);
+    return Image;
+}
+
+
+float3 applyOutset(float3 Image)
+/*
+    Outset is the inverse of the inset applied during `applyAgXLog` 
+    and restore chroma.
+*/
+{
+    Image = mul(agx_compressed_matrix_inverse, Image);
+    return Image;
+}
+
+float3 applyODT(float3 Image)
+/*
+    Apply Agx to display conversion.
+    For now hardcoded to sRGB display.
+
+    :param color: linear - sRGB data.
+
+*/
+{
+    Image = cctf_encoding_sRGB(Image);
     return Image;
 }
 
@@ -325,6 +361,9 @@ void PS_Main(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 I
     Image = applyIDT(Image);
     Image = applyAgXLog(Image);
     Image = applyAgXLUT(Image);
+    if (DEBUG_B)
+        Image = applyOutset(Image);
+    Image = applyODT(Image);
     Image = applyLookPunchy(Image);
 
 }
