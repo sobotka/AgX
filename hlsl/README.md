@@ -33,3 +33,7 @@ Check the [img/](img/) directory to find comparison images in different games.
 
 ![lego brick tale comparison image AgX](./img/lego_brick_tale-AgX-default.png) 
 ![lego brick tale comparison image default](./img/lego_brick_tale-default.png)
+
+# Contributing
+
+This was my first hlsl/reshade shaders so please feel free to open a Pull-Request if you want to improve anything on the code.
