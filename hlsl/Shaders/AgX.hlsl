@@ -115,7 +115,8 @@ static const float3x3 agx_compressed_matrix = float3x3(
 
 
 
-float getLuminance( in float3 image )
+float getLuminance(float3 image)
+// Return approximative perceptive luminance of the image.
 {
     return dot(image, luma_coefs_bt709);
 }
@@ -127,8 +128,15 @@ float3 powsafe(float3 color, float power)
 }
 
 float3 saturation(float3 color, float saturationAmount)
-// except sRGB primaries input
-// -- ref[2] [4]
+/*
+
+    Increase color saturation of the given color data.
+
+    :param color: expected sRGB primaries input
+    :oaram saturationAmount: expected 0-1 range with 1=neutral, 0=no saturation.
+
+    -- ref[2] [4]
+*/
 {
     float luma = getLuminance(color);
     return lerp(luma, color, saturationAmount);
@@ -202,31 +210,31 @@ float3 log2Transform(float3 color)
 }
 
 
+/* --------------------------------------------------------------------------------
+// PROCESSES
+-------------------------------------------------------------------------------- */
 
-void PS_IDT(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 Image : SV_Target)
+float3 applyIDT(float3 Image)
 /*
     Convert input to workspace colorspace.
 */
 {
-    Image = tex2D(ReShade::BackBuffer, TexCoord).rgb;
 
     if (INPUT_LINEARIZE) Image = cctf_decoding_sRGB(Image);
 
     float ImageLuma = getLuminance(Image);
-
     Image += Image * ImageLuma.xxx * INPUT_HIGHLIGHT_GAIN;
+
     Image = saturation(Image, INPUT_SATURATION);
     Image *= powsafe(2.0, INPUT_EXPOSURE);
-
+    return Image;
 }
 
-void PS_AgXLog(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 Image : SV_Target)
+float3 applyAgXLog(float3 Image)
 /*
     Prepare the data for display encoding. Converted to log domain.
 */
 {
-    Image = tex2D(ReShade::BackBuffer, TexCoord).rgb;
-
     Image = max(0.0, Image); // clamp negatives
     Image = mul(agx_compressed_matrix, Image);
 
@@ -236,18 +244,20 @@ void PS_AgXLog(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3
         Image = convertOpenDomainToNormalizedLog2(Image, -10.0, 6.5);
 
     Image = clamp(Image, 0.0, 1.0);
+    return Image;
 }
 
 
-void PS_AgXLUT(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 Image : SV_Target)
+float3 applyAgXLUT(float3 Image)
 /*
     Apply the AgX 1D curve on log encoded data.
 
-    ref[3]
+    The output is a ready-for-display image encoded for sRGB.
+    Specified originally as "AgX Base".
+
+    -- ref[3] for LUT implementation
 */
 {
-
-    Image = tex2D(ReShade::BackBuffer, TexCoord).rgb;
 
 	float3 lut3D = Image*(LUT_BLOCK_SIZE-1);
 
@@ -269,47 +279,51 @@ void PS_AgXLUT(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3
 		tex2D(LUTSampler, lut2D[1]).rgb, // Back Z
 		frac(lut3D.z)
 	);
+    return Image;
 }
 
 
-void PS_LookPunchy(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 Image : SV_Target)
+float3 applyLookPunchy(float3 Image)
 /*
     Applies the post "Punchy" look to display-encoded data.
+
+    Input is expected to be in AgX-Base colorspace.
 
     Initally an OCIO CDLTransform.
     SRC: /src/OpenColorIO/ops/cdl/CDLOpCPU.cpp#L348
     "default style is CDL_NO_CLAMP"
 */
 {
-    Image = tex2D(ReShade::BackBuffer, TexCoord).rgb;
-
     Image = powsafe(Image, PUNCH_GAMMA);
     Image = saturation(Image, PUNCH_SATURATION);
-    Image *= powsafe(2.0, PUNCH_EXPOSURE);
+    Image *= powsafe(2.0, PUNCH_EXPOSURE);  // not part of initial cdl
+    return Image;
+
+}
+
+
+void PS_Main(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 Image : SV_Target)
+/*
+    Prepare the data for display encoding. Converted to log domain.
+*/
+{
+    Image = tex2D(ReShade::BackBuffer, TexCoord).rgb;
+
+    // An intersting note : initially I had all of this in a separate "technique pass", but I got some clamping issue
+    // that took me hell to figure out, so I got back to one "pass" with multipel functions that now works.
+    Image = applyIDT(Image);
+    Image = applyAgXLog(Image);
+    Image = applyAgXLUT(Image);
+    Image = applyLookPunchy(Image);
 
 }
 
 
 technique AgX_processing
 {
-    pass IDT
+    pass Main
     {
         VertexShader = PostProcessVS;
-        PixelShader = PS_IDT;
-    }
-    pass AgXLog
-	{
-		VertexShader = PostProcessVS;
-		PixelShader = PS_AgXLog;
-	}
-    pass AgXLUT
-    {
-		VertexShader = PostProcessVS;
-		PixelShader = PS_AgXLUT;
-    }
-    pass PS_LookPunchy
-    {
-		VertexShader = PostProcessVS;
-		PixelShader = PS_LookPunchy;
+        PixelShader = PS_Main;
     }
 }
