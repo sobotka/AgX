@@ -357,11 +357,7 @@ float3 applyLookPunchy(float3 Image)
 /*
     Applies the post "Punchy" look to display-encoded data.
 
-    Input is expected to be in AgX-Base colorspace.
-
-    Initally an OCIO CDLTransform.
-    SRC: /src/OpenColorIO/ops/cdl/CDLOpCPU.cpp#L348
-    "default style is CDL_NO_CLAMP"
+    Input is expected to be in a display-state.
 */
 {
     Image = powsafe(Image, PUNCH_GAMMA);
@@ -374,7 +370,7 @@ float3 applyLookPunchy(float3 Image)
 
 void PS_Main(float4 vpos : SV_Position, float2 TexCoord : TEXCOORD, out float3 Image : SV_Target)
 /*
-    Prepare the data for display encoding. Converted to log domain.
+    The whole image processing pipeline.
 */
 {
     Image = tex2D(ReShade::BackBuffer, TexCoord).rgb;
