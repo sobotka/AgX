@@ -1,6 +1,8 @@
 "Fork" of Troy Sobotka's AgX https://github.com/sobotka/AgX
 
-The goal was making the proof-of-concept config more "production-ready" because, well that's a damn solid concept.
+# OCIO
+
+The goal was making the proof-of-concept OCIO config more "production-ready" because, well that's a damn solid concept.
 
 >  **Note**:
 >  Compatible with OCIO v2 and OCIO v1.
@@ -9,7 +11,7 @@ The goal was making the proof-of-concept config more "production-ready" because,
 
 > extreme example rendered with pure ACEScg primaries 
 
-# Changes
+## Changes
 
 - Slight update in the colorspaces names / families 
     - `Generic Data` -> `Passtrough` ( for scalar data)
@@ -28,6 +30,14 @@ The goal was making the proof-of-concept config more "production-ready" because,
 
 This was tested on RV, Katana and Nuke but I do not guarantee it is perfectly working on OCIO v1 GPU engine.
 
-# Plans
+## Plans
 
 This config was initially a proof of concept (of an already proof of concept yes) and I planned to write it in Python with OCIO binding but never had the time. But I do not plan any more update in the near future for now.
+
+# Reshade
+
+This repo also include an hlsl implementation for ReShade so you experience AgX in all supported games.
+
+See [hlsl/](hlsl/) directory.
+
+![Stray screenshot with AgX](hlsl/img/stray-3-AgX.jpg)
