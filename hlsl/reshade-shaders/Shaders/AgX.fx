@@ -9,6 +9,7 @@ References:
 - [2] https://video.stackexchange.com/q/9866
 - [3] https://github.com/Fubaxiusz/fubax-shaders/blob/master/Shaders/LUTTools.fx
 - [4] https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl#L574
+- [5] https://github.com/colour-science/colour/blob/develop/colour/models/rgb/transfer_functions/srgb.py#L99
 */
 
 #include "ReShade.fxh"
@@ -21,11 +22,13 @@ References:
 #define LUT_DIMENSIONS int2(LUT_BLOCK_SIZE*LUT_BLOCK_SIZE, LUT_BLOCK_SIZE)
 #define LUT_PIXEL_SIZE 1.0/LUT_DIMENSIONS
 
-uniform bool INPUT_LINEARIZE <
-    ui_label = "Linearize Input (sRGB)";
-    ui_tooltip = "Apply the CCTF decoding for sRGB colorspace.";
+uniform int INPUT_COLORSPACE <
+    ui_type = "combo";
+    ui_label = "Source Colorspace";
+    ui_items= "sRGB Display (EOTF)\0sRGB Display (2.2)\0Passthrough\0";
+    ui_tooltip = "In which colorspace is encoded the input.";
     ui_category = "Input";
-> = true;
+> = 0;
 
 uniform float INPUT_EXPOSURE <
 	ui_type = "drag";
@@ -93,6 +96,7 @@ uniform float PUNCH_EXPOSURE <
     ui_label = "Punchy Exposure";
     ui_tooltip = "Post display conversion. Applied Last.";
     ui_category = "Output (Post AgX)";
+    ui_category_closed = true;
 > = 0.0;
 
 uniform float PUNCH_SATURATION <
@@ -103,6 +107,7 @@ uniform float PUNCH_SATURATION <
     ui_label = "Punchy Saturation";
     ui_tooltip = "Post display conversion.";
     ui_category = "Output (Post AgX)";
+    ui_category_closed = true;
 > = 1.0;
 
 uniform float PUNCH_GAMMA <
@@ -113,6 +118,7 @@ uniform float PUNCH_GAMMA <
     ui_label = "Punchy Gamma";
     ui_tooltip = "Post display conversion.";
     ui_category = "Output (Post AgX)";
+    ui_category_closed = true;
 > = 1.3;
 
 uniform bool DEBUG_A <
@@ -175,16 +181,21 @@ float3 saturation(float3 color, float saturationAmount)
 
 
 float3 cctf_decoding_sRGB(float3 color)
-// :param color: sRGB EOTF encoded
+// ref[5]
 {
-    return powsafe(color, 2.2);
+    return (color <= 0.04045) ? (color / 12.92) : (powsafe((color + 0.055) / 1.055, 2.4));
 }
 
 float3 cctf_encoding_sRGB(float3 color)
-// :param color: linear transfer-function encoded
+// ref[5]
 {
-    return powsafe(color, 1/2.2);
+    return (color <= 0.0031308) ? (color * 12.92) : (1.055 * powsafe(color, 1/2.4) - 0.055);
 }
+
+float3 cctf_decoding_pow2_2(float3 color){return powsafe(color, 2.2);}
+
+float3 cctf_encoding_pow2_2(float3 color){return powsafe(color, 1/2.2);}
+
 
 
 float3 convertOpenDomainToNormalizedLog2(float3 color, float minimum_ev, float maximum_ev)
@@ -251,7 +262,8 @@ float3 applyIDT(float3 Image)
 */
 {
 
-    if (INPUT_LINEARIZE) Image = cctf_decoding_sRGB(Image);
+    if (INPUT_COLORSPACE == 0) Image = cctf_decoding_sRGB(Image);
+    if (INPUT_COLORSPACE == 1) Image = cctf_decoding_pow2_2(Image);
 
     float ImageLuma = powsafe(getLuminance(Image), INPUT_HIGHLIGHT_GAIN_GAMMA);
     Image += Image * ImageLuma.xxx * INPUT_HIGHLIGHT_GAIN;
@@ -312,7 +324,7 @@ float3 applyAgXLUT(float3 Image)
 		frac(lut3D.z)
 	);
     // LUT apply the transfer function so we remove it to keep working on linear data.
-    Image = cctf_decoding_sRGB(Image);
+    Image = cctf_decoding_pow2_2(Image);
     return Image;
 }
 
@@ -336,7 +348,7 @@ float3 applyODT(float3 Image)
 
 */
 {
-    Image = cctf_encoding_sRGB(Image);
+    Image = cctf_encoding_pow2_2(Image);
     return Image;
 }
 
