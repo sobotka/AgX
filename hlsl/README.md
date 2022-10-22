@@ -20,12 +20,17 @@ Options here affect the image before AgX is applied. You can go wild with the va
 
 Options here affect the image after AgX is applied. This means tweaks here might produce the usual clipping / skews / posterization effect so play with the values softly.
 
-For now the Output is SRGB - Display (with 2.2 power function) (and as it always has been for most game)
+For now the Output is "sRGB - Display" (with 2.2 power function) (and as it always has been for most game)
 
 # Limitations
 
 1. AgX except "open domain" / "scene-referred" / "high dynamic range" data as input. But ReShade input is "closed-domain" / "display-referred" / "low dynamic range". This can be compensate by increasing the Input Exposure and boosting highlights.
+
+   But there is no magic here, if you have very clamped, destroyed imagery as input, it will still look bad.
+
 2. Even if AgX "improve" color-rendition, it might not still looks better overall. Because the game was designed to look good under a different display-transform and not under AgX. (see [this RDR2 example](img/RDR2-2-AgX.jpg) where the sky looks more flat.)
+
+Also when comparing very fast the "before" and the "after"(with AgX), you might tend to find highlights in the AgX version more flat. Rather than doing quick comparison just try to let your brain/eyes adapt to it for few minutes. Then disable it and compare.
 
 # Comparisons
 
