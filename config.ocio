@@ -30,29 +30,29 @@ displays:
     - !<View> {name: Display's Native, colorspace: sRGB 2.2}
     - !<View> {name: AgX, colorspace: AgX Base sRGB}
     - !<View> {name: AgX Log,colorspace: AgX Log}
-    - !<View> {name: AgX False Color, colorspace: AgX False Color sRGB}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
   Display P3:
     - !<View> {name: Display's Native, colorspace: Display P3 2.2}
     - !<View> {name: AgX, colorspace: AgX Base Display P3}
     - !<View> {name: AgX Log,colorspace: AgX Log}
-    - !<View> {name: AgX False Color, colorspace: AgX False Color Display P3}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
   BT.1886:
     - !<View> {name: Display's Native, colorspace: BT.1886 2.4}
     - !<View> {name: AgX, colorspace: AgX Base BT.1886}
     - !<View> {name: AgX Log,colorspace: AgX Log}
-    - !<View> {name: AgX False Color, colorspace: AgX False Color sRGB}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
   BT.2020:
     - !<View> {name: Display's Native, colorspace: BT.2020 2.4}
     - !<View> {name: AgX, colorspace: AgX Base BT.2020}
     - !<View> {name: AgX Log,colorspace: AgX Log}
-    - !<View> {name: AgX False Color, colorspace: AgX False Color BT.2020}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Moment Spherical Compression, Post Formation Compression sRGB, Post Formation Compression P3, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color sRGB, AgX False Color Display P3, AgX False Color BT.2020]
+inactive_colorspaces: [Moment Spherical Compression, Post Formation Compression sRGB, Post Formation Compression P3, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
 
 
 looks:
@@ -404,53 +404,13 @@ colorspaces:
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: BT.1886 2.4}
 
   - !<ColorSpace>
-    name: AgX False Color sRGB
-    aliases: [False Color, False Colour]
+    name: AgX False Color
+    aliases: [False Colour]
     family: Imagery
     equalitygroup:
     bitdepth: 32f
     description: |
-      AgX false color view transform
-    isdata: false
-    from_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base sRGB}
-        - !<ColorSpaceTransform> {src: sRGB 2.2, dst: Linear BT.709 I-D65}
-        - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: sRGB 2.2}
-        - !<ColorSpaceTransform> {src: AgX Base sRGB, dst: AgX Log}
-        - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
-        - !<ExposureContrastTransform> {contrast: 1.5, pivot: 0.5}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
-
-  - !<ColorSpace>
-    name: AgX False Color Display P3
-    aliases: []
-    family: Imagery
-    equalitygroup:
-    bitdepth: 32f
-    description: |
-      AgX false color view transform for Display P3
-    isdata: false
-    from_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base Display P3}
-        - !<ColorSpaceTransform> {src: Display P3 2.2, dst: Linear DCI-P3 I-D65}
-        - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Display P3 2.2}
-        - !<ColorSpaceTransform> {src: AgX Base Display P3, dst: AgX Log}
-        - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
-        - !<ExposureContrastTransform> {contrast: 1.5, pivot: 0.5}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
-        
-  - !<ColorSpace>
-    name: AgX False Color BT.2020
-    aliases: []
-    family: Imagery
-    equalitygroup:
-    bitdepth: 32f
-    description: |
-      AgX false color view transform for Display P3
+      AgX false color heat map
     isdata: false
     from_reference: !<GroupTransform>
       children:
@@ -458,7 +418,8 @@ colorspaces:
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
-        - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: AgX Log}
+        - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: Linear BT.2020 I-D65}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
         
   - !<ColorSpace>
