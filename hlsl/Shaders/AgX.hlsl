@@ -33,9 +33,9 @@ uniform float INPUT_EXPOSURE <
     ui_max = 5.0;
     ui_step = 0.01;
     ui_label = "Exposure";
-    ui_tooltip = "Change overall image exposure while in a linear space.";
+    ui_tooltip = "Change overall image exposure. 0.0 means neutral. Boosted by default to compensate for low-dynamic range of the input.";
     ui_category = "Input";
-> = 0.0;
+> = 0.75;
 
 uniform float INPUT_SATURATION <
 	ui_type = "drag";
@@ -57,6 +57,17 @@ uniform float INPUT_HIGHLIGHT_GAIN <
     ui_category = "Input";
 > = 0.0;
 
+uniform float INPUT_HIGHLIGHT_GAIN_GAMMA <
+	ui_type = "drag";
+	ui_min = 0.0;
+    ui_max = 4.0;
+    ui_step = 0.01;
+    ui_label = "Highlight Gain Treshold";
+    ui_tooltip = "A simple Gamma operation on the Luminance mask.\nIncrease/decrease ranges of highlight boosted.";
+    ui_category = "Input";
+> = 1.0;
+
+
 uniform int UIHELP <
 	ui_type = "radio";
 	ui_label = " ";	
@@ -72,7 +83,7 @@ uniform float PUNCH_EXPOSURE <
     ui_label = "Punchy Exposure";
     ui_tooltip = "Post display conversion. Applied Last.";
     ui_category = "Output (Post AgX)";
-> = 1.0;
+> = 0.0;
 
 uniform float PUNCH_SATURATION <
 	ui_type = "drag";
@@ -222,7 +233,7 @@ float3 applyIDT(float3 Image)
 
     if (INPUT_LINEARIZE) Image = cctf_decoding_sRGB(Image);
 
-    float ImageLuma = getLuminance(Image);
+    float ImageLuma = powsafe(getLuminance(Image), INPUT_HIGHLIGHT_GAIN_GAMMA);
     Image += Image * ImageLuma.xxx * INPUT_HIGHLIGHT_GAIN;
 
     Image = saturation(Image, INPUT_SATURATION);
