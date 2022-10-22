@@ -33,9 +33,19 @@ uniform float INPUT_EXPOSURE <
     ui_max = 5.0;
     ui_step = 0.01;
     ui_label = "Exposure";
-    ui_tooltip = "Change overall image exposure. 0.0 means neutral. Boosted by default to compensate for low-dynamic range of the input.";
+    ui_tooltip = "Change overall image exposure. 0.0 means neutral.Applied last.\nBoosted by default to compensate for low-dynamic range of the input.";
     ui_category = "Input";
 > = 0.75;
+
+uniform float INPUT_GAMMA <
+	ui_type = "drag";
+	ui_min = 0.001;
+    ui_max = 5.0;
+    ui_step = 0.01;
+    ui_label = "Gamma";
+    ui_tooltip = "Change overall image gamma. 1.0 means neutral. Applied before Exposure.";
+    ui_category = "Input";
+> = 1.0;
 
 uniform float INPUT_SATURATION <
 	ui_type = "drag";
@@ -43,7 +53,7 @@ uniform float INPUT_SATURATION <
     ui_max = 5.0;
     ui_step = 0.01;
     ui_label = "Saturation";
-    ui_tooltip = "Boost saturation before AgX transforms.";
+    ui_tooltip = "Boost saturation before AgX transforms. Applied first.";
     ui_category = "Input";
 > = 1.0;
 
@@ -93,12 +103,12 @@ uniform float PUNCH_SATURATION <
     ui_label = "Punchy Saturation";
     ui_tooltip = "Post display conversion.";
     ui_category = "Output (Post AgX)";
-> = 1.2;
+> = 1.0;
 
 uniform float PUNCH_GAMMA <
 	ui_type = "drag";
-	ui_min = 0.5;
-    ui_max = 2;
+	ui_min = 0.001;
+    ui_max = 2.0;
     ui_step = 0.01;
     ui_label = "Punchy Gamma";
     ui_tooltip = "Post display conversion.";
@@ -114,7 +124,7 @@ uniform bool DEBUG_A <
 
 uniform bool DEBUG_B <
     ui_label = "Apply Outset";
-    ui_tooltip = "Opposite of inset (applied during AgX Log). Does't used on the first AgX versions.";
+    ui_tooltip = "Opposite of inset (applied during AgX Log). Not used on the first AgX versions but will be on te future one :eyes:";
     ui_category = "DEBUG";
     ui_category_closed = true;
 > = false;
@@ -247,6 +257,7 @@ float3 applyIDT(float3 Image)
     Image += Image * ImageLuma.xxx * INPUT_HIGHLIGHT_GAIN;
 
     Image = saturation(Image, INPUT_SATURATION);
+    Image = powsafe(Image, INPUT_GAMMA);
     Image *= powsafe(2.0, INPUT_EXPOSURE);
     return Image;
 }
