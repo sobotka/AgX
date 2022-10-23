@@ -18,6 +18,7 @@ References:
 
 namespace AgX {
 
+    #define __version__ "1.1.2"
     #define CATEGORY_DEBUG "DEBUG"
     #define CATEGORY_INPUT "Input"
     #define CATEGORY_OUTPUT "Output (Post AgX)"
@@ -128,6 +129,14 @@ namespace AgX {
         ui_category = CATEGORY_OUTPUT;
         ui_category_closed = true;
     > = 1.3;
+
+    uniform int DEBUG_VERSION <
+        ui_type = "radio";
+        ui_label = " ";	
+        ui_text = __version__;
+        ui_category = CATEGORY_DEBUG;
+        ui_category_closed = true;
+    >;
 
     uniform bool DEBUG_A <
         ui_label = "Use OCIO log";
