@@ -20,14 +20,10 @@ namespace AgX {
 
     #define __version__ "1.1.2"
     #define CATEGORY_DEBUG "DEBUG"
-    #define CATEGORY_INPUT "Input"
+    #define CATEGORY_INPUT "Input (Pre AgX)"
     #define CATEGORY_OUTPUT "Output (Post AgX)"
 
-    // Define LUT texture size
-    #ifndef LUT_BLOCK_SIZE
-        #define LUT_BLOCK_SIZE 32
-    #endif
-
+    #define LUT_BLOCK_SIZE 32
     #define LUT_DIMENSIONS int2(LUT_BLOCK_SIZE*LUT_BLOCK_SIZE, LUT_BLOCK_SIZE)
     #define LUT_PIXEL_SIZE 1.0/LUT_DIMENSIONS
 
@@ -45,7 +41,7 @@ namespace AgX {
         ui_max = 5.0;
         ui_step = 0.01;
         ui_label = "Exposure";
-        ui_tooltip = "Change overall image exposure. 0.0 means neutral.Applied last.\nBoosted by default to compensate for low-dynamic range of the input.";
+        ui_tooltip = "Change overall image exposure ( 0.0 = neutral )\nBoosted by default to compensate for low-dynamic range of the input.\nApplied last.";
         ui_category = CATEGORY_INPUT;
     > = 0.75;
 
@@ -150,7 +146,7 @@ namespace AgX {
         ui_tooltip = "Opposite of inset (applied during AgX Log). Not used on the first AgX versions but will be on te future one :eyes:";
         ui_category = CATEGORY_DEBUG;
         ui_category_closed = true;
-    > = false;
+    > = true;
 
 
     texture LUTTex < source = "AgX-default_contrast.lut.png"; > { Width = LUT_DIMENSIONS.x; Height = LUT_DIMENSIONS.y; Format = RGBA8; };
