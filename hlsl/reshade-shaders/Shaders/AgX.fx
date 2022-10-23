@@ -1,7 +1,8 @@
 /*
-HLSL implementation of AgX by Troy Sobotka.
+HLSL implementation of AgX (by Troy Sobotka).
 
-Converted from python implementation: https://gist.github.com/MrLixm/946c1b59cce8b74e948e75618583ce8d
+author = "Liam Collod"
+repository = "https://github.com/MrLixm/AgXc"
 
 References:
 - [0] https://github.com/sobotka/AgX-S2O3/blob/main/AgX.py
