@@ -18,6 +18,10 @@ References:
 
 namespace AgX {
 
+    #define CATEGORY_DEBUG "DEBUG"
+    #define CATEGORY_INPUT "Input"
+    #define CATEGORY_OUTPUT "Output (Post AgX)"
+
     // Define LUT texture size
     #ifndef LUT_BLOCK_SIZE
         #define LUT_BLOCK_SIZE 32
@@ -31,7 +35,7 @@ namespace AgX {
         ui_label = "Source Colorspace";
         ui_items= "sRGB Display (EOTF)\0sRGB Display (2.2)\0Passthrough\0";
         ui_tooltip = "In which colorspace is encoded the input.";
-        ui_category = "Input";
+        ui_category = CATEGORY_INPUT;
     > = 0;
 
     uniform float INPUT_EXPOSURE <
@@ -41,7 +45,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Exposure";
         ui_tooltip = "Change overall image exposure. 0.0 means neutral.Applied last.\nBoosted by default to compensate for low-dynamic range of the input.";
-        ui_category = "Input";
+        ui_category = CATEGORY_INPUT;
     > = 0.75;
 
     uniform float INPUT_GAMMA <
@@ -51,7 +55,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Gamma";
         ui_tooltip = "Change overall image gamma. 1.0 means neutral. Applied before Exposure.";
-        ui_category = "Input";
+        ui_category = CATEGORY_INPUT;
     > = 1.0;
 
     uniform float INPUT_SATURATION <
@@ -61,7 +65,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Saturation";
         ui_tooltip = "Boost saturation before AgX transforms. Applied first.";
-        ui_category = "Input";
+        ui_category = CATEGORY_INPUT;
     > = 1.0;
 
     uniform float INPUT_HIGHLIGHT_GAIN <
@@ -71,7 +75,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Highlight Gain";
         ui_tooltip = "Increase dynamic range (in a fake way) by boosting highlights.";
-        ui_category = "Input";
+        ui_category = CATEGORY_INPUT;
     > = 0.0;
 
     uniform float INPUT_HIGHLIGHT_GAIN_GAMMA <
@@ -81,7 +85,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Highlight Gain Treshold";
         ui_tooltip = "A simple Gamma operation on the Luminance mask.\nIncrease/decrease ranges of highlight boosted.";
-        ui_category = "Input";
+        ui_category = CATEGORY_INPUT;
     > = 1.0;
 
 
@@ -89,7 +93,7 @@ namespace AgX {
         ui_type = "radio";
         ui_label = " ";	
         ui_text ="Used to boost imagery after AgX. Do not abuse of it.";
-        ui_category = "Output (Post AgX)";
+        ui_category = CATEGORY_OUTPUT;
     >;
 
     uniform float PUNCH_EXPOSURE <
@@ -99,7 +103,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Punchy Exposure";
         ui_tooltip = "Post display conversion. Applied Last.";
-        ui_category = "Output (Post AgX)";
+        ui_category = CATEGORY_OUTPUT;
         ui_category_closed = true;
     > = 0.0;
 
@@ -110,7 +114,7 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Punchy Saturation";
         ui_tooltip = "Post display conversion.";
-        ui_category = "Output (Post AgX)";
+        ui_category = CATEGORY_OUTPUT;
         ui_category_closed = true;
     > = 1.0;
 
@@ -121,21 +125,21 @@ namespace AgX {
         ui_step = 0.01;
         ui_label = "Punchy Gamma";
         ui_tooltip = "Post display conversion.";
-        ui_category = "Output (Post AgX)";
+        ui_category = CATEGORY_OUTPUT;
         ui_category_closed = true;
     > = 1.3;
 
     uniform bool DEBUG_A <
         ui_label = "Use OCIO log";
         ui_tooltip = "Use OCIO similar implementation (lg2 allocation transform). Should not provide difference.";
-        ui_category = "DEBUG";
+        ui_category = CATEGORY_DEBUG;
         ui_category_closed = true;
     > = false;
 
     uniform bool DEBUG_B <
         ui_label = "Apply Outset";
         ui_tooltip = "Opposite of inset (applied during AgX Log). Not used on the first AgX versions but will be on te future one :eyes:";
-        ui_category = "DEBUG";
+        ui_category = CATEGORY_DEBUG;
         ui_category_closed = true;
     > = false;
 
