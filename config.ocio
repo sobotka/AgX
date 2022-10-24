@@ -538,9 +538,9 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311883, 0.52606881166]}
+        - !<ExponentTransform> {value: 0.5}
         - !<FileTransform> {src: post_formation_compression_srgb.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311883, 0.52606881166], direction: inverse}
+        - !<ExponentTransform> {value: 0.5, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: sRGB 2.2}
 
   - !<ColorSpace>
@@ -555,9 +555,9 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311883, 0.52606881166]}
+        - !<ExponentTransform> {value: 0.5}
         - !<FileTransform> {src: post_formation_compression_p3.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-22.4739311883, 0.52606881166], direction: inverse}
+        - !<ExponentTransform> {value: 0.5, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Display P3 2.2}
 
 
