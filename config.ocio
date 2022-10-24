@@ -366,8 +366,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear CIE-XYZ I-E}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Post Formation Compression sRGB}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Post Formation Compression sRGB}
         
   - !<ColorSpace>
     name: AgX Base Display P3
@@ -380,8 +379,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear CIE-XYZ I-E}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Post Formation Compression P3}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Post Formation Compression sRGB}
 
   - !<ColorSpace>
     name: AgX Base BT.1886
