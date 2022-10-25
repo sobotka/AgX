@@ -85,15 +85,15 @@ looks:
 
   - !<Look>
     name: Greyscale
-    process_space: Linear BT.709 I-E
-    description: A Black and White Look with Illuminance Coefficient Processed in Linear BT.709 I-E
-    transform: !<CDLTransform> {sat: 0}
+    process_space: Linear BT.2020 I-D65
+    description: A Black and White Look with Luminance Coefficient Processed in Linear BT.709 I-E
+    transform: !<MatrixTransform> {matrix: [0.259384909, 0.607920360, 0.132694731, 0, 0.259384909, 0.607920360, 0.132694731, 0, 0.259384909, 0.607920360, 0.132694731, 0, 0, 0, 0, 1]}
 
   - !<Look>
     name: Greyscale AgX
     process_space: AgX Log
-    description: A Black and White Look with Illuminance Coefficient Processed in AgX Log
-    transform: !<CDLTransform> {sat: 0}
+    description: A Black and White Look with Luminance Coefficient Processed in AgX Log
+    transform: !<MatrixTransform> {matrix: [0.259384909, 0.607920360, 0.132694731, 0, 0.259384909, 0.607920360, 0.132694731, 0, 0.259384909, 0.607920360, 0.132694731, 0, 0, 0, 0, 1]}
 
   - !<Look>
     name: Very High Contrast
@@ -409,7 +409,7 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
-        - !<MatrixTransform> {matrix: [0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0.2126729, 0.7151521, 0.0721750, 0, 0, 0, 0, 1]}
+        - !<MatrixTransform> {matrix: [0.259384909, 0.607920360, 0.132694731, 0, 0.259384909, 0.607920360, 0.132694731, 0, 0.259384909, 0.607920360, 0.132694731, 0, 0, 0, 0, 1]}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
         - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: Linear BT.2020 I-D65}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
