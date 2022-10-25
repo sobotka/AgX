@@ -1,5 +1,5 @@
-TITLE "Post Formation Compression P3  Compress lower intensity chroma by lowRMix=0.6 Compress Intensity with Illuminance coefficient by mixFactor=0.35"
-# Compress post-formation lower intensity chroma and intensity with illuminance coefficient. Resolution 33. This LUT expects power encoding of 0.5. 
+TITLE "Post Formation Compression P3  Compress lower intensity chroma by lowRMix=0.6 Compress Intensity with luminance coefficient by mixFactor=0.35"
+# Compress post-formation lower intensity chroma and intensity with luminance coefficient. Resolution 33. This LUT expects BT.2020 with Illuminant D65 white point and power encoding of 2.4.
 LUT_3D_SIZE 33
 0.0000000 0.0000000 0.0000000
 0.0170856 0.0036594 0.0036593
