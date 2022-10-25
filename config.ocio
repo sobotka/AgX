@@ -52,7 +52,7 @@ displays:
     - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Moment Spherical Compression, Post Formation Compression sRGB, Post Formation Compression P3, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
+inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
 
 
 looks:
@@ -366,7 +366,8 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Post Formation Compression sRGB}
+        - !<FileTransform> {src: post_formation_compression_srgb.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: sRGB 2.2}
         
   - !<ColorSpace>
     name: AgX Base Display P3
@@ -379,7 +380,8 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Post Formation Compression P3}
+        - !<FileTransform> {src: post_formation_compression_p3.cube, interpolation: best}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Display P3 2.2}
 
   - !<ColorSpace>
     name: AgX Base BT.1886
@@ -525,41 +527,6 @@ colorspaces:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117]}
         - !<FileTransform> {src: moment_spherical_compression.cube, interpolation: best}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117], direction: inverse}
-
-  - !<ColorSpace>
-    name: Post Formation Compression sRGB
-    aliases: []
-    family: Utilities
-    equalitygroup: ""
-    bitdepth: unknown
-    description: Compress the image post-formation for sRGB display
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<ExponentTransform> {value: 0.5}
-        - !<FileTransform> {src: post_formation_compression_srgb.cube, interpolation: best}
-        - !<ExponentTransform> {value: 0.5, direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: sRGB 2.2}
-
-  - !<ColorSpace>
-    name: Post Formation Compression P3
-    aliases: []
-    family: Utilities
-    equalitygroup: ""
-    bitdepth: unknown
-    description: Compress the image post-formation for Display P3 display
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<ExponentTransform> {value: 0.5}
-        - !<FileTransform> {src: post_formation_compression_p3.cube, interpolation: best}
-        - !<ExponentTransform> {value: 0.5, direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Display P3 2.2}
-
 
   - !<ColorSpace>
     name: Generic Data
