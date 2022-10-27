@@ -1,0 +1,42 @@
+<layouts>
+  <layout full="0" name="1S-H3-v1">
+    <window geometry="-1,-8,1920,1177" showTimeline="True">
+      <frame panels="Node Graph,Attributes,Render Log,UV Viewer,Curve Editor,Dope Sheet" top="0" coords="0.0,0.0,1.0,0.35">
+        <panel name="Node Graph" showTimeline="False"/>
+        <panel name="Attributes" showTimeline="False"/>
+        <panel name="Render Log" showTimeline="False"/>
+        <panel name="UV Viewer" showTimeline="False"/>
+        <panel name="Curve Editor" showTimeline="False"/>
+        <panel name="Dope Sheet" showTimeline="False"/>
+      </frame>
+      <frame panels="Parameters,Undo History" top="0" coords="0.0,0.7,0.49954504094631486,1.0">
+        <panel name="Parameters" showTimeline="False"/>
+        <panel name="Undo History" showTimeline="False"/>
+      </frame>
+      <frame panels="Scene Graph,Project Settings" top="1" coords="0.49954504094631486,0.7,1.0,1.0">
+        <panel name="Scene Graph" settings="{&apos;columnWidths&apos;: {&apos;Lights&apos;: 100, &apos;Type&apos;: 75, &apos;Name&apos;: 250}}" showTimeline="False"/>
+        <panel name="Project Settings" showTimeline="False"/>
+      </frame>
+      <frame panels="Viewer,Monitor,Catalog,Python,UV Viewer,Attributes" top="0" coords="0.0,0.35,0.5,0.7">
+        <panel name="Viewer" settings="{&apos;monitorLayerEnabled&apos;: False, &apos;renderDelegateToolbarEnabled&apos;: True, &apos;proxyGeometryEnabled&apos;: True, &apos;renderDelegateSettings&apos;: {}, &apos;viewportLayoutStyle&apos;: &apos;Single&apos;, &apos;boundingBoxesEnabled&apos;: True, &apos;hdStormShadowMode&apos;: 1, &apos;purposeStates&apos;: {&apos;geometry&apos;: True, &apos;hidden&apos;: True, &apos;guide&apos;: True, &apos;render&apos;: True, &apos;proxy&apos;: True}, &apos;selectionDisplayMode&apos;: u&apos;Fill&apos;, &apos;gridVisible&apos;: True, &apos;hdStormDefaultLighting&apos;: True, &apos;hdStormBasicMaterialOn&apos;: True, &apos;verticalToolBarVisible&apos;: True, &apos;hudVisible&apos;: True, &apos;annotationsVisible&apos;: True}" showTimeline="False"/>
+        <panel name="Monitor" showTimeline="False"/>
+        <panel name="Catalog" settings="{&apos;columnWidths&apos;: {&apos;slot&apos;: 20, &apos;layers&apos;: 55, &apos;GSVs&apos;: 67, &apos;locked&apos;: 20, &apos;name&apos;: 90, &apos;pin&apos;: 20, &apos;frame&apos;: 40, &apos;bounds&apos;: 55, &apos;IRFs&apos;: 67, &apos;ID&apos;: 20, &apos;start&apos;: 55, &apos;spacer&apos;: 460, &apos;isviewed&apos;: 20, &apos;elapsed&apos;: 55, &apos;saved&apos;: 20, &apos;thumbnail&apos;: 200, &apos;comment&apos;: 67}, &apos;columnHidden&apos;: {&apos;slot&apos;: False, &apos;layers&apos;: False, &apos;GSVs&apos;: False, &apos;locked&apos;: False, &apos;name&apos;: False, &apos;pin&apos;: False, &apos;frame&apos;: False, &apos;bounds&apos;: False, &apos;IRFs&apos;: False, &apos;ID&apos;: False, &apos;start&apos;: False, &apos;spacer&apos;: False, &apos;isviewed&apos;: False, &apos;elapsed&apos;: False, &apos;saved&apos;: False, &apos;thumbnail&apos;: False, &apos;comment&apos;: False}, &apos;columnOrder&apos;: {&apos;slot&apos;: 0, &apos;layers&apos;: 12, &apos;GSVs&apos;: 13, &apos;locked&apos;: 3, &apos;name&apos;: 7, &apos;pin&apos;: 5, &apos;frame&apos;: 8, &apos;bounds&apos;: 11, &apos;IRFs&apos;: 14, &apos;ID&apos;: 6, &apos;start&apos;: 10, &apos;spacer&apos;: 16, &apos;isviewed&apos;: 1, &apos;elapsed&apos;: 9, &apos;saved&apos;: 4, &apos;thumbnail&apos;: 2, &apos;comment&apos;: 15}}" showTimeline="False"/>
+        <panel name="Python" showTimeline="False"/>
+        <panel name="UV Viewer" showTimeline="False"/>
+        <panel name="Attributes" showTimeline="False"/>
+      </frame>
+      <frame panels="Render Log" top="0" coords="0.5,0.35,1.0,0.7">
+        <panel name="Render Log" showTimeline="False"/>
+      </frame>
+    </window>
+    <screen>
+      <frame top="-1" coords="0.0,0.0,1.0,1.0"/>
+    </screen>
+    <screen>
+      <frame top="-1" coords="0.0,0.0,1.0,1.0"/>
+    </screen>
+    <screen>
+      <frame top="-1" coords="0.0,0.0,1.0,1.0"/>
+    </screen>
+  </layout>
+</layouts>
