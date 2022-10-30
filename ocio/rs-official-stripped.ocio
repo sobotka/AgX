@@ -1,0 +1,65 @@
+ocio_profile_version: 2
+
+search_path:
+
+environment: {}
+
+roles:
+  color_picking: scene-linear Rec.709-sRGB
+  data: coco
+  default: sRGB
+  scene_linear: scene-linear Rec.709-sRGB
+
+shared_views:
+  - !<View> {name: DefaultCoco, colorspace: coco}
+
+displays:
+  sRGB:
+    - !<Views> [ DefaultCoco ]
+
+view_transforms:
+
+- !<ViewTransform>
+    name: ROCK
+    description: skip
+    from_scene_reference: !<BuiltinTransform> {style: "UTILITY - ACES-AP0_to_CIE-XYZ-D65_BFD"}
+
+display_colorspaces:
+
+  - !<ColorSpace>
+    name: sRGB
+    family:
+    description: |
+      sRGB monitor (piecewise EOTF)
+    isdata: false
+    categories: [ file-io ]
+    encoding: sdr-video
+    from_display_reference: !<GroupTransform>
+      children:
+        - !<BuiltinTransform> {style: "DISPLAY - CIE-XYZ-D65_to_sRGB"}
+        - !<RangeTransform> {min_in_value: 0., min_out_value: 0., max_in_value: 1., max_out_value: 1.}
+
+colorspaces:
+
+  - !<ColorSpace>
+    name: scene-linear Rec.709-sRGB
+    family:
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      Scene-linear Rec.709 or sRGB primaries
+    isdata: false
+    categories: [ file-io, working-space ]
+    encoding: scene-linear
+    to_scene_reference: !<MatrixTransform> {matrix: [ 0.439632981919, 0.382988698152, 0.177378319929, 0, 0.089776442959, 0.813439428749, 0.096784128292, 0, 0.017541170383, 0.111546553302, 0.870912276314, 0, 0, 0, 0, 1 ]}
+
+  - !<ColorSpace>
+    name: coco
+    family:
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      Raw (no color processing)
+    isdata: true
+    categories: [ file-io ]
+    encoding: data

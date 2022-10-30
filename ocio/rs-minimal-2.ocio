@@ -1,0 +1,63 @@
+ocio_profile_version: 2
+environment: { }
+search_path: LUTs
+
+roles:
+  color_picking: mango
+  data: coco
+  default: sRGB
+  scene_linear: mango
+
+shared_views:
+  - !<View> {name: Disabled, colorspace: coco}
+  - !<View> {name: Default, view_transform: ROCK, display_colorspace: <USE_DISPLAY_NAME>}
+
+displays:
+  sRGB:
+    - !<Views> [ Default, Disabled ]
+
+view_transforms:
+
+  - !<ViewTransform>
+      name: ROCK
+      description: yes
+      from_scene_reference: !<BuiltinTransform> {style: "UTILITY - ACES-AP0_to_CIE-XYZ-D65_BFD"}
+
+display_colorspaces:
+
+  - !<ColorSpace>
+    name: sRGB
+    family:
+    description: |
+      sRGB monitor (piecewise EOTF)
+    isdata: false
+    categories: [ file-io ]
+    encoding: sdr-video
+    from_display_reference: !<GroupTransform>
+      children:
+        - !<BuiltinTransform> {style: "DISPLAY - CIE-XYZ-D65_to_sRGB"}
+        - !<RangeTransform> {min_in_value: 0., min_out_value: 0., max_in_value: 1., max_out_value: 1.}
+
+colorspaces:
+
+  - !<ColorSpace>
+    name: mango
+    family:
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      Scene-linear Rec.709 or sRGB primaries
+    isdata: false
+    categories: [ file-io, working-space ]
+    encoding: scene-linear
+    allocationvars: [ -10, 7, 0.0056065625 ]
+
+  - !<ColorSpace>
+    name: coco
+    family: Colorspaces
+    equalitygroup: scalar
+    bitdepth: 32f
+    description: Passthrough means no transformations. Also know as "raw".
+    isdata: true
+    allocation: uniform
+    allocationvars: [0, 1]
