@@ -120,7 +120,9 @@ colorspaces:
     family: Colorspaces
     equalitygroup: ""
     bitdepth: unknown
-    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+    description: |
+      sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+      This "colorspace" is required by Redshift.
     isdata: false
     allocation: uniform
     allocationvars: [ 0.0, 1.0 ]
