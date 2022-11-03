@@ -28,16 +28,27 @@ The goal was making the proof-of-concept OCIO config more "production-ready" bec
     - converted OCIO v2 transforms to v1
     - added allocation vars (not 100% accuracy guarantee)
 
-This was tested on RV, Katana and Nuke but I do not guarantee it is perfectly working on OCIO v1 GPU engine.
+## Support
 
-## Plans
+This was tested on :
+- RV (no exact version, tested q1 2022)
+- Katana (4.0)
+- Nuke (13)
+- C4D (2023) + Redshift (3.5.07)
 
-This config was initially a proof of concept (of an already proof of concept yes) and I planned to write it in Python with OCIO binding but never had the time. But I do not plan any more update in the near future for now.
+I do not guarantee it is perfectly working on OCIO v1 GPU engine.
+
+## Future
+
+This config was initially a proof of concept (of an already proof of concept yes) and I planned to write it in Python with OCIO binding but never had the time.
+
+You can open issues if you feel like something can be improved.
+
 
 # Reshade
 
-This repo also include an hlsl implementation for ReShade so you experience AgX in all supported games.
+This repo also include a hlsl implementation for ReShade, so you can experience AgX in all supported games.
 
-See [hlsl/](hlsl/) directory.
+See [hlsl/](hlsl) directory.
 
 ![Stray screenshot with AgX](hlsl/img/stray-3-AgX.jpg)
