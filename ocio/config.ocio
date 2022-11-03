@@ -1,4 +1,4 @@
-# version: 0.1.4
+# version: 0.2.0
 ocio_profile_version: 1
 description: |
   AgX config by Troy Sobotka. Modified by Liam Collod with full permissions from
@@ -9,18 +9,18 @@ search_path: LUTs
 strictparsing: true
 
 roles:
-  color_picking: sRGB
-  color_timing: sRGB
+  color_picking: sRGB - 2.2
+  color_timing: sRGB - 2.2
   compositing_log: AgX Log (Kraken)
   data: Passthrough
-  default: sRGB
-  default_byte: sRGB
+  default: sRGB - 2.2
+  default_byte: sRGB - 2.2
   default_float: Linear sRGB
-  default_sequencer: sRGB
-  matte_paint: sRGB
+  default_sequencer: sRGB - 2.2
+  matte_paint: sRGB - 2.2
   reference: Linear sRGB
   scene_linear: Linear sRGB
-  texture_paint: sRGB
+  texture_paint: sRGB - 2.2
   aces_interchange: ACES2065-1
   cie_xyz_d65_interchange: CIE - XYZ - D65
 
@@ -29,7 +29,7 @@ displays:
     - !<View> { name: AgX Punchy, colorspace: Appearance Punchy sRGB }
     - !<View> { name: AgX, colorspace: AgX Base sRGB }
     - !<View> { name: Disabled, colorspace: Passthrough }
-    - !<View> { name: Display Native, colorspace: sRGB }
+    - !<View> { name: Display Native, colorspace: sRGB - 2.2 }
   Display P3:
     - !<View> { name: AgX Punchy, colorspace: Appearance Punchy Display P3 }
     - !<View> { name: AgX, colorspace: AgX Base Display P3 }
@@ -105,15 +105,28 @@ colorspaces:
     from_reference: !<ExponentTransform> { value: [ 2.4, 2.4, 2.4, 1 ], direction: inverse }
 
   - !<ColorSpace>
-    name: sRGB
+    name: sRGB - 2.2
     family: Colorspaces
     equalitygroup: ""
     bitdepth: unknown
-    description: sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+    description: sRGB with transfer-function simplified to the 2.2 power function.
     isdata: false
     allocation: uniform
     allocationvars: [ 0.0, 1.0 ]
     from_reference: !<ColorSpaceTransform> { src: reference, dst: 2.2 EOTF Encoding }
+
+  - !<ColorSpace>
+    name: sRGB - EOTF
+    family: Colorspaces
+    equalitygroup: ""
+    bitdepth: unknown
+    description: |
+      sRGB IEC 61966-2-1 2.2 Exponent Reference EOTF Display
+      This "colorspace" is required by Redshift.
+    isdata: false
+    allocation: uniform
+    allocationvars: [ 0.0, 1.0 ]
+    to_reference: !<FileTransform> { src: sRGB-EOTF-inverse.spi1d, interpolation: linear }
 
   - !<ColorSpace>
     name: Display P3
