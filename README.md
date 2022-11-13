@@ -1,4 +1,5 @@
-"Fork" of Troy Sobotka's AgX https://github.com/sobotka/AgX with implementation si various languages/softwares.
+"Fork" of Troy Sobotka's AgX https://github.com/sobotka/AgX with implementation
+ii various languages/softwares.
 
 ![agx comparison with aces and filmic](comparison.jpg)
 

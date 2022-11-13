@@ -39,12 +39,12 @@ All done ! You can now configure it.
 
 ![screenshot of OBS interface while in the Filters section](doc/img/obs-filter-options.png)
 
-> **Note** Reminder that AgX being a display transform it should be put at the
+> **Note** Reminder that AgX being a display transform it should be placed at the
 > very end of the image processing chain. (so at the bottom in OBS)
 
 The camera/video-source and your lighting setup will affect how much you need
 to tweak the paramaters. There is no setup that work for all cases (but once
-you configured for your camera/ usual lighting you will not need to touch it anymore)
+configured for your camera/usual lighting, you will not need to touch it anymore)
 
 ## Recommended
 
@@ -59,7 +59,7 @@ I recommend to always start by :
 
 Pick in which colorspace your source is encoded. 
 
-Passthrough means the no decoding is applied.
+Passthrough means no decoding is applied.
 
 ### Output Colorspace
 
@@ -96,7 +96,7 @@ See above.
 ### Punchy/...
 
 Grading modifications applied after AgX on display encoded data. This will
-introduce skews, clipping and other artefact.
+introduce skews, clipping and other artefacts.
 
 Recommended to change small values if used.
 
