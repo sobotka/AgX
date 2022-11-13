@@ -35,6 +35,12 @@ uniform float INPUT_HIGHLIGHT_GAIN_GAMMA = 1.0;
 uniform float PUNCH_EXPOSURE = 0.0;
 uniform float PUNCH_SATURATION = 1.0;
 uniform float PUNCH_GAMMA = 1.3;
+uniform int OUTPUT_COLORSPACE = 1;
+/*
+0 = Passthrough,
+1 = sRGB Display (EOTF),
+2 = sRGB Display (2.2),
+*/
 uniform bool USE_OCIO_LOG = false;
 uniform bool APPLY_OUTSET = true;
 
@@ -296,13 +302,13 @@ float3 applyOutset(float3 Image)
 float3 applyODT(float3 Image)
 /*
     Apply Agx to display conversion.
-    For now hardcoded to sRGB display.
 
     :param color: linear - sRGB data.
 
 */
 {
-    Image = cctf_encoding_pow2_2(Image);
+    if (OUTPUT_COLORSPACE == 1) Image = cctf_encoding_sRGB(Image);
+    if (OUTPUT_COLORSPACE == 2) Image = cctf_encoding_pow2_2(Image);
     return Image;
 }
 
