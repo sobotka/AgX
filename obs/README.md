@@ -7,6 +7,11 @@ Implementation of AgX for [OBS](https://obsproject.com/) as a script.
 This is mainly intended to be applied on live camera feeds as this would have not much benefit
 to apply this on desktop captures.
 
+![screenshot of obs interface while camera is pointing at various colored objects like legos](doc/img/obs-c922-default.jpg)
+![screenshot of obs interface while camera is pointing at various colored objects like legos](doc/img/obs-c922-agx.jpg)
+> bottom image has the AgX filter applied in OBS, top is default rendering -- standard C922 webcam
+
+
 # Requirements
 
 - This has been developed on OBS 28.1.2 for Windows but should work for lower version
