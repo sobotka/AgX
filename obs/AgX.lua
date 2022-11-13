@@ -38,7 +38,7 @@ source_info.get_height = function(data)
 end
 
 source_info.get_defaults = function(settings)
-  obs.obs_data_set_default_int(settings, "INPUT_COLORSPACE", 0)
+  obs.obs_data_set_default_int(settings, "INPUT_COLORSPACE", 1)
   obs.obs_data_set_default_double(settings, "INPUT_EXPOSURE", 0.0)
   obs.obs_data_set_default_double(settings, "INPUT_GAMMA", 1.0)
   obs.obs_data_set_default_double(settings, "INPUT_SATURATION", 1.0)
@@ -66,7 +66,9 @@ end
 source_info.get_properties = function(data)
   local masterProperty = obs.obs_properties_create()
   local propInputColorspace = obs.obs_properties_add_list(masterProperty, "INPUT_COLORSPACE", "Input Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
-  obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (2.2)", 0)
+  obs.obs_property_list_add_int(propInputColorspace, "Passthrough", 0)
+  obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (EOTF)", 1)
+  obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (2.2)", 2)
   obs.obs_properties_add_float_slider(masterProperty, "INPUT_EXPOSURE", "INPUT EXPOSURE", -5, 5.0, 0.01)
   obs.obs_properties_add_float_slider(masterProperty, "INPUT_GAMMA", "INPUT GAMMA", 0.001, 5.0, 0.01)
   obs.obs_properties_add_float_slider(masterProperty, "INPUT_SATURATION", "INPUT SATURATION", 0.0, 5.0, 0.01)
