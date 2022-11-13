@@ -4,6 +4,17 @@
 
 > extreme example rendered with pure ACEScg primaries
 
+AgX is a [display rendering transform](https://github.com/jedypod/open-display-transform/wiki/doc-introduction)
+(DRT) with the goal of improving image formation.
+
+It tries to provide a ""neutral look"" via a robust but simple image formation process.
+
+The result can be comparable to the analog film process with noticeable soft highlight rollof,
+smooth color transitions and pleasing exposure handling.
+
+If you find that there was too much scary-looking words until now, just
+consider AgX as a "LUT".
+
 # Integrations
 
 - OpenColorIO : v1 compatible
