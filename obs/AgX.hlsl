@@ -23,7 +23,13 @@ uniform float PUNCH_GAMMA = 1.3;
 uniform bool USE_OCIO_LOG = false;
 uniform bool APPLY_OUTSET = true;
 
+uniform texture2d AgXLUT;
+#define AgXLUT_BLOCK_SIZE 32
+#define AgXLUT_DIMENSIONS int2(AgXLUT_BLOCK_SIZE * AgXLUT_BLOCK_SIZE, AgXLUT_BLOCK_SIZE)
+#define AgXLUT_PIXEL_SIZE 1.0 / AgXLUT_DIMENSIONS
+
 uniform float3 luma_coefs_bt709 = {0.2126, 0.7152, 0.0722};
+// TODO not used for now cause doesn't work that way
 uniform float3x3 agx_compressed_matrix = {
     0.84247906, 0.0784336, 0.07922375,
     0.04232824, 0.87846864, 0.07916613,
@@ -40,12 +46,19 @@ uniform float3x3 agx_compressed_matrix_inverse = {
 =================*/
 
 // Interpolation method and wrap mode for sampling a texture
-SamplerState linear_clamp
+sampler_state linear_clamp
 {
     Filter    = Linear;     // Anisotropy / Point / Linear
     AddressU  = Clamp;      // Wrap / Clamp / Mirror / Border / MirrorOnce
     AddressV  = Clamp;      // Wrap / Clamp / Mirror / Border / MirrorOnce
     BorderColor = 00000000; // Used only with Border edges (optional)
+};
+sampler_state LUTSampler
+{
+	Filter    = Linear;
+	AddressU  = Clamp;
+	AddressV  = Clamp;
+	AddressW  = Clamp;
 };
 struct VertexData
 {
@@ -197,7 +210,12 @@ float3 applyAgXLog(float3 Image)
 */
 {
     Image = max(0.0, Image); // clamp negatives
-    Image = mul(agx_compressed_matrix, Image);
+    // why this doesn't work ??
+    // Image = mul(agx_compressed_matrix, Image);
+	float r = dot(Image, float3(0.84247906, 0.0784336, 0.07922375));
+	float g = dot(Image, float3(0.04232824, 0.87846864, 0.07916613));
+	float b = dot(Image, float3(0.04237565, 0.0784336, 0.87914297));
+	Image = float3(r, g, b);
 
     if (USE_OCIO_LOG)
         Image = log2Transform(Image);
@@ -208,13 +226,54 @@ float3 applyAgXLog(float3 Image)
     return Image;
 }
 
+float3 applyAgXLUT(float3 Image)
+/*
+    Apply the AgX 1D curve on log encoded data.
+
+    The output is similar to AgX Base which is considered
+    sRGB - Display, but here we linearize it.
+
+    -- ref[3] for LUT implementation
+*/
+{
+
+    float3 lut3D = Image * (AgXLUT_BLOCK_SIZE-1);
+
+    float2 lut2D[2];
+    // Front
+    lut2D[0].x = floor(lut3D.z) * AgXLUT_BLOCK_SIZE+lut3D.x;
+    lut2D[0].y = lut3D.y;
+    // Back
+    lut2D[1].x = ceil(lut3D.z) * AgXLUT_BLOCK_SIZE+lut3D.x;
+    lut2D[1].y = lut3D.y;
+
+    // Convert from texel to texture coords
+    lut2D[0] = (lut2D[0]+0.5) * AgXLUT_PIXEL_SIZE;
+    lut2D[1] = (lut2D[1]+0.5) * AgXLUT_PIXEL_SIZE;
+
+    // Bicubic LUT interpolation
+    Image = lerp(
+        AgXLUT.Sample(LUTSampler, lut2D[0]).rgb, // Front Z
+        AgXLUT.Sample(LUTSampler, lut2D[1]).rgb, // Back Z
+        frac(lut3D.z)
+    );
+    // LUT apply the transfer function so we remove it to keep working on linear data.
+    Image = cctf_decoding_pow2_2(Image);
+    return Image;
+}
+
 float3 applyOutset(float3 Image)
 /*
     Outset is the inverse of the inset applied during `applyAgXLog`
     and restore chroma.
 */
 {
-    Image = mul(agx_compressed_matrix_inverse, Image);
+    // Image = mul(agx_compressed_matrix_inverse, Image);
+    float r = dot(Image, float3(1.1968790, -0.09802088, -0.09902975));
+	float g = dot(Image, float3(-0.05289685, 1.15190313, -0.09896118));
+	float b = dot(Image, float3(-0.05297163, -0.09804345, 1.15107368));
+	Image = float3(r, g, b);
+
     return Image;
 }
 
@@ -261,9 +320,10 @@ float4 PIXELSHADER_AgX(PixelData pixel) : TARGET
     float3 Image = OriginalImage.rgb;
     Image = applyInputTransform(Image);
     Image = applyGrading(Image);
-//     Image = applyAgXLog(Image);
-//     if (APPLY_OUTSET)
-//         Image = applyOutset(Image);
+    Image = applyAgXLog(Image);
+    Image = applyAgXLUT(Image);
+    if (APPLY_OUTSET)
+        Image = applyOutset(Image);
     Image = applyODT(Image);
     Image = applyLookPunchy(Image);
     return float4(Image.rgb, OriginalImage.a);

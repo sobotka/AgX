@@ -1,10 +1,10 @@
 obs = obslua
 
-local __version__ = "0.1.1"
+local __version__ = "0.2.0"
 
 -- dependencies :
 local hlsl_shader_file_path = script_path() .. 'AgX.hlsl'
-
+local agx_lut_file_path = script_path() .. 'AgX-default_contrast.lut.png'
 
 function script_description()
   return ([[
@@ -18,6 +18,33 @@ function script_description()
   <p>version <code>%s</code></p>
   ]]):format(__version__)
 end
+
+--- Load a pixel data file from disk and return it.
+function load_texture(path)
+
+  if string.len(path) < 0 then
+    obs.blog(obs.LOG_ERROR, "Cannot load texture: no path given.")
+    return
+  end
+
+  obs.obs_enter_graphics()
+
+  local new_texture = obs.gs_image_file()
+  obs.gs_image_file_init(new_texture, path)
+  if new_texture.loaded then
+    obs.gs_image_file_init_texture(new_texture)
+  else
+    obs.blog(obs.LOG_ERROR, "Cannot load texture " .. path)
+    new_texture = nil
+  end
+
+  obs.obs_leave_graphics()
+  return new_texture
+
+end
+
+local AgXLUT
+
 
 -- Definition of the global variable containing the source_info structure
 source_info = {}
@@ -89,20 +116,26 @@ source_info.create = function(settings, source)
   data.width = 1  -- Dummy value during initialization phase
   data.height = 1  -- Dummy value during initialization phase
 
+  AgXLUT = load_texture(agx_lut_file_path)
+
   -- Compile HLSL shader
   obs.obs_enter_graphics()
+  local error = ""
   data.effect = obs.gs_effect_create_from_file(hlsl_shader_file_path, nil)
-  obs.blog(obs.LOG_INFO, "[source_info.create] Loaded effect "..hlsl_shader_file_path)
+  obs.blog(obs.LOG_INFO, "[source_info.create] Loaded effect " .. hlsl_shader_file_path)
   obs.obs_leave_graphics()
 
   if data.effect == nil then
-    obs.blog(obs.LOG_ERROR, "Effect compilation failed for " .. hlsl_shader_file_path)
+    obs.blog(obs.LOG_ERROR, "Effect compilation failed for " .. hlsl_shader_file_path .. "\n" .. error)
     source_info.destroy(data)
+    error = nil
     return nil
   end
 
   -- Access HLSL variables
   data.params = {}
+
+  data.params.AgXLUT = obs.gs_effect_get_param_by_name(data.effect, "AgXLUT")
   data.params.INPUT_COLORSPACE = obs.gs_effect_get_param_by_name(data.effect, "INPUT_COLORSPACE")
   data.params.INPUT_EXPOSURE = obs.gs_effect_get_param_by_name(data.effect, "INPUT_EXPOSURE")
   data.params.INPUT_GAMMA = obs.gs_effect_get_param_by_name(data.effect, "INPUT_GAMMA")
@@ -136,6 +169,10 @@ source_info.video_render = function(data)
   data.height = obs.obs_source_get_base_height(parent)
 
   obs.obs_source_process_filter_begin(data.source, obs.GS_RGBA, obs.OBS_NO_DIRECT_RENDERING)
+
+  if AgXLUT then
+    obs.gs_effect_set_texture(data.params.AgXLUT, AgXLUT.texture)
+  end
 
   obs.gs_effect_set_int(data.params.INPUT_COLORSPACE, data.INPUT_COLORSPACE)
   obs.gs_effect_set_float(data.params.INPUT_EXPOSURE, data.INPUT_EXPOSURE)
