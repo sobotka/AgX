@@ -1,6 +1,15 @@
+--[[
+Lua layer to read the HLSL AgX shader in OBS.
+
+author = "Liam Collod"
+repository = "https://github.com/MrLixm/AgXc"
+
+Credits to the awesome https://obsproject.com/wiki/Scripting-Tutorial-Halftone-Filter
+tutorial for learning the basics.
+]]
 obs = obslua
 
-local __version__ = "0.2.0"
+local __version__ = "0.2.1"
 
 -- dependencies :
 local hlsl_shader_file_path = script_path() .. 'AgX.hlsl'
@@ -43,10 +52,10 @@ function load_texture(path)
 
 end
 
+--- store a texture2d object to be used in the HLSL shader
 local AgXLUT
 
 
--- Definition of the global variable containing the source_info structure
 source_info = {}
 source_info.id = 'filter-agx'  -- Unique string identifier of the source type
 source_info.type = obs.OBS_SOURCE_TYPE_FILTER  -- INPUT or FILTER or TRANSITION
@@ -92,20 +101,30 @@ source_info.update = function(data, settings)
 end
 source_info.get_properties = function(data)
   local masterProperty = obs.obs_properties_create()
+
+  local groupGrading = obs.obs_properties_create()
+  local groupOutput = obs.obs_properties_create()
+  local groupDebug = obs.obs_properties_create()
+
   local propInputColorspace = obs.obs_properties_add_list(masterProperty, "INPUT_COLORSPACE", "Input Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
   obs.obs_property_list_add_int(propInputColorspace, "Passthrough", 0)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (EOTF)", 1)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (2.2)", 2)
-  obs.obs_properties_add_float_slider(masterProperty, "INPUT_EXPOSURE", "INPUT EXPOSURE", -5, 5.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "INPUT_GAMMA", "INPUT GAMMA", 0.001, 5.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "INPUT_SATURATION", "INPUT SATURATION", 0.0, 5.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "INPUT_HIGHLIGHT_GAIN", "INPUT HIGHLIGHT GAIN", 0.0, 5.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "INPUT_HIGHLIGHT_GAIN_GAMMA", "INPUT HIGHLIGHT GAIN GAMMA", 0.0, 4.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "PUNCH_EXPOSURE", "PUNCH EXPOSURE", -5.0, 5.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "PUNCH_SATURATION", "PUNCH SATURATION", 0.0, 3.0, 0.01)
-  obs.obs_properties_add_float_slider(masterProperty, "PUNCH_GAMMA", "PUNCH GAMMA", 0.001, 2.0, 0.01)
-  obs.obs_properties_add_bool(masterProperty, "USE_OCIO_LOG", "Use OCIO Log Transform") -- Use a transform similar to OCIO for the log operation. No difference should be observed.
-  obs.obs_properties_add_bool(masterProperty, "APPLY_OUTSET", "Apply Outset") -- Apply the inverse of the inset matrix applied before the log transform. Restore chroma.
+
+  obs.obs_properties_add_group(masterProperty, "GRADING", "Grading (Pre-AgX)", obs.OBS_GROUP_NORMAL, groupGrading)
+  obs.obs_properties_add_group(masterProperty, "OUTPUT", "Output (Post-AgX)", obs.OBS_GROUP_NORMAL, groupOutput)
+  obs.obs_properties_add_group(masterProperty, "DEBUG", "Debug", obs.OBS_GROUP_NORMAL, groupDebug)
+
+  obs.obs_properties_add_float_slider(groupGrading, "INPUT_EXPOSURE", "Exposure", -5, 5.0, 0.01)
+  obs.obs_properties_add_float_slider(groupGrading, "INPUT_GAMMA", "Gamma", 0.001, 5.0, 0.01)
+  obs.obs_properties_add_float_slider(groupGrading, "INPUT_SATURATION", "Saturation", 0.0, 5.0, 0.01)
+  obs.obs_properties_add_float_slider(groupGrading, "INPUT_HIGHLIGHT_GAIN", "Highlight Gain", 0.0, 5.0, 0.01)
+  obs.obs_properties_add_float_slider(groupGrading, "INPUT_HIGHLIGHT_GAIN_GAMMA", "Highlight Gain Threshold", 0.0, 4.0, 0.01)
+  obs.obs_properties_add_float_slider(groupOutput, "PUNCH_EXPOSURE", "Punchy exposure", -5.0, 5.0, 0.01)
+  obs.obs_properties_add_float_slider(groupOutput, "PUNCH_SATURATION", "Punchy Saturation", 0.0, 3.0, 0.01)
+  obs.obs_properties_add_float_slider(groupOutput, "PUNCH_GAMMA", "Punchy Gamma", 0.001, 2.0, 0.01)
+  obs.obs_properties_add_bool(groupDebug, "USE_OCIO_LOG", "Use OCIO Log Transform") -- Use a transform similar to OCIO for the log operation. No difference should be observed.
+  obs.obs_properties_add_bool(groupDebug, "APPLY_OUTSET", "Apply Outset (Restore chroma)") -- Apply the inverse of the inset matrix applied before the log transform. Restore chroma.
   return masterProperty
 end
 --- Creates the implementation data for the source

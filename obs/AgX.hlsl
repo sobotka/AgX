@@ -1,3 +1,18 @@
+/*
+HLSL implementation of AgX (by Troy Sobotka) for OBS.
+
+author = "Liam Collod"
+repository = "https://github.com/MrLixm/AgXc"
+
+References:
+- [0] https://github.com/sobotka/AgX-S2O3/blob/main/AgX.py
+- [1] https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl
+- [2] https://video.stackexchange.com/q/9866
+- [3] https://github.com/Fubaxiusz/fubax-shaders/blob/master/Shaders/LUTTools.fx
+- [4] https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl#L574
+- [5] https://github.com/colour-science/colour/blob/develop/colour/models/rgb/transfer_functions/srgb.py#L99
+*/
+
 // OBS-specific syntax adaptation to HLSL standard to avoid errors reported by the code editor
 #define SamplerState sampler_state
 #define Texture2D texture2d
@@ -23,6 +38,7 @@ uniform float PUNCH_GAMMA = 1.3;
 uniform bool USE_OCIO_LOG = false;
 uniform bool APPLY_OUTSET = true;
 
+// LUT AgX-default_contrast.lut.png
 uniform texture2d AgXLUT;
 #define AgXLUT_BLOCK_SIZE 32
 #define AgXLUT_DIMENSIONS int2(AgXLUT_BLOCK_SIZE * AgXLUT_BLOCK_SIZE, AgXLUT_BLOCK_SIZE)
