@@ -13,11 +13,11 @@ and other operating systems.
 
 # Installation
 
-Put the **whole** content of this directory anywhere you want.
+Put the **whole** content of the [obs-script](obs-script) directory anywhere you want.
 
 1. Open OBS
 2. In the top menu > Tools > Scripts
-3. Click on the `+` button, and browse to the location of the `AgX.lua` file.
+3. Click on the `+` button, and browse to the location of the `obs-script/AgX.lua` file.
 
 The script is now active. A new filter has been created :
 
