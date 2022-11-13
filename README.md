@@ -17,10 +17,10 @@ consider AgX as a "LUT".
 
 # Integrations
 
-- OpenColorIO : v1 compatible
-- ReShade : for in-game use.
-- OBS : to apply on live camera feed
-- Python : with numpy as only dependency
+- [OpenColorIO](ocio) : v1 compatible
+- [ReShade](reshade) : for in-game use.
+- [OBS](obs) : to apply on live camera feed
+- [Python](python) : with numpy as only dependency
 
 ### ReShade
 
