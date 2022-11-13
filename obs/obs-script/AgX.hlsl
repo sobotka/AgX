@@ -26,6 +26,7 @@ uniform int INPUT_COLORSPACE = 1;
 0 = Passthrough,
 1 = sRGB Display (EOTF),
 2 = sRGB Display (2.2),
+3 = BT.709 Display (2.4),
 */
 uniform float INPUT_EXPOSURE = 0.75;
 uniform float INPUT_GAMMA = 1.0;
@@ -40,6 +41,7 @@ uniform int OUTPUT_COLORSPACE = 1;
 0 = Passthrough,
 1 = sRGB Display (EOTF),
 2 = sRGB Display (2.2),
+3 = BT.709 Display (2.4),
 */
 uniform bool USE_OCIO_LOG = false;
 uniform bool APPLY_OUTSET = true;
@@ -142,6 +144,10 @@ float3 cctf_decoding_pow2_2(float3 color){return powsafe(color, 2.2);}
 
 float3 cctf_encoding_pow2_2(float3 color){return powsafe(color, 1/2.2);}
 
+float3 cctf_decoding_bt709(float3 color){return powsafe(color, 2.4);}
+
+float3 cctf_encoding_bt709(float3 color){return powsafe(color, 1/2.4);}
+
 
 float3 convertOpenDomainToNormalizedLog2(float3 color, float minimum_ev, float maximum_ev)
 /*
@@ -208,6 +214,7 @@ float3 applyInputTransform(float3 Image)
 {
     if (INPUT_COLORSPACE == 1) Image = cctf_decoding_sRGB(Image);
     if (INPUT_COLORSPACE == 2) Image = cctf_decoding_pow2_2(Image);
+    if (INPUT_COLORSPACE == 3) Image = cctf_decoding_bt709(Image);
     return Image;
 }
 
@@ -309,6 +316,7 @@ float3 applyODT(float3 Image)
 {
     if (OUTPUT_COLORSPACE == 1) Image = cctf_encoding_sRGB(Image);
     if (OUTPUT_COLORSPACE == 2) Image = cctf_encoding_pow2_2(Image);
+    if (OUTPUT_COLORSPACE == 3) Image = cctf_encoding_bt709(Image);
     return Image;
 }
 

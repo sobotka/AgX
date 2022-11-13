@@ -112,10 +112,12 @@ source_info.get_properties = function(data)
   obs.obs_property_list_add_int(propInputColorspace, "Passthrough", 0)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (EOTF)", 1)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (2.2)", 2)
+  obs.obs_property_list_add_int(propInputColorspace, "BT.709 Display (2.4)", 3)
   local propOutputColorspace = obs.obs_properties_add_list(masterProperty, "OUTPUT_COLORSPACE", "Output Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
   obs.obs_property_list_add_int(propOutputColorspace, "Passthrough", 0)
   obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (EOTF)", 1)
   obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (2.2)", 2)
+  obs.obs_property_list_add_int(propOutputColorspace, "BT.709 Display (2.4)", 3)
 
   obs.obs_properties_add_group(masterProperty, "GRADING", "Grading (Pre-AgX)", obs.OBS_GROUP_NORMAL, groupGrading)
   obs.obs_properties_add_group(masterProperty, "PUNCHY", "Punchy (Grading Post-AgX)", obs.OBS_GROUP_NORMAL, groupPunchy)
