@@ -2,7 +2,7 @@
 
 Implementation of AgX for [OBS](https://obsproject.com/) as a script.
 
-![screenshot of OBS interface while in the Filters section](doc/img/obs-filters-demo.png)
+![screenshot of OBS interface while in the Filters section](doc/img/obs-main.png)
 
 This is mainly intended to be applied on live camera feeds as this would have not much benefit
 to apply this on desktop captures.

@@ -17,4 +17,4 @@
 
 ### OBS
 
-![OBS interface screenshot with webcam feed](obs/doc/img/obs-filters-demo.png)
+![OBS interface screenshot with webcam feed](obs/doc/img/obs-main.png)
