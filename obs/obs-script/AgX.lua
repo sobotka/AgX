@@ -105,16 +105,20 @@ source_info.get_properties = function(data)
   local masterProperty = obs.obs_properties_create()
 
   local groupGrading = obs.obs_properties_create()
-  local groupOutput = obs.obs_properties_create()
+  local groupPunchy = obs.obs_properties_create()
   local groupDebug = obs.obs_properties_create()
 
   local propInputColorspace = obs.obs_properties_add_list(masterProperty, "INPUT_COLORSPACE", "Input Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
   obs.obs_property_list_add_int(propInputColorspace, "Passthrough", 0)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (EOTF)", 1)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (2.2)", 2)
+  local propOutputColorspace = obs.obs_properties_add_list(masterProperty, "OUTPUT_COLORSPACE", "Output Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
+  obs.obs_property_list_add_int(propOutputColorspace, "Passthrough", 0)
+  obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (EOTF)", 1)
+  obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (2.2)", 2)
 
   obs.obs_properties_add_group(masterProperty, "GRADING", "Grading (Pre-AgX)", obs.OBS_GROUP_NORMAL, groupGrading)
-  obs.obs_properties_add_group(masterProperty, "OUTPUT", "Output (Post-AgX)", obs.OBS_GROUP_NORMAL, groupOutput)
+  obs.obs_properties_add_group(masterProperty, "PUNCHY", "Punchy (Grading Post-AgX)", obs.OBS_GROUP_NORMAL, groupPunchy)
   obs.obs_properties_add_group(masterProperty, "DEBUG", "Debug", obs.OBS_GROUP_NORMAL, groupDebug)
 
   obs.obs_properties_add_float_slider(groupGrading, "INPUT_EXPOSURE", "Exposure", -5, 5.0, 0.01)
@@ -122,14 +126,10 @@ source_info.get_properties = function(data)
   obs.obs_properties_add_float_slider(groupGrading, "INPUT_SATURATION", "Saturation", 0.0, 5.0, 0.01)
   obs.obs_properties_add_float_slider(groupGrading, "INPUT_HIGHLIGHT_GAIN", "Highlight Gain", 0.0, 5.0, 0.01)
   obs.obs_properties_add_float_slider(groupGrading, "INPUT_HIGHLIGHT_GAIN_GAMMA", "Highlight Gain Threshold", 0.0, 4.0, 0.01)
-  local propOutputColorspace = obs.obs_properties_add_list(groupOutput, "OUTPUT_COLORSPACE", "Output Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
-  obs.obs_property_list_add_int(propOutputColorspace, "Passthrough", 0)
-  obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (EOTF)", 1)
-  obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (2.2)", 2)
-  obs.obs_properties_add_text(groupOutput, "OUTPUT_INFO", "Used to boost imagery after AgX. Do not abuse of it.", obs.OBS_TEXT_INFO )
-  obs.obs_properties_add_float_slider(groupOutput, "PUNCH_EXPOSURE", "Punchy exposure", -5.0, 5.0, 0.01)
-  obs.obs_properties_add_float_slider(groupOutput, "PUNCH_SATURATION", "Punchy Saturation", 0.0, 3.0, 0.01)
-  obs.obs_properties_add_float_slider(groupOutput, "PUNCH_GAMMA", "Punchy Gamma", 0.001, 2.0, 0.01)
+  obs.obs_properties_add_text(groupPunchy, "PUNCH_INFO", "Not recommended for use. Tweak values sotly.", obs.OBS_TEXT_INFO )
+  obs.obs_properties_add_float_slider(groupPunchy, "PUNCH_EXPOSURE", "Exposure", -3.0, 3.0, 0.01)
+  obs.obs_properties_add_float_slider(groupPunchy, "PUNCH_SATURATION", "Saturation", 0.0, 2.0, 0.01)
+  obs.obs_properties_add_float_slider(groupPunchy, "PUNCH_GAMMA", "Gamma", 0.001, 2.0, 0.01)
   obs.obs_properties_add_bool(groupDebug, "USE_OCIO_LOG", "Use OCIO Log Transform") -- Use a transform similar to OCIO for the log operation. No difference should be observed.
   obs.obs_properties_add_bool(groupDebug, "APPLY_OUTSET", "Apply Outset (Restore chroma)") -- Apply the inverse of the inset matrix applied before the log transform. Restore chroma.
   return masterProperty
