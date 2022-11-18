@@ -12,6 +12,7 @@ References:
 - [4] https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl#L574
 - [5] https://github.com/colour-science/colour/blob/develop/colour/models/rgb/transfer_functions/srgb.py#L99
 */
+#include "colorspace.hlsl"
 
 // OBS-specific syntax adaptation to HLSL standard to avoid errors reported by the code editor
 #define SamplerState sampler_state
@@ -107,12 +108,6 @@ float getLuminance(float3 image)
     return dot(image, luma_coefs_bt709);
 }
 
-float3 powsafe(float3 color, float power)
-// pow() but safe for NaNs/negatives
-{
-    return pow(abs(color), power) * sign(color);
-}
-
 float3 saturation(float3 color, float saturationAmount)
 /*
 
@@ -126,80 +121,6 @@ float3 saturation(float3 color, float saturationAmount)
 {
     float luma = getLuminance(color);
     return lerp(luma, color, saturationAmount);
-}
-
-float3 cctf_decoding_sRGB(float3 color)
-// ref[5]
-{
-    return (color <= 0.04045) ? (color / 12.92) : (powsafe((color + 0.055) / 1.055, 2.4));
-}
-
-float3 cctf_encoding_sRGB(float3 color)
-// ref[5]
-{
-    return (color <= 0.0031308) ? (color * 12.92) : (1.055 * powsafe(color, 1/2.4) - 0.055);
-}
-
-float3 cctf_decoding_pow2_2(float3 color){return powsafe(color, 2.2);}
-
-float3 cctf_encoding_pow2_2(float3 color){return powsafe(color, 1/2.2);}
-
-float3 cctf_decoding_bt709(float3 color){return powsafe(color, 2.4);}
-
-float3 cctf_encoding_bt709(float3 color){return powsafe(color, 1/2.4);}
-
-
-float3 convertOpenDomainToNormalizedLog2(float3 color, float minimum_ev, float maximum_ev)
-/*
-    Output log domain encoded data.
-
-    Similar to OCIO lg2 AllocationTransform.
-
-    ref[0]
-*/
-{
-    float in_midgrey = 0.18;
-
-    // remove negative before log transform
-    color = max(0.0, color);
-    // avoid infinite issue with log -- ref[1]
-    color = (color  < 0.00003051757) ? (0.00001525878 + color) : (color);
-    color = clamp(
-        log2(color / in_midgrey),
-        float3(minimum_ev, minimum_ev, minimum_ev),
-        float3(maximum_ev,maximum_ev,maximum_ev)
-    );
-    float total_exposure = maximum_ev - minimum_ev;
-
-    return (color - minimum_ev) / total_exposure;
-}
-
-// exactly the same as above but I let it for reference
-float3 log2Transform(float3 color)
-/*
-    Output log domain encoded data.
-
-    Copy of OCIO lg2 AllocationTransform with the AgX Log values.
-
-    :param color: rgba linear color data
-*/
-{
-    // remove negative before log transform
-    color = max(0.0, color);
-    color = (color  < 0.00003051757) ? (log2(0.00001525878 + color * 0.5)) : (log2(color));
-
-    // obtained via m = ocio.MatrixTransform.Fit(oldMin=[-12.47393, -12.47393, -12.47393, 0.0], oldMax=[4.026069, 4.026069, 4.026069, 1.0])
-    float3x3 fitMatrix = float3x3(
-        0.060606064279155415, 0.0, 0.0,
-        0.0, 0.060606064279155415, 0.0,
-        0.0, 0.0, 0.060606064279155415
-    );
-    // obtained via same as above
-    float fitMatrixOffset = 0.7559958033936851;
-    color = mul(fitMatrix, color);
-    color += fitMatrixOffset.xxx;
-
-    return color;
 }
 
 /*=================
