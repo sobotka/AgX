@@ -19,11 +19,10 @@ def convert3x3MatrixToHlslStr(matrix: numpy.ndarray) -> str:
         partial HLSL variable declaration.
     """
     return (
-        "{\n"
-        f"  {round(matrix[0][0], ROUND_THRESHOLD)}, {round(matrix[0][1], ROUND_THRESHOLD)}, {round(matrix[0][2], ROUND_THRESHOLD)},\n"
-        f"  {round(matrix[1][0], ROUND_THRESHOLD)}, {round(matrix[1][1], ROUND_THRESHOLD)}, {round(matrix[1][2], ROUND_THRESHOLD)},\n"
-        f"  {round(matrix[2][0], ROUND_THRESHOLD)}, {round(matrix[2][1], ROUND_THRESHOLD)}, {round(matrix[2][2], ROUND_THRESHOLD)}\n"
-        "};\n"
+        "\\\n"
+        f"  {round(matrix[0][0], ROUND_THRESHOLD)}, {round(matrix[0][1], ROUND_THRESHOLD)}, {round(matrix[0][2], ROUND_THRESHOLD)},\\\n"
+        f"  {round(matrix[1][0], ROUND_THRESHOLD)}, {round(matrix[1][1], ROUND_THRESHOLD)}, {round(matrix[1][2], ROUND_THRESHOLD)},\\\n"
+        f"  {round(matrix[2][0], ROUND_THRESHOLD)}, {round(matrix[2][1], ROUND_THRESHOLD)}, {round(matrix[2][2], ROUND_THRESHOLD)}\\\n"
     )
 
 
@@ -40,8 +39,8 @@ def processWhitepoint(whitepoint: numpy.ndarray, whitepointName: str) -> str:
     array = colour.xy_to_XYZ(whitepoint)
     whitepointName = whitepointName.replace("-", "")
     return (
-        f"uniform float3 whitepoint_{whitepointName} = "
-        f"{{{round(array[0], ROUND_THRESHOLD)}, {round(array[1], ROUND_THRESHOLD)}, {round(array[2], ROUND_THRESHOLD)}}};"
+        f"#define whitepoint_{whitepointName} "
+        f"float3({round(array[0], ROUND_THRESHOLD)}, {round(array[1], ROUND_THRESHOLD)}, {round(array[2], ROUND_THRESHOLD)})"
     )
 
 
@@ -58,9 +57,9 @@ def processColorspaceMatrix(colorspace: colour.RGB_Colourspace) -> str:
     out_str += f"// {colorspace.name}\n"
     colorspaceName = colour.utilities.slugify(colorspace.name).replace("-", "")
     matrix = colorspace.matrix_RGB_to_XYZ
-    out_str += f"uniform float3x3 matrix_{colorspaceName}_to_XYZ = {convert3x3MatrixToHlslStr(matrix)}"
+    out_str += f"#define matrix_{colorspaceName}_to_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
     matrix = colorspace.matrix_XYZ_to_RGB
-    out_str += f"uniform float3x3 matrix_{colorspaceName}_from_XYZ = {convert3x3MatrixToHlslStr(matrix)}"
+    out_str += f"#define matrix_{colorspaceName}_from_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
     return out_str
 
 
@@ -166,7 +165,7 @@ class Generator:
 
         for cat_name, cat in self.catToProcessDict.items():
             cat_name_slug = colour.utilities.slugify(cat_name).replace("-", "")
-            out_str += f"uniform float3x3 matrix_cat_{cat_name_slug} = {convert3x3MatrixToHlslStr(cat)}"
+            out_str += f"#define matrix_cat_{cat_name_slug} float3x3({convert3x3MatrixToHlslStr(cat)})\n"
 
         return out_str
 
@@ -185,6 +184,7 @@ def main():
             "D60",
         ],
         catNames=[
+            "XYZ Scaling",
             "Bradford",
             "CAT02",
             "Von Kries",

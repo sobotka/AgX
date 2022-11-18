@@ -53,7 +53,7 @@ uniform texture2d AgXLUT;
 #define AgXLUT_DIMENSIONS int2(AgXLUT_BLOCK_SIZE * AgXLUT_BLOCK_SIZE, AgXLUT_BLOCK_SIZE)
 #define AgXLUT_PIXEL_SIZE 1.0 / AgXLUT_DIMENSIONS
 
-uniform float3 luma_coefs_bt709 = {0.2126, 0.7152, 0.0722};
+#define luma_coefs_bt709 float3(0.2126, 0.7152, 0.0722)
 
 /*=================
     OBS BOILERPLATE
