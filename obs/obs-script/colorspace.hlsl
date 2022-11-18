@@ -102,6 +102,13 @@ float3 cctf_decoding_bt709(float3 color){return powsafe(color, 2.4);}
 
 float3 cctf_encoding_bt709(float3 color){return powsafe(color, 1/2.4);}
 
+float3 cctf_decoding_dcip3(float3 color){return powsafe(color, 2.6);}
+
+float3 cctf_encoding_dcip3(float3 color){return powsafe(color, 1/2.6);}
+
+float3 cctf_decoding_bt2020(float3 color){return color;} // TODO
+
+float3 cctf_encoding_bt2020(float3 color){return color;}  // TODO
 
 /* --------------------------------------------------------------------------------
 Chromatic Adaptation Transforms
@@ -132,7 +139,32 @@ uniform int catid_xyzscaling = 0;
 uniform int catid_bradford = 1;
 uniform int catid_cat02 = 2;
 uniform int catid_vonkries = 3;
+
+
+float3x3 matrix_chromatic_adaptation_VonKries(float3 whitepoint_source, float3 whitepoint_target, int cat_id){
+
+  float3x3 cat_matrix;
+  if (cat_id == catid_xyzscaling) cat_matrix = matrix_cat_xyzscaling;
+  if (cat_id == catid_bradford) cat_matrix = matrix_cat_bradford;
+  if (cat_id == catid_cat02) cat_matrix = matrix_cat_cat02;
+  if (cat_id == catid_vonkries) cat_matrix = matrix_cat_vonkries;
+
+  whitepoint_source = applyMatrix(whitepoint_source, cat_matrix);
+  whitepoint_target = applyMatrix(whitepoint_target, cat_matrix);
+
+  whitepoint_target = whitepoint_target / whitepoint_source;
+
+  float3x3 cat_matrix_final = {
+    whitepoint_target[0], 0.0, 0.0,
+    0.0, whitepoint_target[1], 0.0,
+    0.0, 0.0, whitepoint_target[2]
   };
+
+  cat_matrix_final = mul(cat_matrix, cat_matrix_final);
+  cat_matrix_final = mul(cat_matrix_final, cat_matrix);
+
+  return cat_matrix_final;
+}
 
 
 /* --------------------------------------------------------------------------------
@@ -216,6 +248,34 @@ Colorspaces
 -------------------------------------------------------------------------------- */
 
 
+uniform int colorspaceid_Passthrough = 0;
+uniform int colorspaceid_sRGB_Display_EOTF = 1;
+uniform int colorspaceid_sRGB_Display_2_2 = 2;
+uniform int colorspaceid_sRGB_Linear = 3;
+uniform int colorspaceid_BT709_Display_2_4 = 4;
+uniform int colorspaceid_DCIP3_Display_2_6 = 5;
+uniform int colorspaceid_Display_P3 = 6; // Apple's P3
+
+
 float3 convertColorspaceToColorspace(float3 color, int sourceColorspaceId, int targetColorspaceId){
+
+    if (sourceColorspaceId == colorspaceid_Passthrough)
+        return color;
+    if (targetColorspaceId == colorspaceid_Passthrough)
+        return color;
+    if (sourceColorspaceId == targetColorspaceId)
+        return color;
+
+    float3 whitepoint_source;
+    float3 whitepoint_target;
+
+    if (sourceColorspaceId == colorspaceid_sRGB_Display_EOTF){
+        whitepoint_source = whitepoint_D65;
+        color = cctf_decoding_sRGB(color);
+        color = applyMatrix(color, matrix_srgb_to_XYZ);
+    }
+
+    
     return color;
+
 };

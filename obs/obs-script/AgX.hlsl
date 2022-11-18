@@ -272,6 +272,9 @@ float4 PIXELSHADER_AgX(PixelData pixel) : TARGET
         Image = applyOutset(Image);
     Image = applyODT(Image);
     Image = applyLookPunchy(Image);
+
+    Image = convertColorspaceToColorspace(Image, 1, 4);
+
     return float4(Image.rgb, OriginalImage.a);
 }
 
