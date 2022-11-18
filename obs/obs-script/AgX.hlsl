@@ -54,17 +54,6 @@ uniform texture2d AgXLUT;
 #define AgXLUT_PIXEL_SIZE 1.0 / AgXLUT_DIMENSIONS
 
 uniform float3 luma_coefs_bt709 = {0.2126, 0.7152, 0.0722};
-// TODO not used for now cause doesn't work that way
-uniform float3x3 agx_compressed_matrix = {
-    0.84247906, 0.0784336, 0.07922375,
-    0.04232824, 0.87846864, 0.07916613,
-    0.04237565, 0.0784336, 0.87914297
-};
-uniform float3x3 agx_compressed_matrix_inverse = {
-    1.1968790, -0.09802088, -0.09902975,
-    -0.05289685, 1.15190313, -0.09896118,
-    -0.05297163, -0.09804345, 1.15107368
-};
 
 /*=================
     OBS BOILERPLATE
@@ -159,13 +148,17 @@ float3 applyAgXLog(float3 Image)
     Prepare the data for display encoding. Converted to log domain.
 */
 {
+
+    float3x3 agx_compressed_matrix = {
+        0.84247906, 0.0784336, 0.07922375,
+        0.04232824, 0.87846864, 0.07916613,
+        0.04237565, 0.0784336, 0.87914297
+    };
+
     Image = max(0.0, Image); // clamp negatives
     // why this doesn't work ??
     // Image = mul(agx_compressed_matrix, Image);
-	float r = dot(Image, float3(0.84247906, 0.0784336, 0.07922375));
-	float g = dot(Image, float3(0.04232824, 0.87846864, 0.07916613));
-	float b = dot(Image, float3(0.04237565, 0.0784336, 0.87914297));
-	Image = float3(r, g, b);
+	Image = applyMatrix(Image, agx_compressed_matrix);
 
     if (USE_OCIO_LOG)
         Image = log2Transform(Image);
@@ -218,11 +211,13 @@ float3 applyOutset(float3 Image)
     and restore chroma.
 */
 {
-    // Image = mul(agx_compressed_matrix_inverse, Image);
-    float r = dot(Image, float3(1.1968790, -0.09802088, -0.09902975));
-	float g = dot(Image, float3(-0.05289685, 1.15190313, -0.09896118));
-	float b = dot(Image, float3(-0.05297163, -0.09804345, 1.15107368));
-	Image = float3(r, g, b);
+
+    float3x3 agx_compressed_matrix_inverse = {
+        1.1968790, -0.09802088, -0.09902975,
+        -0.05289685, 1.15190313, -0.09896118,
+        -0.05297163, -0.09804345, 1.15107368
+    };
+	Image = applyMatrix(Image, agx_compressed_matrix_inverse);
 
     return Image;
 }
