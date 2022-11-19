@@ -23,7 +23,7 @@ float3 powsafe(float3 color, float power){
   return pow(abs(color), power) * sign(color);
 }
 
-float3 applyMatrix(float3 color, float3x3 inputMatrix){
+float3 apply_matrix(float3 color, float3x3 inputMatrix){
   // seems you can't just use mul() with OBS, and we have to split per component like that :
   float r = dot(color, inputMatrix[0]);
 	float g = dot(color, inputMatrix[1]);
@@ -31,7 +31,7 @@ float3 applyMatrix(float3 color, float3x3 inputMatrix){
   return float3(r, g, b);
 }
 
-float getLuminance(float3 image){
+float get_luminance(float3 image){
   // Return approximative perceptive luminance of the image.
   return dot(image, luma_coefs_bt709);
 }
@@ -46,7 +46,7 @@ float3 saturation(float3 color, float saturationAmount){
 
       -- ref[2] [4]
   */
-  float luma = getLuminance(color);
+  float luma = get_luminance(color);
   return lerp(luma, color, saturationAmount);
 }
 
@@ -54,7 +54,7 @@ float3 saturation(float3 color, float saturationAmount){
 Transfer functions
 -------------------------------------------------------------------------------- */
 
-float3 convertOpenDomainToNormalizedLog2(float3 color, float minimum_ev, float maximum_ev)
+float3 cctf_log2_normalized_from_open_domain(float3 color, float minimum_ev, float maximum_ev)
 /*
     Output log domain encoded data.
 
@@ -80,7 +80,7 @@ float3 convertOpenDomainToNormalizedLog2(float3 color, float minimum_ev, float m
 }
 
 // exactly the same as above but I let it for reference
-float3 log2Transform(float3 color)
+float3 cctf_log2_ocio_transform(float3 color)
 /*
     Output log domain encoded data.
 
@@ -472,7 +472,7 @@ float3 convertColorspaceToColorspace(float3 color, int sourceColorspaceId, int t
 
     // apply Chromatic adaptation transform if any
     if (source_colorspace.whitepoint_id != target_colorspace.whitepoint_id && (source_colorspace.whitepoint_id != -1) && (target_colorspace.whitepoint_id != -1)){
-        color = applyMatrix(color, getChromaticAdaptationTransformMatrix(CAT_METHOD, source_colorspace.whitepoint_id, target_colorspace.whitepoint_id));
+        color = apply_matrix(color, getChromaticAdaptationTransformMatrix(CAT_METHOD, source_colorspace.whitepoint_id, target_colorspace.whitepoint_id));
     }
 
     // TODO apply gamut ocnversion

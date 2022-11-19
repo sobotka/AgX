@@ -106,7 +106,7 @@ float3 applyGrading(float3 Image)
 */
 {
 
-    float ImageLuma = powsafe(getLuminance(Image), INPUT_HIGHLIGHT_GAIN_GAMMA);
+    float ImageLuma = powsafe(get_luminance(Image), INPUT_HIGHLIGHT_GAIN_GAMMA);
     Image += Image * ImageLuma.xxx * INPUT_HIGHLIGHT_GAIN;
 
     Image = saturation(Image, INPUT_SATURATION);
@@ -130,12 +130,12 @@ float3 applyAgXLog(float3 Image)
     Image = max(0.0, Image); // clamp negatives
     // why this doesn't work ??
     // Image = mul(agx_compressed_matrix, Image);
-	Image = applyMatrix(Image, agx_compressed_matrix);
+	Image = apply_matrix(Image, agx_compressed_matrix);
 
     if (USE_OCIO_LOG)
-        Image = log2Transform(Image);
+        Image = cctf_log2_ocio_transform(Image);
     else
-        Image = convertOpenDomainToNormalizedLog2(Image, -10.0, 6.5);
+        Image = cctf_log2_normalized_from_open_domain(Image, -10.0, 6.5);
 
     Image = clamp(Image, 0.0, 1.0);
     return Image;
@@ -189,7 +189,7 @@ float3 applyOutset(float3 Image)
         -0.05289685, 1.15190313, -0.09896118,
         -0.05297163, -0.09804345, 1.15107368
     };
-	Image = applyMatrix(Image, agx_compressed_matrix_inverse);
+	Image = apply_matrix(Image, agx_compressed_matrix_inverse);
 
     return Image;
 }
