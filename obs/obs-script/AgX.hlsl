@@ -94,9 +94,9 @@ float3 applyInputTransform(float3 Image)
     Convert input to workspace colorspace.
 */
 {
-    if (INPUT_COLORSPACE == 1) Image = cctf_decoding_sRGB(Image);
-    if (INPUT_COLORSPACE == 2) Image = cctf_decoding_pow2_2(Image);
-    if (INPUT_COLORSPACE == 3) Image = cctf_decoding_bt709(Image);
+    if (INPUT_COLORSPACE == 1) Image = cctf_decoding_sRGB_EOTF(Image);
+    if (INPUT_COLORSPACE == 2) Image = cctf_decoding_Power_2_2(Image);
+    if (INPUT_COLORSPACE == 3) Image = cctf_decoding_BT_709(Image);
     return Image;
 }
 
@@ -173,7 +173,7 @@ float3 applyAgXLUT(float3 Image)
         frac(lut3D.z)
     );
     // LUT apply the transfer function so we remove it to keep working on linear data.
-    Image = cctf_decoding_pow2_2(Image);
+    Image = cctf_decoding_Power_2_2(Image);
     return Image;
 }
 
@@ -202,9 +202,9 @@ float3 applyODT(float3 Image)
 
 */
 {
-    if (OUTPUT_COLORSPACE == 1) Image = cctf_encoding_sRGB(Image);
-    if (OUTPUT_COLORSPACE == 2) Image = cctf_encoding_pow2_2(Image);
-    if (OUTPUT_COLORSPACE == 3) Image = cctf_encoding_bt709(Image);
+    if (OUTPUT_COLORSPACE == 1) Image = cctf_encoding_sRGB_EOTF(Image);
+    if (OUTPUT_COLORSPACE == 2) Image = cctf_encoding_Power_2_2(Image);
+    if (OUTPUT_COLORSPACE == 3) Image = cctf_encoding_BT_709(Image);
     return Image;
 }
 

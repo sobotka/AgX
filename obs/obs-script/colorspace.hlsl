@@ -107,155 +107,189 @@ float3 log2Transform(float3 color)
     return color;
 }
 
-float3 cctf_decoding_sRGB(float3 color){
+float3 cctf_decoding_sRGB_EOTF(float3 color){
     // ref[2]
     return (color <= 0.04045) ? (color / 12.92) : (powsafe((color + 0.055) / 1.055, 2.4));
 }
 
-float3 cctf_encoding_sRGB(float3 color){
+float3 cctf_encoding_sRGB_EOTF(float3 color){
     // ref[2]
     return (color <= 0.0031308) ? (color * 12.92) : (1.055 * powsafe(color, 1/2.4) - 0.055);
 }
 
-float3 cctf_decoding_pow2_2(float3 color){return powsafe(color, 2.2);}
+float3 cctf_decoding_Power_2_2(float3 color){return powsafe(color, 2.2);}
 
-float3 cctf_encoding_pow2_2(float3 color){return powsafe(color, 1/2.2);}
+float3 cctf_encoding_Power_2_2(float3 color){return powsafe(color, 1/2.2);}
 
-float3 cctf_decoding_bt709(float3 color){return powsafe(color, 2.4);}
+float3 cctf_decoding_BT_709(float3 color){return powsafe(color, 2.4);}
 
-float3 cctf_encoding_bt709(float3 color){return powsafe(color, 1/2.4);}
+float3 cctf_encoding_BT_709(float3 color){return powsafe(color, 1/2.4);}
 
-float3 cctf_decoding_dcip3(float3 color){return powsafe(color, 2.6);}
+float3 cctf_decoding_DCIP3(float3 color){return powsafe(color, 2.6);}
 
-float3 cctf_encoding_dcip3(float3 color){return powsafe(color, 1/2.6);}
+float3 cctf_encoding_DCIP3(float3 color){return powsafe(color, 1/2.6);}
 
-float3 cctf_decoding_bt2020(float3 color){return color;} // TODO
+float3 cctf_decoding_BT_2020(float3 color){return color;} // TODO
 
-float3 cctf_encoding_bt2020(float3 color){return color;}  // TODO
+float3 cctf_encoding_BT_2020(float3 color){return color;}  // TODO
+
+float3 cctf_decoding_Display_P3(float3 color){return color;} // TODO
+
+float3 cctf_encoding_Display_P3(float3 color){return color;}  // TODO
+
+// region WARNING code is procedurally generated
+
+uniform int cctf_id_Power_2_2 = 0;  // Power 2.2
+uniform int cctf_id_sRGB_EOTF = 1;  // sRGB EOTF
+uniform int cctf_id_BT_709 = 2;  // BT.709
+uniform int cctf_id_DCIP3 = 3;  // DCI-P3
+uniform int cctf_id_Display_P3 = 4;  // Display P3
+uniform int cctf_id_BT_2020 = 5;  // BT.2020
+
+
+float3 apply_cctf_decoding(float3 color, int cctf_id){
+    if (cctf_id == 0) return cctf_decoding_Power_2_2(color);
+    if (cctf_id == 1) return cctf_decoding_sRGB_EOTF(color);
+    if (cctf_id == 2) return cctf_decoding_BT_709(color);
+    if (cctf_id == 3) return cctf_decoding_DCIP3(color);
+    if (cctf_id == 4) return cctf_decoding_Display_P3(color);
+    if (cctf_id == 5) return cctf_decoding_BT_2020(color);
+    return color;
+}
+
+float3 apply_cctf_encoding(float3 color, int cctf_id){
+    if (cctf_id == 0) return cctf_encoding_Power_2_2(color);
+    if (cctf_id == 1) return cctf_encoding_sRGB_EOTF(color);
+    if (cctf_id == 2) return cctf_encoding_BT_709(color);
+    if (cctf_id == 3) return cctf_encoding_DCIP3(color);
+    if (cctf_id == 4) return cctf_encoding_Display_P3(color);
+    if (cctf_id == 5) return cctf_encoding_BT_2020(color);
+    return color;
+}
 
 /* --------------------------------------------------------------------------------
 Chromatic Adaptation Transforms
 -------------------------------------------------------------------------------- */
 
 #define matrix_cat_XYZ_Scaling_D60_to_D65 float3x3(\
-  0.997749312, 0.0, 0.0,\
-  0.0, 1.0, 0.0,\
-  0.0, 0.0, 1.079011464\
+    0.997749312, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 1.079011464\
 )
 #define matrix_cat_XYZ_Scaling_D60_to_DCIP3 float3x3(\
-  0.939100313, 0.0, 0.0,\
-  0.0, 1.0, 0.0,\
-  0.0, 0.0, 0.945611705\
+    0.939100313, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 0.945611705\
 )
 #define matrix_cat_XYZ_Scaling_D65_to_D60 float3x3(\
-  1.002255765, 0.0, 0.0,\
-  0.0, 1.0, 0.0,\
-  0.0, 0.0, 0.926774212\
+    1.002255765, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 0.926774212\
 )
 #define matrix_cat_XYZ_Scaling_D65_to_DCIP3 float3x3(\
-  0.941218703, 0.0, 0.0,\
-  0.0, 1.0, 0.0,\
-  0.0, 0.0, 0.876368543\
+    0.941218703, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 0.876368543\
 )
 #define matrix_cat_XYZ_Scaling_DCIP3_to_D60 float3x3(\
-  1.064848969, 0.0, 0.0,\
-  0.0, 1.0, 0.0,\
-  0.0, 0.0, 1.05751652\
+    1.064848969, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 1.05751652\
 )
 #define matrix_cat_XYZ_Scaling_DCIP3_to_D65 float3x3(\
-  1.062452326, 0.0, 0.0,\
-  0.0, 1.0, 0.0,\
-  0.0, 0.0, 1.141072449\
+    1.062452326, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 1.141072449\
 )
 #define matrix_cat_Bradford_D60_to_D65 float3x3(\
-  0.987323904, -0.006062169, 0.015845876,\
-  -0.007531959, 1.001832321, 0.005293338,\
-  0.00305302, -0.005064257, 1.081147527\
+    0.987323904, -0.006062169, 0.015845876,\
+    -0.007531959, 1.001832321, 0.005293338,\
+    0.00305302, -0.005064257, 1.081147527\
 )
 #define matrix_cat_Bradford_D60_to_DCIP3 float3x3(\
-  0.964265012, -0.021300233, -0.002647012,\
-  -0.033122492, 1.030598686, 0.000944999,\
-  -0.003057139, 0.006720893, 0.941838177\
+    0.964265012, -0.021300233, -0.002647012,\
+    -0.033122492, 1.030598686, 0.000944999,\
+    -0.003057139, 0.006720893, 0.941838177\
 )
 #define matrix_cat_Bradford_D65_to_D60 float3x3(\
-  1.012931026, 0.006054132, -0.0148757,\
-  0.007630325, 0.998191932, -0.004999018,\
-  -0.002824644, 0.004658585, 0.924961741\
+    1.012931026, 0.006054132, -0.0148757,\
+    0.007630325, 0.998191932, -0.004999018,\
+    -0.002824644, 0.004658585, 0.924961741\
 )
 #define matrix_cat_Bradford_D65_to_DCIP3 float3x3(\
-  0.976578897, -0.015436265, -0.016686022,\
-  -0.025689666, 1.028539168, -0.003785174,\
-  -0.005705746, 0.011077866, 0.871176159\
+    0.976578897, -0.015436265, -0.016686022,\
+    -0.025689666, 1.028539168, -0.003785174,\
+    -0.005705746, 0.011077866, 0.871176159\
 )
 #define matrix_cat_Bradford_DCIP3_to_D60 float3x3(\
-  1.037804611, 0.021430283, 0.002895221,\
-  0.033351213, 0.971004834, -0.00088053,\
-  0.003130647, -0.006859463, 1.061769201\
+    1.037804611, 0.021430283, 0.002895221,\
+    0.033351213, 0.971004834, -0.00088053,\
+    0.003130647, -0.006859463, 1.061769201\
 )
 #define matrix_cat_Bradford_DCIP3_to_D65 float3x3(\
-  1.024496728, 0.015163541, 0.019688522,\
-  0.025612193, 0.972586306, 0.004716352,\
-  0.006384231, -0.012268083, 1.147942445\
+    1.024496728, 0.015163541, 0.019688522,\
+    0.025612193, 0.972586306, 0.004716352,\
+    0.006384231, -0.012268083, 1.147942445\
 )
 #define matrix_cat_CAT02_D60_to_D65 float3x3(\
-  0.988317991, -0.007816256, 0.016645551,\
-  -0.00564353, 0.998686699, 0.00662762,\
-  0.00035077, 0.001116791, 1.077573915\
+    0.988317991, -0.007816256, 0.016645551,\
+    -0.00564353, 0.998686699, 0.00662762,\
+    0.00035077, 0.001116791, 1.077573915\
 )
 #define matrix_cat_CAT02_D60_to_DCIP3 float3x3(\
-  0.979655622, -0.035093475, -0.003506859,\
-  -0.024670911, 1.024631944, -0.001120007,\
-  0.000239512, -0.000975875, 0.946352523\
+    0.979655622, -0.035093475, -0.003506859,\
+    -0.024670911, 1.024631944, -0.001120007,\
+    0.000239512, -0.000975875, 0.946352523\
 )
 #define matrix_cat_CAT02_D65_to_D60 float3x3(\
-  1.011870978, 0.007936977, -0.015679437,\
-  0.005720259, 1.001366784, -0.00624727,\
-  -0.000335311, -0.001040394, 0.928022164\
+    1.011870978, 0.007936977, -0.015679437,\
+    0.005720259, 1.001366784, -0.00624727,\
+    -0.000335311, -0.001040394, 0.928022164\
 )
 #define matrix_cat_CAT02_D65_to_DCIP3 float3x3(\
-  0.991085525, -0.027362287, -0.018395654,\
-  -0.019102244, 1.025837747, -0.007053718,\
-  -8.0549e-05, -0.001959887, 0.878238458\
+    0.991085525, -0.027362287, -0.018395654,\
+    -0.019102244, 1.025837747, -0.007053718,\
+    -8.0549e-05, -0.001959887, 0.878238458\
 )
 #define matrix_cat_CAT02_DCIP3_to_D60 float3x3(\
-  1.021647216, 0.034994893, 0.003827292,\
-  0.024598791, 0.976803896, 0.001247201,\
-  -0.000233203, 0.00099842, 1.056688999\
+    1.021647216, 0.034994893, 0.003827292,\
+    0.024598791, 0.976803896, 0.001247201,\
+    -0.000233203, 0.00099842, 1.056688999\
 )
 #define matrix_cat_CAT02_DCIP3_to_D65 float3x3(\
-  1.009516172, 0.026967753, 0.021362003,\
-  0.018799243, 0.97533018, 0.008227297,\
-  0.000134542, 0.002179032, 1.138663236\
+    1.009516172, 0.026967753, 0.021362003,\
+    0.018799243, 0.97533018, 0.008227297,\
+    0.000134542, 0.002179032, 1.138663236\
 )
 #define matrix_cat_Von_Kries_D60_to_D65 float3x3(\
-  0.995663132, -0.014998519, 0.016829124,\
-  -0.001647481, 1.001234102, 0.000332195,\
-  0.0, 0.0, 1.079011464\
+    0.995663132, -0.014998519, 0.016829124,\
+    -0.001647481, 1.001234102, 0.000332195,\
+    0.0, 0.0, 1.079011464\
 )
 #define matrix_cat_Von_Kries_D60_to_DCIP3 float3x3(\
-  0.9888443, -0.038575341, -0.0087295,\
-  -0.004237228, 1.003172521, 0.000855893,\
-  0.0, 0.0, 0.945611705\
+    0.9888443, -0.038575341, -0.0087295,\
+    -0.004237228, 1.003172521, 0.000855893,\
+    0.0, 0.0, 0.945611705\
 )
 #define matrix_cat_Von_Kries_D65_to_D60 float3x3(\
-  1.004380654, 0.015045655, -0.015669755,\
-  0.001652658, 0.998792176, -0.000333274,\
-  0.0, 0.0, 0.926774212\
+    1.004380654, 0.015045655, -0.015669755,\
+    0.001652658, 0.998792176, -0.000333274,\
+    0.0, 0.0, 0.926774212\
 )
 #define matrix_cat_Von_Kries_D65_to_DCIP3 float3x3(\
-  0.993112333, -0.023650939, -0.023572367,\
-  -0.002597888, 1.001897113, 0.000525285,\
-  0.0, 0.0, 0.876368543\
+    0.993112333, -0.023650939, -0.023572367,\
+    -0.002597888, 1.001897113, 0.000525285,\
+    0.0, 0.0, 0.876368543\
 )
 #define matrix_cat_Von_Kries_DCIP3_to_D60 float3x3(\
-  1.011448214, 0.038893569, 0.009302073,\
-  0.004272183, 0.997001792, -0.000862968,\
-  0.0, 0.0, 1.05751652\
+    1.011448214, 0.038893569, 0.009302073,\
+    0.004272183, 0.997001792, -0.000862968,\
+    0.0, 0.0, 1.05751652\
 )
 #define matrix_cat_Von_Kries_DCIP3_to_D65 float3x3(\
-  1.00699762, 0.023771342, 0.027071751,\
-  0.002611113, 0.998168118, -0.000528057,\
-  0.0, 0.0, 1.141072449\
+    1.00699762, 0.023771342, 0.027071751,\
+    0.002611113, 0.998168118, -0.000528057,\
+    0.0, 0.0, 1.141072449\
 )
 
 uniform int catid_XYZ_Scaling = 0;
@@ -301,78 +335,126 @@ Matrices
 
 // sRGB
 #define matrix_sRGB_to_XYZ float3x3(\
-  0.4124, 0.3576, 0.1805,\
-  0.2126, 0.7152, 0.0722,\
-  0.0193, 0.1192, 0.9505\
+    0.4124, 0.3576, 0.1805,\
+    0.2126, 0.7152, 0.0722,\
+    0.0193, 0.1192, 0.9505\
 )
 #define matrix_sRGB_from_XYZ float3x3(\
-  3.2406, -1.5372, -0.4986,\
-  -0.9689, 1.8758, 0.0415,\
-  0.0557, -0.204, 1.057\
+    3.2406, -1.5372, -0.4986,\
+    -0.9689, 1.8758, 0.0415,\
+    0.0557, -0.204, 1.057\
 )
 
 // DCI-P3
 #define matrix_DCIP3_to_XYZ float3x3(\
-  0.445169816, 0.277134409, 0.17228267,\
-  0.209491678, 0.721595254, 0.068913068,\
-  -0.0, 0.04706056, 0.907355394\
+    0.445169816, 0.277134409, 0.17228267,\
+    0.209491678, 0.721595254, 0.068913068,\
+    -0.0, 0.04706056, 0.907355394\
 )
 #define matrix_DCIP3_from_XYZ float3x3(\
-  2.72539403, -1.018003006, -0.440163195,\
-  -0.795168026, 1.689732055, 0.022647191,\
-  0.041241891, -0.087639019, 1.100929379\
+    2.72539403, -1.018003006, -0.440163195,\
+    -0.795168026, 1.689732055, 0.022647191,\
+    0.041241891, -0.087639019, 1.100929379\
 )
 
 // Display P3
 #define matrix_Display_P3_to_XYZ float3x3(\
-  0.486570949, 0.265667693, 0.198217285,\
-  0.228974564, 0.691738522, 0.079286914,\
-  -0.0, 0.045113382, 1.043944369\
+    0.486570949, 0.265667693, 0.198217285,\
+    0.228974564, 0.691738522, 0.079286914,\
+    -0.0, 0.045113382, 1.043944369\
 )
 #define matrix_Display_P3_from_XYZ float3x3(\
-  2.493496912, -0.931383618, -0.402710784,\
-  -0.82948897, 1.76266406, 0.023624686,\
-  0.03584583, -0.076172389, 0.956884524\
+    2.493496912, -0.931383618, -0.402710784,\
+    -0.82948897, 1.76266406, 0.023624686,\
+    0.03584583, -0.076172389, 0.956884524\
 )
 
 // Adobe RGB (1998)
 #define matrix_Adobe_RGB_1998_to_XYZ float3x3(\
-  0.57667, 0.18556, 0.18823,\
-  0.29734, 0.62736, 0.07529,\
-  0.02703, 0.07069, 0.99134\
+    0.57667, 0.18556, 0.18823,\
+    0.29734, 0.62736, 0.07529,\
+    0.02703, 0.07069, 0.99134\
 )
 #define matrix_Adobe_RGB_1998_from_XYZ float3x3(\
-  2.04159, -0.56501, -0.34473,\
-  -0.96924, 1.87597, 0.04156,\
-  0.01344, -0.11836, 1.01517\
+    2.04159, -0.56501, -0.34473,\
+    -0.96924, 1.87597, 0.04156,\
+    0.01344, -0.11836, 1.01517\
 )
 
 // ITU-R BT.2020
 #define matrix_ITUR_BT_2020_to_XYZ float3x3(\
-  0.636958048, 0.144616904, 0.168880975,\
-  0.262700212, 0.677998072, 0.059301716,\
-  0.0, 0.028072693, 1.060985058\
+    0.636958048, 0.144616904, 0.168880975,\
+    0.262700212, 0.677998072, 0.059301716,\
+    0.0, 0.028072693, 1.060985058\
 )
 #define matrix_ITUR_BT_2020_from_XYZ float3x3(\
-  1.716651188, -0.355670784, -0.253366281,\
-  -0.666684352, 1.616481237, 0.015768546,\
-  0.017639857, -0.042770613, 0.942103121\
+    1.716651188, -0.355670784, -0.253366281,\
+    -0.666684352, 1.616481237, 0.015768546,\
+    0.017639857, -0.042770613, 0.942103121\
 )
+
 
 
 /* --------------------------------------------------------------------------------
 Colorspaces
 -------------------------------------------------------------------------------- */
 
+struct Colorspace{
+    int gamut_id;
+    int whitepoint_id;
+    int cctf_id;
+};
 
 uniform int colorspaceid_Passthrough = 0;
 uniform int colorspaceid_sRGB_Display_EOTF = 1;
 uniform int colorspaceid_sRGB_Display_2_2 = 2;
 uniform int colorspaceid_sRGB_Linear = 3;
-uniform int colorspaceid_BT709_Display_2_4 = 4;
+uniform int colorspaceid_BT_709_Display_2_4 = 4;
 uniform int colorspaceid_DCIP3_Display_2_6 = 5;
-uniform int colorspaceid_Display_P3 = 6; // Apple's P3
+uniform int colorspaceid_Apple_Display_P3 = 6;
 
+Colorspace getColorspaceFromId(int colorspace_id){
+
+    Colorspace colorspace;
+
+    if (colorspace_id == 0){
+        colorspace.gamut_id = -1;
+        colorspace.whitepoint_id = -1;
+        colorspace.cctf_id = -1;
+    };
+    if (colorspace_id == 1){
+        colorspace.gamut_id = 0;
+        colorspace.whitepoint_id = 1;
+        colorspace.cctf_id = 1;
+    };
+    if (colorspace_id == 2){
+        colorspace.gamut_id = 0;
+        colorspace.whitepoint_id = 1;
+        colorspace.cctf_id = 1;
+    };
+    if (colorspace_id == 3){
+        colorspace.gamut_id = 0;
+        colorspace.whitepoint_id = 1;
+        colorspace.cctf_id = -1;
+    };
+    if (colorspace_id == 4){
+        colorspace.gamut_id = 0;
+        colorspace.whitepoint_id = 1;
+        colorspace.cctf_id = 2;
+    };
+    if (colorspace_id == 5){
+        colorspace.gamut_id = 0;
+        colorspace.whitepoint_id = 2;
+        colorspace.cctf_id = 3;
+    };
+    if (colorspace_id == 6){
+        colorspace.gamut_id = 2;
+        colorspace.whitepoint_id = 2;
+        colorspace.cctf_id = 4;
+    };
+    return colorspace;
+}
+// endregion
 
 float3 convertColorspaceToColorspace(float3 color, int sourceColorspaceId, int targetColorspaceId){
 
@@ -383,16 +465,20 @@ float3 convertColorspaceToColorspace(float3 color, int sourceColorspaceId, int t
     if (sourceColorspaceId == targetColorspaceId)
         return color;
 
-    float3 whitepoint_source;
-    float3 whitepoint_target;
+    Colorspace source_colorspace = getColorspaceFromId(sourceColorspaceId);
+    Colorspace target_colorspace = getColorspaceFromId(targetColorspaceId);
 
-    if (sourceColorspaceId == colorspaceid_sRGB_Display_EOTF){
-        whitepoint_source = whitepointid_D65;
-        color = cctf_decoding_sRGB(color);
-        color = applyMatrix(color, matrix_sRGB_to_XYZ);
+    color = apply_cctf_decoding(color, source_colorspace.cctf_id);
+
+    // apply Chromatic adaptation transform if any
+    if (source_colorspace.whitepoint_id != target_colorspace.whitepoint_id && (source_colorspace.whitepoint_id != -1) && (target_colorspace.whitepoint_id != -1)){
+        color = applyMatrix(color, getChromaticAdaptationTransformMatrix(CAT_METHOD, source_colorspace.whitepoint_id, target_colorspace.whitepoint_id));
     }
 
-    
+    // TODO apply gamut ocnversion
+
+    color = apply_cctf_encoding(color, target_colorspace.cctf_id);
+
     return color;
 
 };
