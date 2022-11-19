@@ -5,6 +5,7 @@ from obs_codegen.entitities import Whitepoint
 from obs_codegen.entitities import Cat
 from obs_codegen.entitities import AssemblyColorspace
 from obs_codegen.entitities import ColorspaceGamut
+from obs_codegen.entitities import TransferFunction
 from obs_codegen.hlsl.generator import HlslGenerator
 
 logger = logging.getLogger(__name__)
@@ -14,34 +15,104 @@ def main():
 
     illuminant1931: dict = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
 
+    transfer_function_power_2_2 = TransferFunction("Power 2.2")
+    transfer_function_sRGB_EOTF = TransferFunction("sRGB EOTF")
+    transfer_function_BT709 = TransferFunction("BT.709")
+    transfer_function_DCIP3 = TransferFunction("DCI-P3")
+    transfer_function_Display_P3 = TransferFunction("Display P3")
+    transfer_function_BT2020 = TransferFunction("BT.2020")
+    transfer_function_list = [
+        transfer_function_power_2_2,
+        transfer_function_sRGB_EOTF,
+        transfer_function_BT709,
+        transfer_function_DCIP3,
+        transfer_function_Display_P3,
+        transfer_function_BT2020,
+    ]
+
+    # fmt: off
+    colorspace_gamut_sRGB = ColorspaceGamut.fromColourColorspaceName("sRGB")
+    colorspace_gamut_DCIP3 = ColorspaceGamut.fromColourColorspaceName("DCI-P3")
+    colorspace_gamut_Display_P3 = ColorspaceGamut.fromColourColorspaceName("Display P3")
+    colorspace_gamut_Adobe_RGB_1998 = ColorspaceGamut.fromColourColorspaceName("Adobe RGB (1998)")
+    colorspace_gamut_ITUR_BT_2020 = ColorspaceGamut.fromColourColorspaceName("ITU-R BT.2020")
+    colorspace_gamut_list = [
+        colorspace_gamut_sRGB,
+        colorspace_gamut_DCIP3,
+        colorspace_gamut_Display_P3,
+        colorspace_gamut_Adobe_RGB_1998,
+        colorspace_gamut_ITUR_BT_2020,
+    ]
+    # fmt: on
+
+    whitepoint_D60 = Whitepoint("D60", illuminant1931["D60"])
+    whitepoint_D65 = Whitepoint("D65", illuminant1931["D65"])
+    whitepoint_DCIP3 = Whitepoint("DCI-P3", illuminant1931["DCI-P3"])
+    whitepoint_list = [whitepoint_D60, whitepoint_D65, whitepoint_DCIP3]
+
+    assembly_colorspace_Passthrough = AssemblyColorspace(
+        "Passthrough",
+        None,
+        None,
+        None,
+    )
+    assembly_colorspace_sRGB_Display_EOTF = AssemblyColorspace(
+        "sRGB Display (EOTF)",
+        colorspace_gamut_sRGB,
+        whitepoint_D65,
+        transfer_function_sRGB_EOTF,
+    )
+    assembly_colorspace_sRGB_Display_2_2 = AssemblyColorspace(
+        "sRGB Display (2.2)",
+        colorspace_gamut_sRGB,
+        whitepoint_D65,
+        transfer_function_sRGB_EOTF,
+    )
+    assembly_colorspace_sRGB_Linear = AssemblyColorspace(
+        "sRGB Linear",
+        colorspace_gamut_sRGB,
+        whitepoint_D65,
+        None,
+    )
+    assembly_colorspace_BT_709_Display_2_4 = AssemblyColorspace(
+        "BT.709 Display (2.4)",
+        colorspace_gamut_sRGB,
+        whitepoint_D65,
+        transfer_function_BT709,
+    )
+    assembly_colorspace_DCIP3_Display_2_6 = AssemblyColorspace(
+        "DCI-P3 Display (2.6)",
+        colorspace_gamut_sRGB,
+        whitepoint_DCIP3,
+        transfer_function_DCIP3,
+    )
+    assembly_colorspace_Apple_Display_P3 = AssemblyColorspace(
+        "Apple Display P3",
+        colorspace_gamut_Display_P3,
+        whitepoint_DCIP3,
+        transfer_function_Display_P3,
+    )
+    assembly_colorspace_list = [
+        assembly_colorspace_Passthrough,
+        assembly_colorspace_sRGB_Display_EOTF,
+        assembly_colorspace_sRGB_Display_2_2,
+        assembly_colorspace_sRGB_Linear,
+        assembly_colorspace_BT_709_Display_2_4,
+        assembly_colorspace_DCIP3_Display_2_6,
+        assembly_colorspace_Apple_Display_P3,
+    ]
+
     generator_kwargs = {
-        "colorspaces_gamut": [
-            ColorspaceGamut.fromColourColorspaceName("sRGB"),
-            ColorspaceGamut.fromColourColorspaceName("DCI-P3"),
-            ColorspaceGamut.fromColourColorspaceName("Display P3"),
-            ColorspaceGamut.fromColourColorspaceName("Adobe RGB (1998)"),
-            ColorspaceGamut.fromColourColorspaceName("ITU-R BT.2020"),
-        ],
-        "whitepoints": [
-            Whitepoint("D60", illuminant1931["D60"]),
-            Whitepoint("D65", illuminant1931["D65"]),
-            Whitepoint("DCI-P3", illuminant1931["DCI-P3"]),
-        ],
+        "colorspaces_gamut": colorspace_gamut_list,
+        "whitepoints": whitepoint_list,
         "cats": [
             Cat("XYZ Scaling"),
             Cat("Bradford"),
             Cat("CAT02"),
             Cat("Von Kries"),
         ],
-        "colorspaces_assemblies": [
-            AssemblyColorspace("Passthrough"),
-            AssemblyColorspace("sRGB Display (EOTF)"),
-            AssemblyColorspace("sRGB Display (2.2)"),
-            AssemblyColorspace("sRGB Linear"),
-            AssemblyColorspace("BT.709 Display (2.4)"),
-            AssemblyColorspace("DCI-P3 Display (2.6)"),
-            AssemblyColorspace("Apple Display P3"),
-        ],
+        "colorspaces_assemblies": assembly_colorspace_list,
+        "transfer_functions": transfer_function_list,
     }
 
     generator_hlsl = HlslGenerator(**generator_kwargs)

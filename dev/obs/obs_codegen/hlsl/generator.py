@@ -35,9 +35,7 @@ def processCat(
     )
 
     variable_name = f"matrix_cat_{cat.safe_name}_{whitepoint_source.safe_name}_to_{whitepoint_target.safe_name}"
-    variable_def = (
-        f"#define {variable_name} float3x3({convert3x3MatrixToHlslStr(matrix_cat)})\n"
-    )
+    variable_def = f"#define {variable_name} float3x3({convert3x3MatrixToHlslStr(matrix_cat, True)})\n"
     return HlslVariable(variable_name, variable_def)
 
 
@@ -52,9 +50,9 @@ def processColorspaceMatrix(colorspace: ColorspaceGamut) -> str:
     out_str = ""
     out_str += f"// {colorspace.name}\n"
     matrix = colorspace.matrix_to_XYZ
-    out_str += f"#define matrix_{colorspace.safe_name}_to_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
+    out_str += f"#define matrix_{colorspace.safe_name}_to_XYZ float3x3({convert3x3MatrixToHlslStr(matrix, True)})\n"
     matrix = colorspace.matrix_from_XYZ
-    out_str += f"#define matrix_{colorspace.safe_name}_from_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
+    out_str += f"#define matrix_{colorspace.safe_name}_from_XYZ float3x3({convert3x3MatrixToHlslStr(matrix, True)})\n"
     return out_str
 
 
@@ -69,12 +67,51 @@ class HlslGenerator(BaseGenerator):
         Returns:
             valid HLSL code snippet
         """
-
+        str_cctf = self._generateTransferFunctionBlock()
         str_matrices = self._generateMatricesBlock()
         str_cat = self._generateCatBlock()
         str_colorspace = self._generateColorspacesBlock()
 
-        return f"{str_cat}\n\n{str_matrices}\n\n{str_colorspace}"
+        return (
+            "// region WARNING code is procedurally generated"
+            f"{str_cctf}\n\n{str_cat}\n\n{str_matrices}\n\n{str_colorspace}\n"
+            "// endregion\n"
+        )
+
+    def _generateTransferFunctionBlock(self) -> str:
+
+        out_str = ""
+        out_str += "\n"
+
+        for transfer_function in self.transfer_functions:
+
+            out_str += f"uniform int cctf_id_{transfer_function.safe_name} = {transfer_function.id};  // {transfer_function.name}\n"
+
+        for cctf_mode in ["decoding", "encoding"]:
+
+            out_str += "\n\n"
+            out_str += f"float3 apply_cctf_{cctf_mode}(float3 color, int cctf_id){{\n"
+
+            for transfer_function in self.transfer_functions:
+
+                skip = not transfer_function.has_decoding and cctf_mode == "decoding"
+                if skip:
+                    continue
+
+                skip = not transfer_function.has_encoding and cctf_mode == "encoding"
+                if skip:
+                    continue
+
+                out_str += INDENT
+                out_str += f"if (cctf_id == {transfer_function.id})"
+                out_str += (
+                    f" return cctf_{cctf_mode}_{transfer_function.safe_name}(color);\n"
+                )
+
+            out_str += f"{INDENT}return color;\n"
+            out_str += "}"
+
+        return out_str
 
     def _generateMatricesBlock(self) -> str:
 
@@ -145,7 +182,11 @@ class HlslGenerator(BaseGenerator):
         out_str += "\n"
 
         out_str += "struct Colorspace{\n"
-        out_str += f"{INDENT}int gamut_id;\n{INDENT}whitepoint_id;\n{INDENT}cctf_decoding_id;\n{INDENT}cttf_encoding_id;\n"
+        out_str += (
+            f"{INDENT}int gamut_id;\n"
+            f"{INDENT}int whitepoint_id;\n"
+            f"{INDENT}int cctf_id;\n"
+        )
         out_str += "};\n\n"
 
         for assembly_colorspace in self.colorspaces_assemblies:
@@ -153,9 +194,33 @@ class HlslGenerator(BaseGenerator):
             out_str += f"uniform int colorspaceid_{assembly_colorspace.safe_name} = {assembly_colorspace.id};\n"
 
         out_str += "\n"
-        out_str += "float3 getColorspaceFromId(int colorspace_id){\n"
+        out_str += "Colorspace getColorspaceFromId(int colorspace_id){\n"
+
+        out_str += f"\n{INDENT}Colorspace colorspace;\n\n"
+
         for assembly_colorspace in self.colorspaces_assemblies:
+
             out_str += INDENT
-            out_str += f"if (colorspace_id == {assembly_colorspace.safe_name}) return Colorspace;\n"
-        out_str += "}"
+            out_str += f"if (colorspace_id == {assembly_colorspace.id}){{\n"
+            if assembly_colorspace.gamut:
+                id_value = assembly_colorspace.gamut.id
+            else:
+                id_value = -1
+            out_str += f"{INDENT * 2}colorspace.gamut_id = {id_value};\n"
+
+            if assembly_colorspace.whitepoint:
+                id_value = assembly_colorspace.whitepoint.id
+            else:
+                id_value = -1
+            out_str += f"{INDENT * 2}colorspace.whitepoint_id = {id_value};\n"
+
+            if assembly_colorspace.cctf:
+                id_value = assembly_colorspace.cctf.id
+            else:
+                id_value = -1
+            out_str += f"{INDENT * 2}colorspace.cctf_id = {id_value};\n"
+
+            out_str += f"{INDENT}}};\n"
+
+        out_str += f"{INDENT}return colorspace;\n}}"
         return out_str

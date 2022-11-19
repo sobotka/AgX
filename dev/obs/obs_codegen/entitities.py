@@ -76,6 +76,21 @@ class Cat(BaseColorspaceDataclass):
 
 
 @dataclasses.dataclass
+class TransferFunction(BaseColorspaceDataclass):
+    """
+    Transfer function as decoding and encoding.
+    """
+
+    has_encoding: bool = True
+    has_decoding: bool = True
+
+    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
+
+    def __hash__(self):
+        return hash(self.name)
+
+
+@dataclasses.dataclass
 class AssemblyColorspace(BaseColorspaceDataclass):
     """
     A custom colorspace used irectly in the target GUI for user slection.
@@ -83,6 +98,7 @@ class AssemblyColorspace(BaseColorspaceDataclass):
 
     gamut: Optional[ColorspaceGamut]
     whitepoint: Optional[Whitepoint]
+    cctf: Optional[TransferFunction]
 
     id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
 

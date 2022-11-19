@@ -8,6 +8,7 @@ from .entitities import Whitepoint
 from .entitities import Cat
 from .entitities import AssemblyColorspace
 from .entitities import ColorspaceGamut
+from .entitities import TransferFunction
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ class BaseGenerator:
     whitepoints: list[Whitepoint]
     cats: list[Cat]
     colorspaces_assemblies: list[AssemblyColorspace]
+    transfer_functions: list[TransferFunction]
 
     @abstractmethod
     def generateCode(self) -> str:
