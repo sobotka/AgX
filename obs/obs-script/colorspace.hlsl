@@ -12,10 +12,15 @@ All data without explicit reference can assumed to be extracted/generated from `
 */
 
 
-float3 powsafe(float3 color, float power)
-// pow() but safe for NaNs/negatives
-{
-    return pow(abs(color), power) * sign(color);
+uniform int CAT_METHOD = 0; // See Chromatic Adapatation transform section for availables ids
+
+
+#define luma_coefs_bt709 float3(0.2126, 0.7152, 0.0722)
+
+
+float3 powsafe(float3 color, float power){
+  // pow() but safe for NaNs/negatives
+  return pow(abs(color), power) * sign(color);
 }
 
 float3 applyMatrix(float3 color, float3x3 inputMatrix){
@@ -26,6 +31,24 @@ float3 applyMatrix(float3 color, float3x3 inputMatrix){
   return float3(r, g, b);
 }
 
+float getLuminance(float3 image){
+  // Return approximative perceptive luminance of the image.
+  return dot(image, luma_coefs_bt709);
+}
+
+float3 saturation(float3 color, float saturationAmount){
+  /*
+
+      Increase color saturation of the given color data.
+
+      :param color: expected sRGB primaries input
+      :oaram saturationAmount: expected 0-1 range with 1=neutral, 0=no saturation.
+
+      -- ref[2] [4]
+  */
+  float luma = getLuminance(color);
+  return lerp(luma, color, saturationAmount);
+}
 
 /* --------------------------------------------------------------------------------
 Transfer functions

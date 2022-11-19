@@ -53,8 +53,6 @@ uniform texture2d AgXLUT;
 #define AgXLUT_DIMENSIONS int2(AgXLUT_BLOCK_SIZE * AgXLUT_BLOCK_SIZE, AgXLUT_BLOCK_SIZE)
 #define AgXLUT_PIXEL_SIZE 1.0 / AgXLUT_DIMENSIONS
 
-#define luma_coefs_bt709 float3(0.2126, 0.7152, 0.0722)
-
 /*=================
     OBS BOILERPLATE
 =================*/
@@ -85,32 +83,6 @@ struct PixelData
     float2 uv  : TEXCOORD0; // UV coordinates in the source picture
 };
 
-
-/*=================
-    API
-=================*/
-
-
-float getLuminance(float3 image)
-// Return approximative perceptive luminance of the image.
-{
-    return dot(image, luma_coefs_bt709);
-}
-
-float3 saturation(float3 color, float saturationAmount)
-/*
-
-    Increase color saturation of the given color data.
-
-    :param color: expected sRGB primaries input
-    :oaram saturationAmount: expected 0-1 range with 1=neutral, 0=no saturation.
-
-    -- ref[2] [4]
-*/
-{
-    float luma = getLuminance(color);
-    return lerp(luma, color, saturationAmount);
-}
 
 /*=================
     Main processes
