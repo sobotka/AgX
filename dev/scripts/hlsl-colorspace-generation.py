@@ -3,6 +3,7 @@ Using colour & python to generate HLSL code for colorspace conversions.
 """
 import itertools
 import dataclasses
+import re
 from typing import Optional, List
 
 import colour
@@ -11,11 +12,18 @@ import numpy
 ROUND_THRESHOLD = 9
 
 
-def slugify(string: str) -> str:
+def slugify(string: str, preserve_case: bool = True) -> str:
     """
     Convert to code variable compatible name.
     """
-    return colour.utilities.slugify(string).replace("-", "")
+    if not preserve_case:
+        string = string.lower()
+
+    output = string.replace("-", "")
+    output = re.sub(r"\W", "_", output)
+    output = re.sub(r"_{2,}", "_", output)
+    output = output.rstrip("_")
+    return output
 
 
 def convert3x3MatrixToHlslStr(matrix: numpy.ndarray) -> str:
