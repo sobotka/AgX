@@ -1,6 +1,7 @@
 import itertools
 import dataclasses
 import logging
+from typing import Optional
 
 import colour
 import numpy
@@ -11,21 +12,24 @@ logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class ColorspaceGamut:
-    """
-    Gamut/Primaries part of a specific colorspace.
-    """
+class BaseColorspaceDataclass:
 
     name: str
-    matrix_to_XYZ: numpy.ndarray
-    matrix_from_XYZ: numpy.ndarray
-    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
 
     def __post_init__(self):
         self.safe_name = slugify(self.name)
 
-    def __hash__(self):
-        return hash(self.name)
+
+@dataclasses.dataclass
+class ColorspaceGamut(BaseColorspaceDataclass):
+    """
+    Gamut/Primaries part of a specific colorspace.
+    """
+
+    matrix_to_XYZ: numpy.ndarray
+    matrix_from_XYZ: numpy.ndarray
+
+    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
 
     @classmethod
     def fromColourColorspaceName(cls, colorspace_name: str):
@@ -38,14 +42,16 @@ class ColorspaceGamut:
             colour_colorspace.matrix_XYZ_to_RGB,
         )
 
+    def __hash__(self):
+        return hash(self.name)
+
 
 @dataclasses.dataclass
-class Whitepoint:
+class Whitepoint(BaseColorspaceDataclass):
     """
     Whitepoint
     """
 
-    name: str
     coordinates: numpy.ndarray
     """
     CIE xy coordinates as a ndarray(2,)
@@ -53,40 +59,32 @@ class Whitepoint:
 
     id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
 
-    def __post_init__(self):
-        self.safe_name = slugify(self.name)
-
     def __hash__(self):
         return hash(self.name)
 
 
 @dataclasses.dataclass
-class Cat:
+class Cat(BaseColorspaceDataclass):
     """
     Chromatic Adaptation Transform
     """
 
-    name: str
     id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
-
-    def __post_init__(self):
-        self.safe_name = slugify(self.name)
 
     def __hash__(self):
         return hash(self.name)
 
 
 @dataclasses.dataclass
-class AssemblyColorspace:
+class AssemblyColorspace(BaseColorspaceDataclass):
     """
     A custom colorspace used irectly in the target GUI for user slection.
     """
 
-    name: str
-    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
+    gamut: Optional[ColorspaceGamut]
+    whitepoint: Optional[Whitepoint]
 
-    def __post_init__(self):
-        self.safe_name = slugify(self.name)
+    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
 
     def __hash__(self):
         return hash(self.name)
