@@ -4,6 +4,7 @@ import logging
 
 import colour
 
+from obs_codegen.c import HLSL_INDENT as INDENT
 from obs_codegen.generator import BaseGenerator
 from obs_codegen.entitities import Whitepoint
 from obs_codegen.entitities import Cat
@@ -130,7 +131,8 @@ class HlslGenerator(BaseGenerator):
         out_str += "float3x3 getChromaticAdaptationTransformMatrix(int cat_name, int whitepoint_source, int whitepoint_target){\n"
 
         for cat_variable_id, cat_variable in cat_variable_dict.items():
-            out_str += f"    if (cat_name == {cat_variable_id[0]} && whitepoint_source == {cat_variable_id[1]} && whitepoint_target == {cat_variable_id[2]})"
+            out_str += INDENT
+            out_str += f"if (cat_name == {cat_variable_id[0]} && whitepoint_source == {cat_variable_id[1]} && whitepoint_target == {cat_variable_id[2]})"
             out_str += f" return {cat_variable.name};\n"
 
         out_str += "}"
@@ -142,8 +144,18 @@ class HlslGenerator(BaseGenerator):
         out_str = generateCommentHeader("Colorspaces")
         out_str += "\n"
 
+        out_str += "struct Colorspace{\n"
+        out_str += f"{INDENT}int gamut_id;\n{INDENT}whitepoint_id;\n{INDENT}cctf_decoding_id;\n{INDENT}cttf_encoding_id;\n"
+        out_str += "};\n\n"
+
         for assembly_colorspace in self.colorspaces_assemblies:
 
             out_str += f"uniform int colorspaceid_{assembly_colorspace.safe_name} = {assembly_colorspace.id};\n"
 
+        out_str += "\n"
+        out_str += "float3 getColorspaceFromId(int colorspace_id){\n"
+        for assembly_colorspace in self.colorspaces_assemblies:
+            out_str += INDENT
+            out_str += f"if (colorspace_id == {assembly_colorspace.safe_name}) return Colorspace;\n"
+        out_str += "}"
         return out_str

@@ -9,6 +9,7 @@ from typing import Optional
 import numpy
 
 from obs_codegen.c import ROUND_THRESHOLD
+from obs_codegen.c import HLSL_INDENT as INDENT
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +31,9 @@ def convert3x3MatrixToHlslStr(
 
     return (
         f"{linebreak}"
-        f"  {round(matrix[0][0], ROUND_THRESHOLD)}, {round(matrix[0][1], ROUND_THRESHOLD)}, {round(matrix[0][2], ROUND_THRESHOLD)},{linebreak}"
-        f"  {round(matrix[1][0], ROUND_THRESHOLD)}, {round(matrix[1][1], ROUND_THRESHOLD)}, {round(matrix[1][2], ROUND_THRESHOLD)},{linebreak}"
-        f"  {round(matrix[2][0], ROUND_THRESHOLD)}, {round(matrix[2][1], ROUND_THRESHOLD)}, {round(matrix[2][2], ROUND_THRESHOLD)}{linebreak}"
+        f"{INDENT}{round(matrix[0][0], ROUND_THRESHOLD)}, {round(matrix[0][1], ROUND_THRESHOLD)}, {round(matrix[0][2], ROUND_THRESHOLD)},{linebreak}"
+        f"{INDENT}{round(matrix[1][0], ROUND_THRESHOLD)}, {round(matrix[1][1], ROUND_THRESHOLD)}, {round(matrix[1][2], ROUND_THRESHOLD)},{linebreak}"
+        f"{INDENT}{round(matrix[2][0], ROUND_THRESHOLD)}, {round(matrix[2][1], ROUND_THRESHOLD)}, {round(matrix[2][2], ROUND_THRESHOLD)}{linebreak}"
     )
 
 
