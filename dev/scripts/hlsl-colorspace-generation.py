@@ -60,6 +60,32 @@ def generateCommentHeader(title: str, description: Optional[str] = None) -> str:
 
 
 @dataclasses.dataclass
+class ColorspaceGamut:
+
+    name: str
+    matrix_to_XYZ: numpy.ndarray
+    matrix_from_XYZ: numpy.ndarray
+    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
+
+    def __post_init__(self):
+        self.safe_name = slugify(self.name)
+
+    def __hash__(self):
+        return hash(self.name)
+
+    @classmethod
+    def fromColourColorspaceName(cls, colorspace_name: str):
+        colour_colorspace: colour.RGB_Colourspace = colour.RGB_COLOURSPACES[
+            colorspace_name
+        ]
+        return cls(
+            colour_colorspace.name,
+            colour_colorspace.matrix_RGB_to_XYZ,
+            colour_colorspace.matrix_XYZ_to_RGB,
+        )
+
+
+@dataclasses.dataclass
 class Whitepoint:
 
     name: str
@@ -129,9 +155,8 @@ def processCat(
     return HlslVariable(variable_name, variable_def)
 
 
-def processColorspaceMatrix(colorspace: colour.RGB_Colourspace) -> str:
+def processColorspaceMatrix(colorspace: ColorspaceGamut) -> str:
     """
-
     Args:
         colorspace:
 
@@ -140,47 +165,23 @@ def processColorspaceMatrix(colorspace: colour.RGB_Colourspace) -> str:
     """
     out_str = ""
     out_str += f"// {colorspace.name}\n"
-    colorspaceName = slugify(colorspace.name)
-    matrix = colorspace.matrix_RGB_to_XYZ
-    out_str += f"#define matrix_{colorspaceName}_to_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
-    matrix = colorspace.matrix_XYZ_to_RGB
-    out_str += f"#define matrix_{colorspaceName}_from_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
+    matrix = colorspace.matrix_to_XYZ
+    out_str += f"#define matrix_{colorspace.safe_name}_to_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
+    matrix = colorspace.matrix_from_XYZ
+    out_str += f"#define matrix_{colorspace.safe_name}_from_XYZ float3x3({convert3x3MatrixToHlslStr(matrix)})\n"
     return out_str
 
 
+@dataclasses.dataclass
 class Generator:
     """
     Generate HLSL code as a string following the given input attributes.
     """
 
-    def __init__(
-        self,
-        colorspace_names: list[str],
-        whitepoint_names: list[str],
-        cat_names: list[str],
-        assembly_colorspaces_names: list[str],
-    ):
-
-        self.colorspace_list: List[colour.RGB_Colourspace] = [
-            colour.RGB_COLOURSPACES[colorspace_name]
-            for colorspace_name in colorspace_names
-        ]
-
-        illuminant1931: dict = colour.CCS_ILLUMINANTS[
-            "CIE 1931 2 Degree Standard Observer"
-        ]
-
-        self.whitepoint_list: list[Whitepoint] = [
-            Whitepoint(whitepoint_name, illuminant1931[whitepoint_name])
-            for whitepoint_name in whitepoint_names
-        ]
-
-        self.cat_list: list[Cat] = [Cat(cat_name) for cat_name in cat_names]
-
-        self.assembly_colorspace_list: list[AssemblyColorspace] = [
-            AssemblyColorspace(colorspace_name)
-            for colorspace_name in assembly_colorspaces_names
-        ]
+    colorspaces_gamut: list[ColorspaceGamut]
+    whitepoints: list[Whitepoint]
+    cats: list[Cat]
+    colorspaces_assemblies: list[AssemblyColorspace]
 
     def generateCode(self) -> str:
         """
@@ -188,17 +189,18 @@ class Generator:
             valid HLSL code snippet
         """
 
-        str_colorspace = self._generateMatricesBlock()
+        str_matrices = self._generateMatricesBlock()
         str_cat = self._generateCatBlock()
+        str_colorspace = self._generateColorspacesBlock()
 
-        return f"{str_cat}\n\n{str_colorspace}"
+        return f"{str_cat}\n\n{str_matrices}\n\n{str_colorspace}"
 
     def _generateMatricesBlock(self) -> str:
 
         out_str = generateCommentHeader("Matrices")
         out_str += "\n"
 
-        for colorspace in self.colorspace_list:
+        for colorspace in self.colorspaces_gamut:
 
             out_str += processColorspaceMatrix(colorspace) + "\n"
 
@@ -210,12 +212,12 @@ class Generator:
         out_str += "\n"
 
         whitepoint_combinaison_list = list(
-            itertools.product(self.whitepoint_list, repeat=2)
+            itertools.product(self.whitepoints, repeat=2)
         )
 
         cat_variable_dict = dict()
 
-        for cat in self.cat_list:
+        for cat in self.cats:
 
             for whitepoint_combinaison in whitepoint_combinaison_list:
 
@@ -234,12 +236,12 @@ class Generator:
 
         out_str += "\n"
 
-        for cat in self.cat_list:
+        for cat in self.cats:
             out_str += f"uniform int catid_{cat.safe_name} = {cat.id};\n"
 
         out_str += "\n"
 
-        for whitepoint in self.whitepoint_list:
+        for whitepoint in self.whitepoints:
             out_str += (
                 f"uniform int whitepointid_{whitepoint.safe_name} = {whitepoint.id};\n"
             )
@@ -255,36 +257,49 @@ class Generator:
 
         return out_str
 
+    def _generateColorspacesBlock(self) -> str:
+
+        out_str = generateCommentHeader("Colorspaces")
+        out_str += "\n"
+
+        for assembly_colorspace in self.colorspaces_assemblies:
+
+            out_str += f"uniform int colorspaceid_{assembly_colorspace.safe_name} = {assembly_colorspace.id};\n"
+
+        return out_str
+
 
 def main():
 
+    illuminant1931: dict = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
+
     generator = Generator(
-        colorspace_names=[
-            "sRGB",
-            "DCI-P3",
-            "Display P3",
-            "Adobe RGB (1998)",
-            "ITU-R BT.2020",
+        colorspaces_gamut=[
+            ColorspaceGamut.fromColourColorspaceName("sRGB"),
+            ColorspaceGamut.fromColourColorspaceName("DCI-P3"),
+            ColorspaceGamut.fromColourColorspaceName("Display P3"),
+            ColorspaceGamut.fromColourColorspaceName("Adobe RGB (1998)"),
+            ColorspaceGamut.fromColourColorspaceName("ITU-R BT.2020"),
         ],
-        whitepoint_names=[
-            "D60",
-            "D65",
-            "DCI-P3",
+        whitepoints=[
+            Whitepoint("D60", illuminant1931["D60"]),
+            Whitepoint("D65", illuminant1931["D65"]),
+            Whitepoint("DCI-P3", illuminant1931["DCI-P3"]),
         ],
-        cat_names=[
-            "XYZ Scaling",
-            "Bradford",
-            "CAT02",
-            "Von Kries",
+        cats=[
+            Cat("XYZ Scaling"),
+            Cat("Bradford"),
+            Cat("CAT02"),
+            Cat("Von Kries"),
         ],
-        assembly_colorspaces_names=[
-            "Passthrough",
-            "sRGB Display (EOTF)",
-            "sRGB Display (2.2)",
-            "sRGB Linear",
-            "BT.709 Display (2.4)",
-            "DCI-P3 Display (2.6)",
-            "Apple Display P3",
+        colorspaces_assemblies=[
+            AssemblyColorspace("Passthrough"),
+            AssemblyColorspace("sRGB Display (EOTF)"),
+            AssemblyColorspace("sRGB Display (2.2)"),
+            AssemblyColorspace("sRGB Linear"),
+            AssemblyColorspace("BT.709 Display (2.4)"),
+            AssemblyColorspace("DCI-P3 Display (2.6)"),
+            AssemblyColorspace("Apple Display P3"),
         ],
     )
     print(generator.generateCode())
