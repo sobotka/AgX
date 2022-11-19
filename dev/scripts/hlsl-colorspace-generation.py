@@ -64,6 +64,10 @@ class Whitepoint:
 
     name: str
     coordinates: numpy.ndarray
+    """
+    CIE xy coordinates as a ndarray(2,)
+    """
+
     id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
 
     def __post_init__(self):
@@ -75,6 +79,19 @@ class Whitepoint:
 
 @dataclasses.dataclass
 class Cat:
+
+    name: str
+    id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
+
+    def __post_init__(self):
+        self.safe_name = slugify(self.name)
+
+    def __hash__(self):
+        return hash(self.name)
+
+
+@dataclasses.dataclass
+class AssemblyColorspace:
 
     name: str
     id: int = dataclasses.field(default_factory=itertools.count().__next__, init=False)
@@ -138,30 +155,32 @@ class Generator:
 
     def __init__(
         self,
-        colorspaceNames: list[str],
-        whitepointNames: list[str],
-        catNames: list[str],
+        colorspace_names: list[str],
+        whitepoint_names: list[str],
+        cat_names: list[str],
+        assembly_colorspaces_names: list[str],
     ):
 
-        self.colorspaceNames = colorspaceNames
-        self.whitepointNames = whitepointNames
-        self.catNames = catNames
-
-        self.colorspaceToProcessList: List[colour.RGB_Colourspace] = [
-            colour.RGB_COLOURSPACES[colorspaceName]
-            for colorspaceName in colorspaceNames
+        self.colorspace_list: List[colour.RGB_Colourspace] = [
+            colour.RGB_COLOURSPACES[colorspace_name]
+            for colorspace_name in colorspace_names
         ]
 
         illuminant1931: dict = colour.CCS_ILLUMINANTS[
             "CIE 1931 2 Degree Standard Observer"
         ]
 
-        self.whitepointToProcessList: list[Whitepoint] = [
+        self.whitepoint_list: list[Whitepoint] = [
             Whitepoint(whitepoint_name, illuminant1931[whitepoint_name])
-            for whitepoint_name in whitepointNames
+            for whitepoint_name in whitepoint_names
         ]
 
-        self.catToProcessList: list[Cat] = [Cat(cat_name) for cat_name in self.catNames]
+        self.cat_list: list[Cat] = [Cat(cat_name) for cat_name in cat_names]
+
+        self.assembly_colorspace_list: list[AssemblyColorspace] = [
+            AssemblyColorspace(colorspace_name)
+            for colorspace_name in assembly_colorspaces_names
+        ]
 
     def generateCode(self) -> str:
         """
@@ -179,7 +198,7 @@ class Generator:
         out_str = generateCommentHeader("Matrices")
         out_str += "\n"
 
-        for colorspace in self.colorspaceToProcessList:
+        for colorspace in self.colorspace_list:
 
             out_str += processColorspaceMatrix(colorspace) + "\n"
 
@@ -191,12 +210,12 @@ class Generator:
         out_str += "\n"
 
         whitepoint_combinaison_list = list(
-            itertools.product(self.whitepointToProcessList, repeat=2)
+            itertools.product(self.whitepoint_list, repeat=2)
         )
 
         cat_variable_dict = dict()
 
-        for cat in self.catToProcessList:
+        for cat in self.cat_list:
 
             for whitepoint_combinaison in whitepoint_combinaison_list:
 
@@ -215,12 +234,12 @@ class Generator:
 
         out_str += "\n"
 
-        for cat in self.catToProcessList:
+        for cat in self.cat_list:
             out_str += f"uniform int catid_{cat.safe_name} = {cat.id};\n"
 
         out_str += "\n"
 
-        for whitepoint in self.whitepointToProcessList:
+        for whitepoint in self.whitepoint_list:
             out_str += (
                 f"uniform int whitepointid_{whitepoint.safe_name} = {whitepoint.id};\n"
             )
@@ -240,23 +259,32 @@ class Generator:
 def main():
 
     generator = Generator(
-        colorspaceNames=[
+        colorspace_names=[
             "sRGB",
             "DCI-P3",
             "Display P3",
             "Adobe RGB (1998)",
             "ITU-R BT.2020",
         ],
-        whitepointNames=[
+        whitepoint_names=[
             "D60",
             "D65",
             "DCI-P3",
         ],
-        catNames=[
+        cat_names=[
             "XYZ Scaling",
             "Bradford",
             "CAT02",
             "Von Kries",
+        ],
+        assembly_colorspaces_names=[
+            "Passthrough",
+            "sRGB Display (EOTF)",
+            "sRGB Display (2.2)",
+            "sRGB Linear",
+            "BT.709 Display (2.4)",
+            "DCI-P3 Display (2.6)",
+            "Apple Display P3",
         ],
     )
     print(generator.generateCode())
