@@ -142,8 +142,8 @@ source_info.get_properties = function(data)
   obs.obs_property_list_add_int(propDrt, "None", 0)
   obs.obs_property_list_add_int(propDrt, "AgX", 1)
 
-  obs.obs_properties_add_group(masterProperty, "GRADING", "Grading (Pre-AgX)", obs.OBS_GROUP_NORMAL, groupGrading)
-  obs.obs_properties_add_group(masterProperty, "PUNCHY", "Punchy (Grading Post-AgX)", obs.OBS_GROUP_NORMAL, groupPunchy)
+  obs.obs_properties_add_group(masterProperty, "GRADING", "Pre-Grading (Linear)", obs.OBS_GROUP_NORMAL, groupGrading)
+  obs.obs_properties_add_group(masterProperty, "PUNCHY", "Post-Grading (Display)", obs.OBS_GROUP_NORMAL, groupPunchy)
   obs.obs_properties_add_group(masterProperty, "DEBUG", "Debug", obs.OBS_GROUP_NORMAL, groupDebug)
 
   obs.obs_properties_add_float_slider(groupGrading, "INPUT_EXPOSURE", "Exposure", -5, 5.0, 0.01)

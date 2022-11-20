@@ -76,7 +76,7 @@ None means you can use all the options like grading, input colorspace, ... but
 you will get a look similar to the usual broken imagery workflow.
 
 
-### Grading/...
+### Pre-Grading/...
 
 Adjust imagery look in a Linear space, before AgX is applied.
 
@@ -103,7 +103,7 @@ via `Highlight Gain Threshold`.
 
 See above.
 
-### Punchy/...
+### Post-Grading/...
 
 Grading modifications applied after AgX on display encoded data. This will
 introduce skews, clipping and other artefacts.
