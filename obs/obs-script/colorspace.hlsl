@@ -464,7 +464,7 @@ Colorspace getColorspaceFromId(int colorspace_id){
     if (colorspace_id == colorspaceid_sRGB_Display_2_2){
         colorspace.gamut_id = gamutid_sRGB;
         colorspace.whitepoint_id = whitepointid_D65;
-        colorspace.cctf_id = cctf_id_sRGB_EOTF;
+        colorspace.cctf_id = cctf_id_Power_2_2;
     };
     if (colorspace_id == colorspaceid_sRGB_Linear){
         colorspace.gamut_id = gamutid_sRGB;

@@ -67,7 +67,7 @@ def main():
         "sRGB Display (2.2)",
         colorspace_gamut_sRGB,
         whitepoint_D65,
-        transfer_function_sRGB_EOTF,
+        transfer_function_power_2_2,
     )
     assembly_colorspace_sRGB_Linear = AssemblyColorspace(
         "sRGB Linear",
