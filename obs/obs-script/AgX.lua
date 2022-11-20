@@ -110,7 +110,7 @@ source_info.get_properties = function(data)
   local groupPunchy = obs.obs_properties_create()
   local groupDebug = obs.obs_properties_create()
 
-  local propInputColorspace = obs.obs_properties_add_list(masterProperty, "INPUT_COLORSPACE", "Input Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
+  local propInputColorspace = obs.obs_properties_add_list(masterProperty, "INPUT_COLORSPACE", "Input Colorspace", obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
   obs.obs_property_list_add_int(propInputColorspace, "Passthrough", 0)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (EOTF)", 1)
   obs.obs_property_list_add_int(propInputColorspace, "sRGB Display (2.2)", 2)
@@ -123,7 +123,7 @@ source_info.get_properties = function(data)
   obs.obs_property_list_add_int(propInputColorspace, "BT.2020 Display (OETF)", 9)
   obs.obs_property_list_add_int(propInputColorspace, "BT.2020 Linear", 10)
 
-  local propOutputColorspace = obs.obs_properties_add_list(masterProperty, "OUTPUT_COLORSPACE", "Output Colorspace", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
+  local propOutputColorspace = obs.obs_properties_add_list(masterProperty, "OUTPUT_COLORSPACE", "Output Colorspace", obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_INT) -- In which colorspace is encoded the input.
   obs.obs_property_list_add_int(propOutputColorspace, "Passthrough", 0)
   obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (EOTF)", 1)
   obs.obs_property_list_add_int(propOutputColorspace, "sRGB Display (2.2)", 2)
@@ -151,7 +151,7 @@ source_info.get_properties = function(data)
   obs.obs_properties_add_float_slider(groupPunchy, "PUNCH_GAMMA", "Gamma", 0.001, 2.0, 0.01)
   obs.obs_properties_add_bool(groupDebug, "USE_OCIO_LOG", "Use OCIO Log Transform") -- Use a transform similar to OCIO for the log operation. No difference should be observed.
   obs.obs_properties_add_bool(groupDebug, "APPLY_OUTSET", "Apply Outset (Restore chroma)") -- Apply the inverse of the inset matrix applied before the log transform. Restore chroma.
-  local propCatMethod = obs.obs_properties_add_list(groupDebug, "CAT_METHOD", "CAT Method", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT)
+  local propCatMethod = obs.obs_properties_add_list(groupDebug, "CAT_METHOD", "CAT Method", obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_INT)
   obs.obs_property_list_add_int(propCatMethod, "XYZ Scaling", 0)
   obs.obs_property_list_add_int(propCatMethod, "Bradford", 1)
   obs.obs_property_list_add_int(propCatMethod, "CAT02", 2)
