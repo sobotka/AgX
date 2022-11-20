@@ -7,6 +7,7 @@ from obs_codegen.entitities import AssemblyColorspace
 from obs_codegen.entitities import ColorspaceGamut
 from obs_codegen.entitities import TransferFunction
 from obs_codegen.hlsl.generator import HlslGenerator
+from obs_codegen.lua.generator import LuaGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -116,8 +117,10 @@ def main():
     }
 
     generator_hlsl = HlslGenerator(**generator_kwargs)
+    # print(generator_hlsl.generateCode())
 
-    print(generator_hlsl.generateCode())
+    generator_lua = LuaGenerator(**generator_kwargs)
+    print(generator_lua.generateCode())
     return
 
 
