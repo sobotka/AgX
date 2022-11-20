@@ -50,6 +50,8 @@ uniform texture2d AgXLUT;
 #define AgXLUT_DIMENSIONS int2(AgXLUT_BLOCK_SIZE * AgXLUT_BLOCK_SIZE, AgXLUT_BLOCK_SIZE)
 #define AgXLUT_PIXEL_SIZE 1.0 / AgXLUT_DIMENSIONS
 
+#define colorspaceid_working_space colorspaceid_sRGB_Linear
+
 /*=================
     OBS BOILERPLATE
 =================*/
@@ -91,7 +93,7 @@ float3 applyInputTransform(float3 Image)
     Convert input to workspace colorspace (sRGB)
 */
 {
-    return convertColorspaceToColorspace(Image, INPUT_COLORSPACE, colorspaceid_sRGB_Linear);
+    return convertColorspaceToColorspace(Image, INPUT_COLORSPACE, colorspaceid_working_space);
 }
 
 float3 applyGrading(float3 Image)
@@ -196,10 +198,7 @@ float3 applyODT(float3 Image)
 
 */
 {
-    if (OUTPUT_COLORSPACE == 1) Image = cctf_encoding_sRGB_EOTF(Image);
-    if (OUTPUT_COLORSPACE == 2) Image = cctf_encoding_Power_2_2(Image);
-    if (OUTPUT_COLORSPACE == 3) Image = cctf_encoding_BT_709(Image);
-    return Image;
+    return convertColorspaceToColorspace(Image, colorspaceid_working_space, OUTPUT_COLORSPACE);
 }
 
 
