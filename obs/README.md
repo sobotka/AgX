@@ -65,6 +65,7 @@ Passthrough means no decoding is applied.
 
 Target colorspace encoding. Must correspond to your monitor calibration.
 
+> **Note** You can request adding new colorspace by opening an issue !
 
 ### Grading/...
 
@@ -111,6 +112,13 @@ Does not create any change visually.
 Not originally included in the first AgX version but should be in the future.
 Restore chroma and avoid having to use Punchy saturation.
 
+### Debug/CAT Method
+
+Chromatic Adaptation Transform method to chose for whitepoint conversion.
+
+Default is Bradford and doesn't need to be changed.
 
 
+# Developer
 
+Developer documentation can be found in [doc/DEV.md](doc/DEV.md).
