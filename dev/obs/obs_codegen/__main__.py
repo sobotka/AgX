@@ -87,11 +87,35 @@ def main():
         whitepoint_DCIP3,
         transfer_function_DCIP3,
     )
+    assembly_colorspace_DCIP3_D65_Display_2_6 = AssemblyColorspace(
+        "DCI-P3 D65 Display (2.6)",
+        colorspace_gamut_sRGB,
+        whitepoint_D65,
+        transfer_function_DCIP3,
+    )
+    assembly_colorspace_DCIP3_D60_Display_2_6 = AssemblyColorspace(
+        "DCI-P3 D60 Display (2.6)",
+        colorspace_gamut_sRGB,
+        whitepoint_D60,
+        transfer_function_DCIP3,
+    )
     assembly_colorspace_Apple_Display_P3 = AssemblyColorspace(
         "Apple Display P3",
         colorspace_gamut_Display_P3,
         whitepoint_DCIP3,
         transfer_function_Display_P3,
+    )
+    assembly_colorspace_BT_2020_Display_OETF = AssemblyColorspace(
+        "BT.2020 Display (OETF)",
+        colorspace_gamut_ITUR_BT_2020,
+        whitepoint_D65,
+        transfer_function_BT2020,
+    )
+    assembly_colorspace_BT_2020_Linear = AssemblyColorspace(
+        "BT.2020 Linear",
+        colorspace_gamut_ITUR_BT_2020,
+        whitepoint_D65,
+        None,
     )
     assembly_colorspace_list = [
         assembly_colorspace_Passthrough,
@@ -100,7 +124,11 @@ def main():
         assembly_colorspace_sRGB_Linear,
         assembly_colorspace_BT_709_Display_2_4,
         assembly_colorspace_DCIP3_Display_2_6,
+        assembly_colorspace_DCIP3_D65_Display_2_6,
+        assembly_colorspace_DCIP3_D60_Display_2_6,
         assembly_colorspace_Apple_Display_P3,
+        assembly_colorspace_BT_2020_Display_OETF,
+        assembly_colorspace_BT_2020_Linear,
     ]
 
     generator_kwargs = {

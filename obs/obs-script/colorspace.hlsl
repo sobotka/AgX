@@ -134,13 +134,13 @@ float3 cctf_decoding_DCIP3(float3 color){return powsafe(color, 2.6);}
 
 float3 cctf_encoding_DCIP3(float3 color){return powsafe(color, 1/2.6);}
 
-float3 cctf_decoding_BT_2020(float3 color){return color;} // TODO
+float3 cctf_encoding_BT_2020(float3 color){return (color < 0.0181) ? color * 4.5 : 1.0993 * powsafe(color, 0.45) - (1.0993 - 1);}
 
-float3 cctf_encoding_BT_2020(float3 color){return color;}  // TODO
+float3 cctf_decoding_BT_2020(float3 color){return (color < cctf_encoding_BT_2020(0.0181)) ? color / 4.5 : powsafe((color + (1.0993 - 1)) / 1.0993, 1 / 0.45) ;}
 
-float3 cctf_decoding_Display_P3(float3 color){return color;} // TODO
+float3 cctf_decoding_Display_P3(float3 color){return cctf_decoding_sRGB_EOTF(color);} // TODO
 
-float3 cctf_encoding_Display_P3(float3 color){return color;}  // TODO
+float3 cctf_encoding_Display_P3(float3 color){return cctf_encoding_sRGB_EOTF(color);}  // TODO
 
 // region WARNING code is procedurally generated
 
@@ -441,7 +441,11 @@ uniform int colorspaceid_sRGB_Display_2_2 = 2;
 uniform int colorspaceid_sRGB_Linear = 3;
 uniform int colorspaceid_BT_709_Display_2_4 = 4;
 uniform int colorspaceid_DCIP3_Display_2_6 = 5;
-uniform int colorspaceid_Apple_Display_P3 = 6;
+uniform int colorspaceid_DCIP3_D65_Display_2_6 = 6;
+uniform int colorspaceid_DCIP3_D60_Display_2_6 = 7;
+uniform int colorspaceid_Apple_Display_P3 = 8;
+uniform int colorspaceid_BT_2020_Display_OETF = 9;
+uniform int colorspaceid_BT_2020_Linear = 10;
 
 Colorspace getColorspaceFromId(int colorspace_id){
 
@@ -477,10 +481,30 @@ Colorspace getColorspaceFromId(int colorspace_id){
         colorspace.whitepoint_id = whitepointid_DCIP3;
         colorspace.cctf_id = cctf_id_DCIP3;
     };
+    if (colorspace_id == colorspaceid_DCIP3_D65_Display_2_6){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = cctf_id_DCIP3;
+    };
+    if (colorspace_id == colorspaceid_DCIP3_D60_Display_2_6){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_D60;
+        colorspace.cctf_id = cctf_id_DCIP3;
+    };
     if (colorspace_id == colorspaceid_Apple_Display_P3){
         colorspace.gamut_id = gamutid_Display_P3;
         colorspace.whitepoint_id = whitepointid_DCIP3;
         colorspace.cctf_id = cctf_id_Display_P3;
+    };
+    if (colorspace_id == colorspaceid_BT_2020_Display_OETF){
+        colorspace.gamut_id = gamutid_ITUR_BT_2020;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = cctf_id_BT_2020;
+    };
+    if (colorspace_id == colorspaceid_BT_2020_Linear){
+        colorspace.gamut_id = gamutid_ITUR_BT_2020;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = -1;
     };
     return colorspace;
 }
