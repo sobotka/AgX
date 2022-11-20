@@ -31,4 +31,11 @@ class LuaGenerator(BaseGenerator):
             out_str += INDENT
             out_str += f'obs.obs_property_list_add_int(propOutputColorspace, "{colorspace.name}", {colorspace.id})\n'
 
+        out_str += "\n----------\n"
+
+        for cat in self.cats:
+
+            out_str += INDENT
+            out_str += f'obs.obs_property_list_add_int(propCatMethod, "{cat.name}", {cat.id})\n'
+
         return out_str

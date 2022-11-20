@@ -86,6 +86,7 @@ source_info.get_defaults = function(settings)
   obs.obs_data_set_default_int(settings, "OUTPUT_COLORSPACE", 1)
   obs.obs_data_set_default_bool(settings, "USE_OCIO_LOG", false)
   obs.obs_data_set_default_bool(settings, "APPLY_OUTSET", true)
+  obs.obs_data_set_default_int(settings, "CAT_METHOD", 1)
 end
 source_info.update = function(data, settings)
   data.INPUT_COLORSPACE = obs.obs_data_get_int(settings, "INPUT_COLORSPACE")
@@ -100,6 +101,7 @@ source_info.update = function(data, settings)
   data.OUTPUT_COLORSPACE = obs.obs_data_get_int(settings, "OUTPUT_COLORSPACE")
   data.USE_OCIO_LOG = obs.obs_data_get_bool(settings, "USE_OCIO_LOG")
   data.APPLY_OUTSET = obs.obs_data_get_bool(settings, "APPLY_OUTSET")
+  data.CAT_METHOD = obs.obs_data_get_int(settings, "CAT_METHOD")
 end
 source_info.get_properties = function(data)
   local masterProperty = obs.obs_properties_create()
@@ -149,6 +151,12 @@ source_info.get_properties = function(data)
   obs.obs_properties_add_float_slider(groupPunchy, "PUNCH_GAMMA", "Gamma", 0.001, 2.0, 0.01)
   obs.obs_properties_add_bool(groupDebug, "USE_OCIO_LOG", "Use OCIO Log Transform") -- Use a transform similar to OCIO for the log operation. No difference should be observed.
   obs.obs_properties_add_bool(groupDebug, "APPLY_OUTSET", "Apply Outset (Restore chroma)") -- Apply the inverse of the inset matrix applied before the log transform. Restore chroma.
+  local propCatMethod = obs.obs_properties_add_list(groupDebug, "CAT_METHOD", "CAT Method", obslua.OBS_COMBO_TYPE_LIST, obslua.OBS_COMBO_FORMAT_INT)
+  obs.obs_property_list_add_int(propCatMethod, "XYZ Scaling", 0)
+  obs.obs_property_list_add_int(propCatMethod, "Bradford", 1)
+  obs.obs_property_list_add_int(propCatMethod, "CAT02", 2)
+  obs.obs_property_list_add_int(propCatMethod, "Von Kries", 3)
+
   return masterProperty
 end
 --- Creates the implementation data for the source
@@ -191,6 +199,7 @@ source_info.create = function(settings, source)
   data.params.OUTPUT_COLORSPACE = obs.gs_effect_get_param_by_name(data.effect, "OUTPUT_COLORSPACE")
   data.params.USE_OCIO_LOG = obs.gs_effect_get_param_by_name(data.effect, "USE_OCIO_LOG")
   data.params.APPLY_OUTSET = obs.gs_effect_get_param_by_name(data.effect, "APPLY_OUTSET")
+  data.params.CAT_METHOD = obs.gs_effect_get_param_by_name(data.effect, "CAT_METHOD")
 
   source_info.update(data, settings)
 
@@ -230,6 +239,7 @@ source_info.video_render = function(data)
   obs.gs_effect_set_int(data.params.OUTPUT_COLORSPACE, data.OUTPUT_COLORSPACE)
   obs.gs_effect_set_bool(data.params.USE_OCIO_LOG, data.USE_OCIO_LOG)
   obs.gs_effect_set_bool(data.params.APPLY_OUTSET, data.APPLY_OUTSET)
+  obs.gs_effect_set_int(data.params.CAT_METHOD, data.CAT_METHOD)
 
   obs.obs_source_process_filter_end(data.source, data.effect, data.width, data.height)
 end
