@@ -17,6 +17,11 @@ uniform int CAT_METHOD = 0; // See Chromatic Adapatation transform section for a
 
 #define luma_coefs_bt709 float3(0.2126, 0.7152, 0.0722)
 
+#define matrix_identity_3x3 float3x3(\
+    1.0, 0.0, 0.0,\
+    0.0, 1.0, 0.0,\
+    0.0, 0.0, 1.0\
+)
 
 float3 powsafe(float3 color, float power){
   // pow() but safe for NaNs/negatives
@@ -302,7 +307,7 @@ uniform int whitepointid_D65 = 1;
 uniform int whitepointid_DCIP3 = 2;
 
 
-float3x3 getChromaticAdaptationTransformMatrix(int cat_name, int whitepoint_source, int whitepoint_target){
+float3x3 get_chromatic_adaptation_transform_matrix(int cat_name, int whitepoint_source, int whitepoint_target){
     if (cat_name == 0 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_XYZ_Scaling_D60_to_D65;
     if (cat_name == 0 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_XYZ_Scaling_D60_to_DCIP3;
     if (cat_name == 0 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_XYZ_Scaling_D65_to_D60;
@@ -327,6 +332,7 @@ float3x3 getChromaticAdaptationTransformMatrix(int cat_name, int whitepoint_sour
     if (cat_name == 3 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_Von_Kries_D65_to_DCIP3;
     if (cat_name == 3 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_Von_Kries_DCIP3_to_D60;
     if (cat_name == 3 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_Von_Kries_DCIP3_to_D65;
+    return matrix_identity_3x3;
 }
 
 /* --------------------------------------------------------------------------------
@@ -394,6 +400,30 @@ Matrices
 )
 
 
+uniform int gamutid_sRGB = 0;
+uniform int gamutid_DCIP3 = 1;
+uniform int gamutid_Display_P3 = 2;
+uniform int gamutid_Adobe_RGB_1998 = 3;
+uniform int gamutid_ITUR_BT_2020 = 4;
+
+
+float3x3 get_gamut_matrix_to_XYZ(int gamutid){
+    if (gamutid == 0) return matrix_sRGB_to_XYZ;
+    if (gamutid == 1) return matrix_DCIP3_to_XYZ;
+    if (gamutid == 2) return matrix_Display_P3_to_XYZ;
+    if (gamutid == 3) return matrix_Adobe_RGB_1998_to_XYZ;
+    if (gamutid == 4) return matrix_ITUR_BT_2020_to_XYZ;
+    return matrix_identity_3x3;
+}
+
+float3x3 get_gamut_matrix_from_XYZ(int gamutid){
+    if (gamutid == 0) return matrix_sRGB_from_XYZ;
+    if (gamutid == 1) return matrix_DCIP3_from_XYZ;
+    if (gamutid == 2) return matrix_Display_P3_from_XYZ;
+    if (gamutid == 3) return matrix_Adobe_RGB_1998_from_XYZ;
+    if (gamutid == 4) return matrix_ITUR_BT_2020_from_XYZ;
+    return matrix_identity_3x3;
+}
 
 /* --------------------------------------------------------------------------------
 Colorspaces
@@ -472,11 +502,13 @@ float3 convertColorspaceToColorspace(float3 color, int sourceColorspaceId, int t
 
     // apply Chromatic adaptation transform if any
     if (source_colorspace.whitepoint_id != target_colorspace.whitepoint_id && (source_colorspace.whitepoint_id != -1) && (target_colorspace.whitepoint_id != -1)){
-        color = apply_matrix(color, getChromaticAdaptationTransformMatrix(CAT_METHOD, source_colorspace.whitepoint_id, target_colorspace.whitepoint_id));
+        color = apply_matrix(color, get_chromatic_adaptation_transform_matrix(CAT_METHOD, source_colorspace.whitepoint_id, target_colorspace.whitepoint_id));
     }
 
-    // TODO apply gamut ocnversion
-
+    if (source_colorspace.gamut_id != target_colorspace.gamut_id && (source_colorspace.gamut_id != -1) && (target_colorspace.gamut_id != -1)){
+        color = apply_matrix(color, get_gamut_matrix_to_XYZ(source_colorspace.gamut_id));
+        color = apply_matrix(color, get_gamut_matrix_from_XYZ(target_colorspace.gamut_id));
+    }
     color = apply_cctf_encoding(color, target_colorspace.cctf_id);
 
     return color;

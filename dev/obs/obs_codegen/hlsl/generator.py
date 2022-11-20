@@ -73,7 +73,7 @@ class HlslGenerator(BaseGenerator):
         str_colorspace = self._generateColorspacesBlock()
 
         return (
-            "// region WARNING code is procedurally generated"
+            "// region WARNING code is procedurally generated\n"
             f"{str_cctf}\n\n{str_cat}\n\n{str_matrices}\n\n{str_colorspace}\n"
             "// endregion\n"
         )
@@ -122,6 +122,27 @@ class HlslGenerator(BaseGenerator):
 
             out_str += processColorspaceMatrix(colorspace) + "\n"
 
+        out_str += "\n"
+
+        for colorspace in self.colorspaces_gamut:
+            out_str += (
+                f"uniform int gamutid_{colorspace.safe_name} = {colorspace.id};\n"
+            )
+
+        for gamut_direction in ["to_XYZ", "from_XYZ"]:
+
+            out_str += "\n\n"
+            out_str += f"float3x3 get_gamut_matrix_{gamut_direction}(int gamutid){{\n"
+
+            for colorspace in self.colorspaces_gamut:
+                out_str += INDENT
+                out_str += f"if (gamutid == {colorspace.id})"
+                out_str += f" return matrix_{colorspace.safe_name}_{gamut_direction};\n"
+
+            out_str += f"{INDENT}return matrix_identity_3x3;\n"
+
+            out_str += "}"
+
         return out_str
 
     def _generateCatBlock(self) -> str:
@@ -165,13 +186,14 @@ class HlslGenerator(BaseGenerator):
             )
 
         out_str += "\n\n"
-        out_str += "float3x3 getChromaticAdaptationTransformMatrix(int cat_name, int whitepoint_source, int whitepoint_target){\n"
+        out_str += "float3x3 get_chromatic_adaptation_transform_matrix(int cat_name, int whitepoint_source, int whitepoint_target){\n"
 
         for cat_variable_id, cat_variable in cat_variable_dict.items():
             out_str += INDENT
             out_str += f"if (cat_name == {cat_variable_id[0]} && whitepoint_source == {cat_variable_id[1]} && whitepoint_target == {cat_variable_id[2]})"
             out_str += f" return {cat_variable.name};\n"
 
+        out_str += f"{INDENT}return matrix_identity_3x3;\n"
         out_str += "}"
 
         return out_str

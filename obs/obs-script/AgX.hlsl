@@ -24,10 +24,13 @@ uniform Texture2D image;   // Texture containing the source picture
 
 uniform int INPUT_COLORSPACE = 1;
 /*
-0 = Passthrough,
-1 = sRGB Display (EOTF),
-2 = sRGB Display (2.2),
-3 = BT.709 Display (2.4),
+uniform int colorspaceid_Passthrough = 0;
+uniform int colorspaceid_sRGB_Display_EOTF = 1;
+uniform int colorspaceid_sRGB_Display_2_2 = 2;
+uniform int colorspaceid_sRGB_Linear = 3;
+uniform int colorspaceid_BT_709_Display_2_4 = 4;
+uniform int colorspaceid_DCIP3_Display_2_6 = 5;
+uniform int colorspaceid_Apple_Display_P3 = 6;
 */
 uniform float INPUT_EXPOSURE = 0.75;
 uniform float INPUT_GAMMA = 1.0;
@@ -37,13 +40,7 @@ uniform float INPUT_HIGHLIGHT_GAIN_GAMMA = 1.0;
 uniform float PUNCH_EXPOSURE = 0.0;
 uniform float PUNCH_SATURATION = 1.0;
 uniform float PUNCH_GAMMA = 1.3;
-uniform int OUTPUT_COLORSPACE = 1;
-/*
-0 = Passthrough,
-1 = sRGB Display (EOTF),
-2 = sRGB Display (2.2),
-3 = BT.709 Display (2.4),
-*/
+uniform int OUTPUT_COLORSPACE = 1;  // same as INPUT_COLORSPACE
 uniform bool USE_OCIO_LOG = false;
 uniform bool APPLY_OUTSET = true;
 
@@ -91,13 +88,10 @@ struct PixelData
 
 float3 applyInputTransform(float3 Image)
 /*
-    Convert input to workspace colorspace.
+    Convert input to workspace colorspace (sRGB)
 */
 {
-    if (INPUT_COLORSPACE == 1) Image = cctf_decoding_sRGB_EOTF(Image);
-    if (INPUT_COLORSPACE == 2) Image = cctf_decoding_Power_2_2(Image);
-    if (INPUT_COLORSPACE == 3) Image = cctf_decoding_BT_709(Image);
-    return Image;
+    return convertColorspaceToColorspace(Image, INPUT_COLORSPACE, colorspaceid_sRGB_Linear);
 }
 
 float3 applyGrading(float3 Image)
