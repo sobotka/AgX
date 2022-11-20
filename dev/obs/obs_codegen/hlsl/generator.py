@@ -85,7 +85,7 @@ class HlslGenerator(BaseGenerator):
 
         for transfer_function in self.transfer_functions:
 
-            out_str += f"uniform int cctf_id_{transfer_function.safe_name} = {transfer_function.id};  // {transfer_function.name}\n"
+            out_str += f"uniform int {transfer_function.id_variable_name} = {transfer_function.id};  // {transfer_function.name}\n"
 
         for cctf_mode in ["decoding", "encoding"]:
 
@@ -103,7 +103,7 @@ class HlslGenerator(BaseGenerator):
                     continue
 
                 out_str += INDENT
-                out_str += f"if (cctf_id == {transfer_function.id})"
+                out_str += f"if (cctf_id == {transfer_function.id_variable_name: <25})"
                 out_str += (
                     f" return cctf_{cctf_mode}_{transfer_function.safe_name}(color);\n"
                 )
@@ -125,9 +125,7 @@ class HlslGenerator(BaseGenerator):
         out_str += "\n"
 
         for colorspace in self.colorspaces_gamut:
-            out_str += (
-                f"uniform int gamutid_{colorspace.safe_name} = {colorspace.id};\n"
-            )
+            out_str += f"uniform int {colorspace.id_variable_name} = {colorspace.id};\n"
 
         for gamut_direction in ["to_XYZ", "from_XYZ"]:
 
@@ -136,7 +134,7 @@ class HlslGenerator(BaseGenerator):
 
             for colorspace in self.colorspaces_gamut:
                 out_str += INDENT
-                out_str += f"if (gamutid == {colorspace.id})"
+                out_str += f"if (gamutid == {colorspace.id_variable_name: <25})"
                 out_str += f" return matrix_{colorspace.safe_name}_{gamut_direction};\n"
 
             out_str += f"{INDENT}return matrix_identity_3x3;\n"
@@ -176,7 +174,7 @@ class HlslGenerator(BaseGenerator):
         out_str += "\n"
 
         for cat in self.cats:
-            out_str += f"uniform int catid_{cat.safe_name} = {cat.id};\n"
+            out_str += f"uniform int {cat.id_variable_name} = {cat.id};\n"
 
         out_str += "\n"
 
@@ -186,11 +184,11 @@ class HlslGenerator(BaseGenerator):
             )
 
         out_str += "\n\n"
-        out_str += "float3x3 get_chromatic_adaptation_transform_matrix(int cat_name, int whitepoint_source, int whitepoint_target){\n"
+        out_str += "float3x3 get_chromatic_adaptation_transform_matrix(int cat_id, int whitepoint_source, int whitepoint_target){\n"
 
         for cat_variable_id, cat_variable in cat_variable_dict.items():
             out_str += INDENT
-            out_str += f"if (cat_name == {cat_variable_id[0]} && whitepoint_source == {cat_variable_id[1]} && whitepoint_target == {cat_variable_id[2]})"
+            out_str += f"if (cat_id == {cat_variable_id[0]} && whitepoint_source == {cat_variable_id[1]} && whitepoint_target == {cat_variable_id[2]})"
             out_str += f" return {cat_variable.name};\n"
 
         out_str += f"{INDENT}return matrix_identity_3x3;\n"
@@ -213,7 +211,7 @@ class HlslGenerator(BaseGenerator):
 
         for assembly_colorspace in self.colorspaces_assemblies:
 
-            out_str += f"uniform int colorspaceid_{assembly_colorspace.safe_name} = {assembly_colorspace.id};\n"
+            out_str += f"uniform int {assembly_colorspace.id_variable_name} = {assembly_colorspace.id};\n"
 
         out_str += "\n"
         out_str += "Colorspace getColorspaceFromId(int colorspace_id){\n"
@@ -223,21 +221,23 @@ class HlslGenerator(BaseGenerator):
         for assembly_colorspace in self.colorspaces_assemblies:
 
             out_str += INDENT
-            out_str += f"if (colorspace_id == {assembly_colorspace.id}){{\n"
+            out_str += (
+                f"if (colorspace_id == {assembly_colorspace.id_variable_name}){{\n"
+            )
             if assembly_colorspace.gamut:
-                id_value = assembly_colorspace.gamut.id
+                id_value = assembly_colorspace.gamut.id_variable_name
             else:
                 id_value = -1
             out_str += f"{INDENT * 2}colorspace.gamut_id = {id_value};\n"
 
             if assembly_colorspace.whitepoint:
-                id_value = assembly_colorspace.whitepoint.id
+                id_value = assembly_colorspace.whitepoint.id_variable_name
             else:
                 id_value = -1
             out_str += f"{INDENT * 2}colorspace.whitepoint_id = {id_value};\n"
 
             if assembly_colorspace.cctf:
-                id_value = assembly_colorspace.cctf.id
+                id_value = assembly_colorspace.cctf.id_variable_name
             else:
                 id_value = -1
             out_str += f"{INDENT * 2}colorspace.cctf_id = {id_value};\n"

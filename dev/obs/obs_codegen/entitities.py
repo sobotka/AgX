@@ -45,6 +45,10 @@ class ColorspaceGamut(BaseColorspaceDataclass):
     def __hash__(self):
         return hash(self.name)
 
+    @property
+    def id_variable_name(self):
+        return f"gamutid_{self.safe_name}"
+
 
 @dataclasses.dataclass
 class Whitepoint(BaseColorspaceDataclass):
@@ -62,6 +66,10 @@ class Whitepoint(BaseColorspaceDataclass):
     def __hash__(self):
         return hash(self.name)
 
+    @property
+    def id_variable_name(self):
+        return f"whitepointid_{self.safe_name}"
+
 
 @dataclasses.dataclass
 class Cat(BaseColorspaceDataclass):
@@ -73,6 +81,10 @@ class Cat(BaseColorspaceDataclass):
 
     def __hash__(self):
         return hash(self.name)
+
+    @property
+    def id_variable_name(self):
+        return f"catid_{self.safe_name}"
 
 
 @dataclasses.dataclass
@@ -89,6 +101,10 @@ class TransferFunction(BaseColorspaceDataclass):
     def __hash__(self):
         return hash(self.name)
 
+    @property
+    def id_variable_name(self):
+        return f"cctf_id_{self.safe_name}"
+
 
 @dataclasses.dataclass
 class AssemblyColorspace(BaseColorspaceDataclass):
@@ -104,3 +120,7 @@ class AssemblyColorspace(BaseColorspaceDataclass):
 
     def __hash__(self):
         return hash(self.name)
+
+    @property
+    def id_variable_name(self):
+        return f"colorspaceid_{self.safe_name}"

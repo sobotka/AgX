@@ -153,22 +153,22 @@ uniform int cctf_id_BT_2020 = 5;  // BT.2020
 
 
 float3 apply_cctf_decoding(float3 color, int cctf_id){
-    if (cctf_id == 0) return cctf_decoding_Power_2_2(color);
-    if (cctf_id == 1) return cctf_decoding_sRGB_EOTF(color);
-    if (cctf_id == 2) return cctf_decoding_BT_709(color);
-    if (cctf_id == 3) return cctf_decoding_DCIP3(color);
-    if (cctf_id == 4) return cctf_decoding_Display_P3(color);
-    if (cctf_id == 5) return cctf_decoding_BT_2020(color);
+    if (cctf_id == cctf_id_Power_2_2        ) return cctf_decoding_Power_2_2(color);
+    if (cctf_id == cctf_id_sRGB_EOTF        ) return cctf_decoding_sRGB_EOTF(color);
+    if (cctf_id == cctf_id_BT_709           ) return cctf_decoding_BT_709(color);
+    if (cctf_id == cctf_id_DCIP3            ) return cctf_decoding_DCIP3(color);
+    if (cctf_id == cctf_id_Display_P3       ) return cctf_decoding_Display_P3(color);
+    if (cctf_id == cctf_id_BT_2020          ) return cctf_decoding_BT_2020(color);
     return color;
 }
 
 float3 apply_cctf_encoding(float3 color, int cctf_id){
-    if (cctf_id == 0) return cctf_encoding_Power_2_2(color);
-    if (cctf_id == 1) return cctf_encoding_sRGB_EOTF(color);
-    if (cctf_id == 2) return cctf_encoding_BT_709(color);
-    if (cctf_id == 3) return cctf_encoding_DCIP3(color);
-    if (cctf_id == 4) return cctf_encoding_Display_P3(color);
-    if (cctf_id == 5) return cctf_encoding_BT_2020(color);
+    if (cctf_id == cctf_id_Power_2_2        ) return cctf_encoding_Power_2_2(color);
+    if (cctf_id == cctf_id_sRGB_EOTF        ) return cctf_encoding_sRGB_EOTF(color);
+    if (cctf_id == cctf_id_BT_709           ) return cctf_encoding_BT_709(color);
+    if (cctf_id == cctf_id_DCIP3            ) return cctf_encoding_DCIP3(color);
+    if (cctf_id == cctf_id_Display_P3       ) return cctf_encoding_Display_P3(color);
+    if (cctf_id == cctf_id_BT_2020          ) return cctf_encoding_BT_2020(color);
     return color;
 }
 
@@ -307,31 +307,31 @@ uniform int whitepointid_D65 = 1;
 uniform int whitepointid_DCIP3 = 2;
 
 
-float3x3 get_chromatic_adaptation_transform_matrix(int cat_name, int whitepoint_source, int whitepoint_target){
-    if (cat_name == 0 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_XYZ_Scaling_D60_to_D65;
-    if (cat_name == 0 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_XYZ_Scaling_D60_to_DCIP3;
-    if (cat_name == 0 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_XYZ_Scaling_D65_to_D60;
-    if (cat_name == 0 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_XYZ_Scaling_D65_to_DCIP3;
-    if (cat_name == 0 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_XYZ_Scaling_DCIP3_to_D60;
-    if (cat_name == 0 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_XYZ_Scaling_DCIP3_to_D65;
-    if (cat_name == 1 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_Bradford_D60_to_D65;
-    if (cat_name == 1 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_Bradford_D60_to_DCIP3;
-    if (cat_name == 1 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_Bradford_D65_to_D60;
-    if (cat_name == 1 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_Bradford_D65_to_DCIP3;
-    if (cat_name == 1 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_Bradford_DCIP3_to_D60;
-    if (cat_name == 1 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_Bradford_DCIP3_to_D65;
-    if (cat_name == 2 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_CAT02_D60_to_D65;
-    if (cat_name == 2 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_CAT02_D60_to_DCIP3;
-    if (cat_name == 2 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_CAT02_D65_to_D60;
-    if (cat_name == 2 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_CAT02_D65_to_DCIP3;
-    if (cat_name == 2 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_CAT02_DCIP3_to_D60;
-    if (cat_name == 2 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_CAT02_DCIP3_to_D65;
-    if (cat_name == 3 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_Von_Kries_D60_to_D65;
-    if (cat_name == 3 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_Von_Kries_D60_to_DCIP3;
-    if (cat_name == 3 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_Von_Kries_D65_to_D60;
-    if (cat_name == 3 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_Von_Kries_D65_to_DCIP3;
-    if (cat_name == 3 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_Von_Kries_DCIP3_to_D60;
-    if (cat_name == 3 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_Von_Kries_DCIP3_to_D65;
+float3x3 get_chromatic_adaptation_transform_matrix(int cat_id, int whitepoint_source, int whitepoint_target){
+    if (cat_id == 0 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_XYZ_Scaling_D60_to_D65;
+    if (cat_id == 0 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_XYZ_Scaling_D60_to_DCIP3;
+    if (cat_id == 0 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_XYZ_Scaling_D65_to_D60;
+    if (cat_id == 0 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_XYZ_Scaling_D65_to_DCIP3;
+    if (cat_id == 0 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_XYZ_Scaling_DCIP3_to_D60;
+    if (cat_id == 0 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_XYZ_Scaling_DCIP3_to_D65;
+    if (cat_id == 1 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_Bradford_D60_to_D65;
+    if (cat_id == 1 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_Bradford_D60_to_DCIP3;
+    if (cat_id == 1 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_Bradford_D65_to_D60;
+    if (cat_id == 1 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_Bradford_D65_to_DCIP3;
+    if (cat_id == 1 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_Bradford_DCIP3_to_D60;
+    if (cat_id == 1 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_Bradford_DCIP3_to_D65;
+    if (cat_id == 2 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_CAT02_D60_to_D65;
+    if (cat_id == 2 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_CAT02_D60_to_DCIP3;
+    if (cat_id == 2 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_CAT02_D65_to_D60;
+    if (cat_id == 2 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_CAT02_D65_to_DCIP3;
+    if (cat_id == 2 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_CAT02_DCIP3_to_D60;
+    if (cat_id == 2 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_CAT02_DCIP3_to_D65;
+    if (cat_id == 3 && whitepoint_source == 0 && whitepoint_target == 1) return matrix_cat_Von_Kries_D60_to_D65;
+    if (cat_id == 3 && whitepoint_source == 0 && whitepoint_target == 2) return matrix_cat_Von_Kries_D60_to_DCIP3;
+    if (cat_id == 3 && whitepoint_source == 1 && whitepoint_target == 0) return matrix_cat_Von_Kries_D65_to_D60;
+    if (cat_id == 3 && whitepoint_source == 1 && whitepoint_target == 2) return matrix_cat_Von_Kries_D65_to_DCIP3;
+    if (cat_id == 3 && whitepoint_source == 2 && whitepoint_target == 0) return matrix_cat_Von_Kries_DCIP3_to_D60;
+    if (cat_id == 3 && whitepoint_source == 2 && whitepoint_target == 1) return matrix_cat_Von_Kries_DCIP3_to_D65;
     return matrix_identity_3x3;
 }
 
@@ -408,20 +408,20 @@ uniform int gamutid_ITUR_BT_2020 = 4;
 
 
 float3x3 get_gamut_matrix_to_XYZ(int gamutid){
-    if (gamutid == 0) return matrix_sRGB_to_XYZ;
-    if (gamutid == 1) return matrix_DCIP3_to_XYZ;
-    if (gamutid == 2) return matrix_Display_P3_to_XYZ;
-    if (gamutid == 3) return matrix_Adobe_RGB_1998_to_XYZ;
-    if (gamutid == 4) return matrix_ITUR_BT_2020_to_XYZ;
+    if (gamutid == gamutid_sRGB             ) return matrix_sRGB_to_XYZ;
+    if (gamutid == gamutid_DCIP3            ) return matrix_DCIP3_to_XYZ;
+    if (gamutid == gamutid_Display_P3       ) return matrix_Display_P3_to_XYZ;
+    if (gamutid == gamutid_Adobe_RGB_1998   ) return matrix_Adobe_RGB_1998_to_XYZ;
+    if (gamutid == gamutid_ITUR_BT_2020     ) return matrix_ITUR_BT_2020_to_XYZ;
     return matrix_identity_3x3;
 }
 
 float3x3 get_gamut_matrix_from_XYZ(int gamutid){
-    if (gamutid == 0) return matrix_sRGB_from_XYZ;
-    if (gamutid == 1) return matrix_DCIP3_from_XYZ;
-    if (gamutid == 2) return matrix_Display_P3_from_XYZ;
-    if (gamutid == 3) return matrix_Adobe_RGB_1998_from_XYZ;
-    if (gamutid == 4) return matrix_ITUR_BT_2020_from_XYZ;
+    if (gamutid == gamutid_sRGB             ) return matrix_sRGB_from_XYZ;
+    if (gamutid == gamutid_DCIP3            ) return matrix_DCIP3_from_XYZ;
+    if (gamutid == gamutid_Display_P3       ) return matrix_Display_P3_from_XYZ;
+    if (gamutid == gamutid_Adobe_RGB_1998   ) return matrix_Adobe_RGB_1998_from_XYZ;
+    if (gamutid == gamutid_ITUR_BT_2020     ) return matrix_ITUR_BT_2020_from_XYZ;
     return matrix_identity_3x3;
 }
 
@@ -447,40 +447,40 @@ Colorspace getColorspaceFromId(int colorspace_id){
 
     Colorspace colorspace;
 
-    if (colorspace_id == 0){
+    if (colorspace_id == colorspaceid_Passthrough){
         colorspace.gamut_id = -1;
         colorspace.whitepoint_id = -1;
         colorspace.cctf_id = -1;
     };
-    if (colorspace_id == 1){
-        colorspace.gamut_id = 0;
-        colorspace.whitepoint_id = 1;
-        colorspace.cctf_id = 1;
+    if (colorspace_id == colorspaceid_sRGB_Display_EOTF){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = cctf_id_sRGB_EOTF;
     };
-    if (colorspace_id == 2){
-        colorspace.gamut_id = 0;
-        colorspace.whitepoint_id = 1;
-        colorspace.cctf_id = 1;
+    if (colorspace_id == colorspaceid_sRGB_Display_2_2){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = cctf_id_sRGB_EOTF;
     };
-    if (colorspace_id == 3){
-        colorspace.gamut_id = 0;
-        colorspace.whitepoint_id = 1;
+    if (colorspace_id == colorspaceid_sRGB_Linear){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_D65;
         colorspace.cctf_id = -1;
     };
-    if (colorspace_id == 4){
-        colorspace.gamut_id = 0;
-        colorspace.whitepoint_id = 1;
-        colorspace.cctf_id = 2;
+    if (colorspace_id == colorspaceid_BT_709_Display_2_4){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = cctf_id_BT_709;
     };
-    if (colorspace_id == 5){
-        colorspace.gamut_id = 0;
-        colorspace.whitepoint_id = 2;
-        colorspace.cctf_id = 3;
+    if (colorspace_id == colorspaceid_DCIP3_Display_2_6){
+        colorspace.gamut_id = gamutid_sRGB;
+        colorspace.whitepoint_id = whitepointid_DCIP3;
+        colorspace.cctf_id = cctf_id_DCIP3;
     };
-    if (colorspace_id == 6){
-        colorspace.gamut_id = 2;
-        colorspace.whitepoint_id = 2;
-        colorspace.cctf_id = 4;
+    if (colorspace_id == colorspaceid_Apple_Display_P3){
+        colorspace.gamut_id = gamutid_Display_P3;
+        colorspace.whitepoint_id = whitepointid_DCIP3;
+        colorspace.cctf_id = cctf_id_Display_P3;
     };
     return colorspace;
 }
