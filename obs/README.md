@@ -67,6 +67,15 @@ Target colorspace encoding. Must correspond to your monitor calibration.
 
 > **Note** You can request adding new colorspace by opening an issue !
 
+### DRT
+
+Pick the DRT to use. Technically here we could include other DRT than AgX.
+But for now only None and AgX are available.
+
+None means you can use all the options like grading, input colorspace, ... but
+you will get a look similar to the usual broken imagery workflow.
+
+
 ### Grading/...
 
 Adjust imagery look in a Linear space, before AgX is applied.

@@ -23,15 +23,17 @@ uniform float4x4 ViewProj; // View-projection matrix used in the vertex shader
 uniform Texture2D image;   // Texture containing the source picture
 
 uniform int INPUT_COLORSPACE = 1;
+uniform int OUTPUT_COLORSPACE = 1;
 /*
-uniform int colorspaceid_Passthrough = 0;
-uniform int colorspaceid_sRGB_Display_EOTF = 1;
-uniform int colorspaceid_sRGB_Display_2_2 = 2;
-uniform int colorspaceid_sRGB_Linear = 3;
-uniform int colorspaceid_BT_709_Display_2_4 = 4;
-uniform int colorspaceid_DCIP3_Display_2_6 = 5;
-uniform int colorspaceid_Apple_Display_P3 = 6;
+colorspaceid_Passthrough = 0;
+colorspaceid_sRGB_Display_EOTF = 1;
+colorspaceid_sRGB_Display_2_2 = 2;
+colorspaceid_sRGB_Linear = 3;
+colorspaceid_BT_709_Display_2_4 = 4;
+colorspaceid_DCIP3_Display_2_6 = 5;
+colorspaceid_Apple_Display_P3 = 6;
 */
+uniform int DRT = 1;
 uniform float INPUT_EXPOSURE = 0.75;
 uniform float INPUT_GAMMA = 1.0;
 uniform float INPUT_SATURATION = 1.0;
@@ -40,7 +42,6 @@ uniform float INPUT_HIGHLIGHT_GAIN_GAMMA = 1.0;
 uniform float PUNCH_EXPOSURE = 0.0;
 uniform float PUNCH_SATURATION = 1.0;
 uniform float PUNCH_GAMMA = 1.3;
-uniform int OUTPUT_COLORSPACE = 1;  // same as INPUT_COLORSPACE
 uniform bool USE_OCIO_LOG = false;
 uniform bool APPLY_OUTSET = true;
 
@@ -51,6 +52,10 @@ uniform texture2d AgXLUT;
 #define AgXLUT_PIXEL_SIZE 1.0 / AgXLUT_DIMENSIONS
 
 #define colorspaceid_working_space colorspaceid_sRGB_Linear
+
+
+uniform int drt_id_none = 0;
+uniform int drt_id_agx = 1;
 
 /*=================
     OBS BOILERPLATE
@@ -190,6 +195,21 @@ float3 applyOutset(float3 Image)
     return Image;
 }
 
+float3 applyDRT(float3 Image)
+/*
+    Apply the DRT selected by the user.
+*/
+{
+    if (DRT == drt_id_agx){
+        Image = applyAgXLog(Image);
+        Image = applyAgXLUT(Image);
+        if (APPLY_OUTSET)
+            Image = applyOutset(Image);
+    }
+    return Image;
+
+}
+
 float3 applyODT(float3 Image)
 /*
     Apply Agx to display conversion.
@@ -231,10 +251,7 @@ float4 PIXELSHADER_AgX(PixelData pixel) : TARGET
     float3 Image = OriginalImage.rgb;
     Image = applyInputTransform(Image);
     Image = applyGrading(Image);
-    Image = applyAgXLog(Image);
-    Image = applyAgXLUT(Image);
-    if (APPLY_OUTSET)
-        Image = applyOutset(Image);
+    Image = applyDRT(Image);
     Image = applyODT(Image);
     Image = applyLookPunchy(Image);
 
