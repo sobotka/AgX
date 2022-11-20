@@ -138,9 +138,13 @@ float3 cctf_encoding_BT_2020(float3 color){return (color < 0.0181) ? color * 4.5
 
 float3 cctf_decoding_BT_2020(float3 color){return (color < cctf_encoding_BT_2020(0.0181)) ? color / 4.5 : powsafe((color + (1.0993 - 1)) / 1.0993, 1 / 0.45) ;}
 
-float3 cctf_decoding_Display_P3(float3 color){return cctf_decoding_sRGB_EOTF(color);} // TODO
+float3 cctf_decoding_Display_P3(float3 color){return cctf_decoding_sRGB_EOTF(color);}
 
-float3 cctf_encoding_Display_P3(float3 color){return cctf_encoding_sRGB_EOTF(color);}  // TODO
+float3 cctf_encoding_Display_P3(float3 color){return cctf_encoding_sRGB_EOTF(color);}
+
+float3 cctf_decoding_Adobe_RGB_1998(float3 color){return powsafe(color, 2.19921875);}
+
+float3 cctf_encoding_Adobe_RGB_1998(float3 color){return powsafe(color, 1/2.19921875);}
 
 // region WARNING code is procedurally generated
 
@@ -149,7 +153,8 @@ uniform int cctf_id_sRGB_EOTF = 1;  // sRGB EOTF
 uniform int cctf_id_BT_709 = 2;  // BT.709
 uniform int cctf_id_DCIP3 = 3;  // DCI-P3
 uniform int cctf_id_Display_P3 = 4;  // Display P3
-uniform int cctf_id_BT_2020 = 5;  // BT.2020
+uniform int cctf_id_Adobe_RGB_1998 = 5;  // Adobe RGB 1998
+uniform int cctf_id_BT_2020 = 6;  // BT.2020
 
 
 float3 apply_cctf_decoding(float3 color, int cctf_id){
@@ -158,6 +163,7 @@ float3 apply_cctf_decoding(float3 color, int cctf_id){
     if (cctf_id == cctf_id_BT_709           ) return cctf_decoding_BT_709(color);
     if (cctf_id == cctf_id_DCIP3            ) return cctf_decoding_DCIP3(color);
     if (cctf_id == cctf_id_Display_P3       ) return cctf_decoding_Display_P3(color);
+    if (cctf_id == cctf_id_Adobe_RGB_1998   ) return cctf_decoding_Adobe_RGB_1998(color);
     if (cctf_id == cctf_id_BT_2020          ) return cctf_decoding_BT_2020(color);
     return color;
 }
@@ -168,6 +174,7 @@ float3 apply_cctf_encoding(float3 color, int cctf_id){
     if (cctf_id == cctf_id_BT_709           ) return cctf_encoding_BT_709(color);
     if (cctf_id == cctf_id_DCIP3            ) return cctf_encoding_DCIP3(color);
     if (cctf_id == cctf_id_Display_P3       ) return cctf_encoding_Display_P3(color);
+    if (cctf_id == cctf_id_Adobe_RGB_1998   ) return cctf_encoding_Adobe_RGB_1998(color);
     if (cctf_id == cctf_id_BT_2020          ) return cctf_encoding_BT_2020(color);
     return color;
 }
@@ -444,8 +451,9 @@ uniform int colorspaceid_DCIP3_Display_2_6 = 5;
 uniform int colorspaceid_DCIP3_D65_Display_2_6 = 6;
 uniform int colorspaceid_DCIP3_D60_Display_2_6 = 7;
 uniform int colorspaceid_Apple_Display_P3 = 8;
-uniform int colorspaceid_BT_2020_Display_OETF = 9;
-uniform int colorspaceid_BT_2020_Linear = 10;
+uniform int colorspaceid_Adobe_RGB_1998_Display = 9;
+uniform int colorspaceid_BT_2020_Display_OETF = 10;
+uniform int colorspaceid_BT_2020_Linear = 11;
 
 Colorspace getColorspaceFromId(int colorspace_id){
 
@@ -495,6 +503,11 @@ Colorspace getColorspaceFromId(int colorspace_id){
         colorspace.gamut_id = gamutid_Display_P3;
         colorspace.whitepoint_id = whitepointid_DCIP3;
         colorspace.cctf_id = cctf_id_Display_P3;
+    };
+    if (colorspace_id == colorspaceid_Adobe_RGB_1998_Display){
+        colorspace.gamut_id = gamutid_Adobe_RGB_1998;
+        colorspace.whitepoint_id = whitepointid_D65;
+        colorspace.cctf_id = cctf_id_Adobe_RGB_1998;
     };
     if (colorspace_id == colorspaceid_BT_2020_Display_OETF){
         colorspace.gamut_id = gamutid_ITUR_BT_2020;

@@ -21,6 +21,7 @@ def main():
     transfer_function_BT709 = TransferFunction("BT.709")
     transfer_function_DCIP3 = TransferFunction("DCI-P3")
     transfer_function_Display_P3 = TransferFunction("Display P3")
+    transfer_function_Adobe_RGB_1998 = TransferFunction("Adobe RGB 1998")
     transfer_function_BT2020 = TransferFunction("BT.2020")
     transfer_function_list = [
         transfer_function_power_2_2,
@@ -28,6 +29,7 @@ def main():
         transfer_function_BT709,
         transfer_function_DCIP3,
         transfer_function_Display_P3,
+        transfer_function_Adobe_RGB_1998,
         transfer_function_BT2020,
     ]
 
@@ -105,6 +107,12 @@ def main():
         whitepoint_DCIP3,
         transfer_function_Display_P3,
     )
+    assembly_colorspace_Adobe_RGB_1998_Display = AssemblyColorspace(
+        "Adobe RGB 1998 Display",
+        colorspace_gamut_Adobe_RGB_1998,
+        whitepoint_D65,
+        transfer_function_Adobe_RGB_1998,
+    )
     assembly_colorspace_BT_2020_Display_OETF = AssemblyColorspace(
         "BT.2020 Display (OETF)",
         colorspace_gamut_ITUR_BT_2020,
@@ -127,6 +135,7 @@ def main():
         assembly_colorspace_DCIP3_D65_Display_2_6,
         assembly_colorspace_DCIP3_D60_Display_2_6,
         assembly_colorspace_Apple_Display_P3,
+        assembly_colorspace_Adobe_RGB_1998_Display,
         assembly_colorspace_BT_2020_Display_OETF,
         assembly_colorspace_BT_2020_Linear,
     ]
