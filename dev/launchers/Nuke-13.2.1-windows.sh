@@ -9,6 +9,6 @@ NUKE_EXE="$NUKE_HOME/Nuke13.2.exe"
 
 export OCIO="./ocio/config.ocio"
 
-NUKE_SCENE_TEST="./dev/scenes/nuke/AgXc.dev_tests.simple.v0001.nk"
+NUKE_SCENE_TEST="./dev/scenes/nuke/AgXc.test_srgb_eotf.nk"
 
 "$NUKE_EXE" $NUKE_SCENE_TEST
