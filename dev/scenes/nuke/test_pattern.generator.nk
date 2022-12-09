@@ -1,0 +1,259 @@
+#! C:/Program Files/Nuke13.2v1/nuke-13.2.1.dll -nx
+#write_info Write1 file:"../../images/test_pattern.exr" format:"1280 720 1" chans:":rgba.red:rgba.green:rgba.blue:rgba.alpha:" framerange:"1 1" fps:"0" colorspace:"default (scene_linear)" datatype:"16 bit half" transfer:"unknown" views:"main" colorManagement:"OCIO"
+version 13.2 v1
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="-1921" y="-8" w="1920" h="1057" maximized="1" screen="1">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1257" stretch="1"/>
+            <splitter orientation="2">
+                <split size="1019"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+    <window x="0" y="0" w="1918" h="1168" maximized="1" screen="0">
+        <splitter orientation="2">
+            <split size="1168"/>
+            <dock id="" activePageId="Viewer.1">
+                <page id="Viewer.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name Z:/packages-dev/AgXc/dev/scenes/nuke/test_pattern.generator.nk
+ project_directory "\[python \{nuke.script_directory()\}]"
+ last_frame 1
+ format "1280 720 0 0 1280 720 1 HD_720"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement OCIO
+ defaultViewerLUT "OCIO LUTs"
+ workingSpaceLUT scene_linear
+ monitorLut "sRGB/AgX Punchy"
+ monitorOutLUT "AgX Punchy (sRGB)"
+ int8Lut matte_paint
+ int16Lut texture_paint
+ logLut compositing_log
+ floatLut scene_linear
+}
+ColorWheel {
+ inputs 0
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ gamma 0.45
+ name ColorWheel_negatives
+ xpos 416
+ ypos -759
+}
+Transform {
+ translate {-59 -166}
+ scale 0.12
+ center {{width/2 x1 0} {height/2 x1 0}}
+ name Transform6
+ xpos 416
+ ypos -687
+}
+Multiply {
+ channels rgb
+ value -0.1
+ name Multiply1
+ xpos 416
+ ypos -661
+}
+Premult {
+ name Premult1
+ xpos 416
+ ypos -588
+}
+set N3956b000 [stack 0]
+ColorBars {
+ inputs 0
+ name ColorBars1
+ xpos 530
+ ypos -714
+}
+Transform {
+ translate {242 139}
+ scale 0.52
+ center {{width/2 x1 0} {height/2 x1 0}}
+ name Transform5
+ xpos 530
+ ypos -642
+}
+push $N3956b000
+ColorWheel {
+ inputs 0
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ gamma 0.45
+ name ColorWheel1
+ xpos 287
+ ypos -712
+}
+Transform {
+ translate {-253 -16}
+ scale 0.385
+ center {{width/2 x1 0} {width/2 x1 0}}
+ name Transform4
+ xpos 287
+ ypos -640
+}
+Reformat {
+ inputs 0
+ name Reformat2
+ xpos -208
+ ypos -943
+}
+Ramp {
+ invert true
+ p0 {0 0}
+ p1 {{width} 0}
+ name Ramp1
+ xpos -208
+ ypos -893
+}
+Transform {
+ scale {0.9 0.1}
+ center {{width/2} 0}
+ name Transform1
+ xpos -208
+ ypos -849
+}
+Dot {
+ name Dot3
+ xpos -174
+ ypos -780
+}
+set N7bb79000 [stack 0]
+Dot {
+ name Dot2
+ xpos -14
+ ypos -780
+}
+EXPTool {
+ mode Stops
+ red 2
+ green 2
+ blue 2
+ name Exposure1
+ xpos -48
+ ypos -739
+}
+Transform {
+ translate {0 100}
+ center {1024 778}
+ name Transform2
+ xpos -48
+ ypos -713
+}
+Dot {
+ name Dot5
+ xpos -14
+ ypos -666
+}
+set N9beabc00 [stack 0]
+Dot {
+ name Dot4
+ xpos 178
+ ypos -668
+}
+EXPTool {
+ mode Stops
+ red 2
+ green 2
+ blue 2
+ name Exposure2
+ xpos 144
+ ypos -627
+}
+Transform {
+ translate {0 100}
+ center {1024 778}
+ name Transform3
+ xpos 144
+ ypos -601
+}
+push $N9beabc00
+push $N7bb79000
+Dot {
+ name Dot1
+ xpos -174
+ ypos -550
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ xpos -48
+ ypos -553
+}
+Merge2 {
+ inputs 2
+ name Merge2
+ xpos 144
+ ypos -553
+}
+Merge2 {
+ inputs 2
+ name Merge3
+ xpos 287
+ ypos -553
+}
+Merge2 {
+ inputs 2
+ name Merge5
+ xpos 416
+ ypos -553
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ xpos 530
+ ypos -555
+}
+Dot {
+ name Dot6
+ xpos 642
+ ypos -552
+}
+set N9be48800 [stack 0]
+Viewer {
+ inputs 2
+ frame_range 1-1
+ gamma 2.62
+ viewerProcess "AgX Punchy (sRGB)"
+ name Viewer1
+ xpos 608
+ ypos -345
+}
+push $N9be48800
+Dot {
+ name Dot7
+ xpos 725
+ ypos -552
+}
+Write {
+ channels rgba
+ file ../../images/test_pattern.exr
+ file_type exr
+ compression "Zip (16 scanlines)"
+ first_part rgba
+ version 2
+ name Write1
+ xpos 691
+ ypos -465
+}
