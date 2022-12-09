@@ -23,6 +23,8 @@ def main():
     transfer_function_Display_P3 = TransferFunction("Display P3")
     transfer_function_Adobe_RGB_1998 = TransferFunction("Adobe RGB 1998")
     transfer_function_BT2020 = TransferFunction("BT.2020")
+    transfer_function_ST_2084 = TransferFunction("ST-2084")
+    transfer_function_ST_2084_1000_nits = TransferFunction("ST-2084 1000 nits")
     transfer_function_list = [
         transfer_function_power_2_2,
         transfer_function_sRGB_EOTF,
@@ -31,6 +33,8 @@ def main():
         transfer_function_Display_P3,
         transfer_function_Adobe_RGB_1998,
         transfer_function_BT2020,
+        transfer_function_ST_2084,
+        transfer_function_ST_2084_1000_nits,
     ]
 
     # fmt: off
@@ -125,6 +129,24 @@ def main():
         whitepoint_D65,
         None,
     )
+    assembly_colorspace_DCIP3_Display_PQ_ST2084_1000_nits = AssemblyColorspace(
+        "DCI-P3 Display (PQ ST2084) (1000 nits)",
+        colorspace_gamut_DCIP3,
+        whitepoint_DCIP3,
+        transfer_function_ST_2084_1000_nits,
+    )
+    assembly_colorspace_DCIP3_D65_Display_PQ_ST2084_1000_nits = AssemblyColorspace(
+        "DCI-P3 D65 Display (PQ ST2084) (1000 nits)",
+        colorspace_gamut_DCIP3,
+        whitepoint_D65,
+        transfer_function_ST_2084_1000_nits,
+    )
+    assembly_colorspace_DCIP3_Linear = AssemblyColorspace(
+        "DCI-P3 Linear",
+        colorspace_gamut_DCIP3,
+        whitepoint_DCIP3,
+        None,
+    )
     assembly_colorspace_list = [
         assembly_colorspace_Passthrough,
         assembly_colorspace_sRGB_Display_EOTF,
@@ -138,6 +160,9 @@ def main():
         assembly_colorspace_Adobe_RGB_1998_Display,
         assembly_colorspace_BT_2020_Display_OETF,
         assembly_colorspace_BT_2020_Linear,
+        assembly_colorspace_DCIP3_Display_PQ_ST2084_1000_nits,
+        assembly_colorspace_DCIP3_D65_Display_PQ_ST2084_1000_nits,
+        assembly_colorspace_DCIP3_Linear,
     ]
 
     generator_kwargs = {
@@ -154,10 +179,10 @@ def main():
     }
 
     generator_hlsl = HlslGenerator(**generator_kwargs)
-    # print(generator_hlsl.generateCode())
+    print(generator_hlsl.generateCode())
 
     generator_lua = LuaGenerator(**generator_kwargs)
-    print(generator_lua.generateCode())
+    # print(generator_lua.generateCode())
     return
 
 
