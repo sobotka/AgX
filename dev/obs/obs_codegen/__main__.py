@@ -85,19 +85,19 @@ def main():
     )
     assembly_colorspace_DCIP3_Display_2_6 = AssemblyColorspace(
         "DCI-P3 Display (2.6)",
-        colorspace_gamut_sRGB,
+        colorspace_gamut_DCIP3,
         whitepoint_DCIP3,
         transfer_function_DCIP3,
     )
     assembly_colorspace_DCIP3_D65_Display_2_6 = AssemblyColorspace(
         "DCI-P3 D65 Display (2.6)",
-        colorspace_gamut_sRGB,
+        colorspace_gamut_DCIP3,
         whitepoint_D65,
         transfer_function_DCIP3,
     )
     assembly_colorspace_DCIP3_D60_Display_2_6 = AssemblyColorspace(
         "DCI-P3 D60 Display (2.6)",
-        colorspace_gamut_sRGB,
+        colorspace_gamut_DCIP3,
         whitepoint_D60,
         transfer_function_DCIP3,
     )
