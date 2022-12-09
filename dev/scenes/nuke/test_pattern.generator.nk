@@ -81,13 +81,128 @@ Premult {
  xpos 416
  ypos -588
 }
-set N3956b000 [stack 0]
+set Ncf4c6800 [stack 0]
 ColorBars {
  inputs 0
  name ColorBars1
  xpos 530
- ypos -714
+ ypos -933
 }
+Dot {
+ name Dot8
+ xpos 564
+ ypos -839
+}
+set Nf520c400 [stack 0]
+Dot {
+ name Dot10
+ xpos 705
+ ypos -839
+}
+set N949aa000 [stack 0]
+Dot {
+ name Dot11
+ xpos 798
+ ypos -839
+}
+set N949a9c00 [stack 0]
+Dot {
+ name Dot12
+ xpos 912
+ ypos -839
+}
+Transform {
+ translate {498.5 139}
+ scale 0.195
+ center {{width/2 x1 0} {height/2 x1 0}}
+ name Transform9
+ xpos 878
+ ypos -791
+}
+EXPTool {
+ mode Stops
+ red 3
+ green 3
+ blue 3
+ name Exposure5
+ xpos 878
+ ypos -753
+}
+push $N949a9c00
+Transform {
+ translate {242 139}
+ scale 0.195
+ center {{width/2 x1 0} {height/2 x1 0}}
+ name Transform7
+ xpos 764
+ ypos -794
+}
+push $N949aa000
+Transform {
+ translate {-15.5 139}
+ scale 0.195
+ center {{width/2 x1 0} {height/2 x1 0}}
+ name Transform8
+ xpos 671
+ ypos -795
+}
+EXPTool {
+ mode Stops
+ red -3
+ green -3
+ blue -3
+ name Exposure4
+ xpos 671
+ ypos -753
+}
+Dot {
+ name Dot9
+ xpos 705
+ ypos -630
+}
+Merge2 {
+ inputs 2
+ name Merge8
+ xpos 764
+ ypos -633
+}
+Merge2 {
+ inputs 2
+ name Merge9
+ xpos 878
+ ypos -633
+}
+set N949aa400 [stack 0]
+Dot {
+ name Dot13
+ xpos 974
+ ypos -674
+}
+Noise {
+ inputs 0
+ size 46
+ lacunarity 3.32
+ gain 0.765
+ gamma 0.29
+ center {640 360}
+ name Noise1
+ xpos 1016
+ ypos -753
+}
+Multiply {
+ value -0.1
+ name Multiply2
+ xpos 1016
+ ypos -721
+}
+push $N949aa400
+Merge2 {
+ inputs 2+1
+ name Merge7
+ xpos 1016
+ ypos -633
+}
+push $Nf520c400
 Transform {
  translate {242 139}
  scale 0.52
@@ -96,7 +211,7 @@ Transform {
  xpos 530
  ypos -642
 }
-push $N3956b000
+push $Ncf4c6800
 ColorWheel {
  inputs 0
  format "1024 1024 0 0 1024 1024 1 square_1K"
@@ -139,7 +254,7 @@ Dot {
  xpos -174
  ypos -780
 }
-set N7bb79000 [stack 0]
+set Ncf4c4400 [stack 0]
 Dot {
  name Dot2
  xpos -14
@@ -166,7 +281,7 @@ Dot {
  xpos -14
  ypos -666
 }
-set N9beabc00 [stack 0]
+set Na1ad5400 [stack 0]
 Dot {
  name Dot4
  xpos 178
@@ -188,8 +303,8 @@ Transform {
  xpos 144
  ypos -601
 }
-push $N9beabc00
-push $N7bb79000
+push $Na1ad5400
+push $Ncf4c4400
 Dot {
  name Dot1
  xpos -174
@@ -225,12 +340,18 @@ Merge2 {
  xpos 530
  ypos -555
 }
+Merge2 {
+ inputs 2
+ name Merge6
+ xpos 1016
+ ypos -555
+}
 Dot {
  name Dot6
- xpos 642
+ xpos 1135
  ypos -552
 }
-set N9be48800 [stack 0]
+set N88afb400 [stack 0]
 Viewer {
  inputs 2
  frame_range 1-1
@@ -240,10 +361,10 @@ Viewer {
  xpos 608
  ypos -345
 }
-push $N9be48800
+push $N88afb400
 Dot {
  name Dot7
- xpos 725
+ xpos 1218
  ypos -552
 }
 Write {
@@ -254,6 +375,12 @@ Write {
  first_part rgba
  version 2
  name Write1
- xpos 691
+ xpos 1184
  ypos -465
+}
+EXPTool {
+ inputs 0
+ name Exposure3
+ xpos 854
+ ypos -915
 }
