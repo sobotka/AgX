@@ -1,4 +1,4 @@
-# version: 0.2.1
+# version: 0.2.2
 ocio_profile_version: 1
 description: |
   AgX config by Troy Sobotka. Modified by Liam Collod with full permissions from
@@ -75,10 +75,12 @@ colorspaces:
     allocationvars: [ -12.47393, 4.026069 ]
     from_reference: !<GroupTransform>
       children:
+        # the 2 CLDTransform are a hack to clamp negatives
+        # 2nd one has an offset else considered no-op and no clamp applied
+        - !<CDLTransform> {power: [2.0, 2.0, 2.0]}
+        - !<CDLTransform> {power: [0.500001, 0.500001, 0.500001]}
         - !<MatrixTransform> { matrix: [ 0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1 ] }
         - !<AllocationTransform> { allocation: lg2, vars: [ -12.47393, 4.026069] }
-        # hack to clamp to 0-1
-        - !<FileTransform> { src: dummy.spi1d, interpolation: linear }
 
   - !<ColorSpace>
     name: 2.2 EOTF Encoding
