@@ -315,8 +315,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear CIE-XYZ I-D65}
-        - !<MatrixTransform> {matrix: [ 1.7166634277958805, -0.3556733197301399, -0.2533680878902478, 0, -0.6666738361988869, 1.6164557398246981, 0.0157682970961337, 0, 0.0176424817849772, -0.0427769763827532, 0.9422432810184308, 0, 0, 0, 0, 1]}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
 
   - !<ColorSpace>
