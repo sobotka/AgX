@@ -50,6 +50,12 @@ displays:
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
+  ST.2084 BT.2020:
+    - !<View> {name: Display's Native, colorspace: ST.2084 BT.2020}
+    - !<View> {name: AgX, colorspace: AgX Base ST.2084 BT.2020}
+    - !<View> {name: AgX Log,colorspace: AgX Log}
+    - !<View> {name: AgX False Color, colorspace: AgX False Color}
+    - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
 inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
@@ -305,18 +311,6 @@ colorspaces:
         - !<MatrixTransform> {matrix: [0.743254069503573, 0.209877192574151, 0.0468687379222756, 0, 0.101341657793092, 0.775415045243814, 0.123243296963094, 0, 0.0236875520535265, 0.0918897329892661, 0.884422714957207, 0, 0, 0, 0, 1]}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
 
-  - !<ColorSpace>
-    name: ST.2084 BT.2020 I-D65
-    family: Displays/HDR
-    equalitygroup: ""
-    bitdepth: 32f
-    description: The HDR Display with ST.2084(PQ) curve and BT.2020 primaries and I-D65 white point
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
 
   - !<ColorSpace>
     name: Filmic sRGB
@@ -351,6 +345,23 @@ colorspaces:
       children:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.473931188, 4.026068812], direction: inverse}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65, direction: inverse}
+
+  - !<ColorSpace>
+    name: AgX Base ST.2084 BT.2020
+    family: Imagery
+    equalitygroup: ""
+    bitdepth: unknown
+    description: AgX Base Image Encoding for ST.2084 BT.2020 Dipsplay
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-27.47393, 22.52607]}
+        - !<FileTransform> {src: AgX_ST2084_Contrast.spi1d}
+        - !<MatrixTransform> {matrix: [0.666466182903757, 0.277528877923223, 0.0560049391730194, 0, 0.101341657793092, 0.775415045243814, 0.123243296963094, 0, 0.0311194175502226, 0.157306340854145, 0.811574241595633, 0, 0, 0, 0, 1], direction: inverse}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
 
   - !<ColorSpace>
     name: AgX Base BT.2020
@@ -427,7 +438,21 @@ colorspaces:
         - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: Linear BT.2020 I-D65}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
-        
+
+  - !<ColorSpace>
+    name: ST.2084 BT.2020
+    aliases: [ST.2084 BT.2020 I-D65, ST.2084]
+    family: Displays/HDR
+    equalitygroup: ""
+    bitdepth: 32f
+    description: The HDR Display with ST.2084(PQ) curve and BT.2020 primaries and I-D65 white point
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+
   - !<ColorSpace>
     name: sRGB 2.2
     aliases: [sRGB, sRGB 2.2 I-D65]
