@@ -537,9 +537,9 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 17.5260688117]}
         - !<FileTransform> {src: moment_spherical_compression.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 12.5260688117], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 17.5260688117], direction: inverse}
 
   - !<ColorSpace>
     name: Generic Data
