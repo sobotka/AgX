@@ -50,9 +50,9 @@ displays:
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
-  ST.2084 BT.2100:
-    - !<View> {name: Display's Native, colorspace: ST.2084 BT.2100}
-    - !<View> {name: AgX, colorspace: AgX Base ST.2084 BT.2100}
+  BT.2100 ST.2084:
+    - !<View> {name: Display's Native, colorspace: BT.2100 ST.2084}
+    - !<View> {name: AgX, colorspace: AgX Base BT.2100 ST.2084}
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
@@ -346,11 +346,11 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65, direction: inverse}
 
   - !<ColorSpace>
-    name: AgX Base ST.2084 BT.2100
+    name: AgX Base BT.2100 ST.2084
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding for ST.2084 BT.2100 Dipsplay
+    description: AgX Base Image Encoding for BT.2100 ST.2084 Dipsplay
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -439,8 +439,8 @@ colorspaces:
         - !<FileTransform> {src: False_Color.spi3d, interpolation: best}
 
   - !<ColorSpace>
-    name: ST.2084 BT.2100
-    aliases: [ST.2084 BT.2100 I-D65, ST.2084]
+    name: BT.2100 ST.2084
+    aliases: [BT.2100 ST.2084 I-D65, ST.2084]
     family: Displays/HDR
     equalitygroup: ""
     bitdepth: 32f
