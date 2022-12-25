@@ -346,23 +346,6 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65, direction: inverse}
 
   - !<ColorSpace>
-    name: AgX Base BT.2100 ST.2084
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding for BT.2100 ST.2084 Dipsplay
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
-        - !<AllocationTransform> {allocation: lg2, vars: [-27.47393, 22.52607]}
-        - !<FileTransform> {src: AgX_ST2084_Contrast.spi1d}
-        - !<MatrixTransform> {matrix: [0.666466182903757, 0.277528877923223, 0.0560049391730194, 0, 0.101341657793092, 0.775415045243814, 0.123243296963094, 0, 0.0311194175502226, 0.157306340854145, 0.811574241595633, 0, 0, 0, 0, 1], direction: inverse}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
-
-  - !<ColorSpace>
     name: AgX Base BT.2020
     family: Imagery
     equalitygroup: ""
@@ -374,7 +357,7 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
-        - !<MatrixTransform> {matrix: [0.635572461055128, 0.231835216497445, 0.132592322447427, 0, 0.145136987509284, 0.663918814699068, 0.190944197791648, 0, 0.0841955912033672, 0.127501756740394, 0.788302652056239, 0, 0, 0, 0, 1], direction: inverse}
+        - !<MatrixTransform> {matrix: [0.666466182903757, 0.277528877923223, 0.0560049391730194, 0, 0.101341657793092, 0.775415045243814, 0.123243296963094, 0, 0.0311194175502226, 0.157306340854145, 0.811574241595633, 0, 0, 0, 0, 1], direction: inverse}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<ColorSpaceTransform> {src: 2.2 EOTF Encoding, dst: 2.4 EOTF Encoding}
 
@@ -418,6 +401,23 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base sRGB}
         - !<ColorSpaceTransform> {src: sRGB 2.2, dst: BT.1886 2.4}
+
+  - !<ColorSpace>
+    name: AgX Base BT.2100 ST.2084
+    family: Imagery
+    equalitygroup: ""
+    bitdepth: unknown
+    description: AgX Base Image Encoding for BT.2100 ST.2084 Dipsplay
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-27.47393, 22.52607]}
+        - !<FileTransform> {src: AgX_ST2084_Contrast.spi1d}
+        - !<MatrixTransform> {matrix: [0.666466182903757, 0.277528877923223, 0.0560049391730194, 0, 0.101341657793092, 0.775415045243814, 0.123243296963094, 0, 0.0311194175502226, 0.157306340854145, 0.811574241595633, 0, 0, 0, 0, 1], direction: inverse}
+        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
 
   - !<ColorSpace>
     name: AgX False Color
