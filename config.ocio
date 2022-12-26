@@ -58,7 +58,7 @@ displays:
     - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
+inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color, AgX False Color BT.2100 ST.2084]
 
 
 looks:
@@ -428,7 +428,7 @@ colorspaces:
     description: |
       AgX false color heat map
     isdata: false
-    from_reference: !<GroupTransform>
+    from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
@@ -445,7 +445,7 @@ colorspaces:
     description: |
       AgX false color heat map
     isdata: false
-    from_reference: !<GroupTransform>
+    from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2100 ST.2084}
         - !<ColorSpaceTransform> {src: BT.2100 ST.2084, dst: Linear BT.2020 I-D65}
