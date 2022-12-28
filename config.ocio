@@ -50,15 +50,9 @@ displays:
     - !<View> {name: AgX Log,colorspace: AgX Log}
     - !<View> {name: AgX False Color, colorspace: AgX False Color}
     - !<View> {name: None, colorspace: Generic Data}
-  BT.2100 ST.2084:
-    - !<View> {name: Display's Native, colorspace: BT.2100 ST.2084}
-    - !<View> {name: AgX, colorspace: AgX Base BT.2100 ST.2084}
-    - !<View> {name: AgX Log,colorspace: AgX Log}
-    - !<View> {name: AgX False Color, colorspace: AgX False Color BT.2100 ST.2084}
-    - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color, AgX False Color BT.2100 ST.2084]
+inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
 
 
 looks:
@@ -403,23 +397,6 @@ colorspaces:
         - !<ColorSpaceTransform> {src: sRGB 2.2, dst: BT.1886 2.4}
 
   - !<ColorSpace>
-    name: AgX Base BT.2100 ST.2084
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: AgX Base Image Encoding for BT.2100 ST.2084 Dipsplay
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
-        - !<AllocationTransform> {allocation: lg2, vars: [-27.47393, 22.52607]}
-        - !<FileTransform> {src: AgX_ST2084_Contrast.spi1d}
-        - !<MatrixTransform> {matrix: [0.666466182903757, 0.277528877923223, 0.0560049391730194, 0, 0.101341657793092, 0.775415045243814, 0.123243296963094, 0, 0.0311194175502226, 0.157306340854145, 0.811574241595633, 0, 0, 0, 0, 1], direction: inverse}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
-
-  - !<ColorSpace>
     name: AgX False Color
     aliases: [False Colour]
     family: Imagery
@@ -435,38 +412,6 @@ colorspaces:
         - !<MatrixTransform> {matrix: [0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0, 0, 0, 1]}
         - !<ExponentTransform> {value: 3.0, direction: inverse}
         - !<FileTransform> {src: AgX_False_Color_SDR.cube, interpolation: best}
-
-  - !<ColorSpace>
-    name: AgX False Color BT.2100 ST.2084
-    aliases: []
-    family: Imagery
-    equalitygroup:
-    bitdepth: 32f
-    description: |
-      AgX false color heat map
-    isdata: false
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2100 ST.2084}
-        - !<ColorSpaceTransform> {src: BT.2100 ST.2084, dst: Linear BT.2020 I-D65}
-        - !<MatrixTransform> {matrix: [0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0, 0, 0, 1]}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 100, max_out_value: 1, style: noclamp}
-        - !<ExponentTransform> {value: 15.0, direction: inverse}
-        - !<FileTransform> {src: AgX_False_Color_ST2084.cube, interpolation: best}
-
-  - !<ColorSpace>
-    name: BT.2100 ST.2084
-    aliases: [BT.2100 ST.2084 I-D65, ST.2084]
-    family: Displays/HDR
-    equalitygroup: ""
-    bitdepth: 32f
-    description: The HDR Display with ST.2084(PQ) curve and BT.2020 primaries and I-D65 white point
-    isdata: false
-    allocation: uniform
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
 
   - !<ColorSpace>
     name: sRGB 2.2
