@@ -302,7 +302,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Moment Spherical Compression}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
-        - !<MatrixTransform> {matrix: [0.924051358195447, 0.0327811939181828, 0.04316744788637, 0, 0.110674175739883, 0.797278614533573, 0.0920472097265443, 0, 0.0487755386198423, 0.0243155263670684, 0.926908935013089, 0, 0, 0, 0, 1]}
+        - !<MatrixTransform> {matrix: [0.922524286170211, 0.0342188515145886, 0.043256862315201, 0, 0.0736196432871838, 0.83224420057955, 0.0941361561332655, 0, 0.0470418382083785, 0.0253819122125465, 0.927576249579075, 0, 0, 0, 0, 1]}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
 
   - !<ColorSpace>
@@ -352,7 +352,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
         - !<FileTransform> {src: AgX_Default_Contrast.spi1d}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-E}
-        - !<MatrixTransform> {matrix: [0.924051358195447, 0.0327811939181828, 0.04316744788637, 0, 0.110674175739883, 0.797278614533573, 0.0920472097265443, 0, 0.0487755386198423, 0.0243155263670684, 0.926908935013089, 0, 0, 0, 0, 1], direction: inverse}
+        - !<MatrixTransform> {matrix: [0.922524286170211, 0.0342188515145886, 0.043256862315201, 0, 0.0736196432871838, 0.83224420057955, 0.0941361561332655, 0, 0.0470418382083785, 0.0253819122125465, 0.927576249579075, 0, 0, 0, 0, 1], direction: inverse}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-E, direction: inverse}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
 
