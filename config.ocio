@@ -349,10 +349,10 @@ colorspaces:
     allocation: unknown
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<AllocationTransform> {allocation: lg2, vars: [-10.4739311883, 4.02606881167]}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: guard_rail_srgb.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-10.4739311883, 4.02606881167], direction: inverse}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: sRGB 2.2}
 
   - !<ColorSpace>
@@ -378,10 +378,10 @@ colorspaces:
     allocation: unknown
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<AllocationTransform> {allocation: lg2, vars: [-10.4739311883, 4.02606881167]}
-        - !<FileTransform> {src: guard_rail_p3.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-10.4739311883, 4.02606881167], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+        - !<FileTransform> {src: guard_rail_srgb.cube, interpolation: best}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Display P3 2.2}
 
   - !<ColorSpace>
@@ -395,9 +395,9 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<AllocationTransform> {allocation: lg2, vars: [-10.4739311883, 4.02606881167]}
-        - !<FileTransform> {src: guard_rail_bt2020.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-10.4739311883, 4.02606881167], direction: inverse}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+        - !<FileTransform> {src: guard_rail_srgb.cube, interpolation: best}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
 
   - !<ColorSpace>
