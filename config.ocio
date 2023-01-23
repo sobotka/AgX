@@ -415,7 +415,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-E}
         - !<MatrixTransform> {matrix: [0.930803538663141, 0.0275086699119007, 0.0416877914249579, 0, 0.0462053079947119, 0.91210690058033, 0.041687791424958, 0, 0.0462053079947118, 0.0275086699119008, 0.926286022093387, 0, 0, 0, 0, 1], direction: inverse}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-E, direction: inverse}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail BT.2020}
 
   - !<ColorSpace>
     name: AgX Base sRGB
@@ -428,8 +428,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<FileTransform> {src: post_formation_compression_srgb.cube, interpolation: best}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: sRGB 2.2}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail sRGB}
         
   - !<ColorSpace>
     name: AgX Base Display P3
@@ -442,8 +441,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<FileTransform> {src: post_formation_compression_p3.cube, interpolation: best}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Display P3 2.2}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail P3}
 
   - !<ColorSpace>
     name: AgX Base BT.1886
