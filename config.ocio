@@ -411,11 +411,12 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: AgX_Formation.cube, interpolation: best}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-E}
         - !<MatrixTransform> {matrix: [0.930803538663141, 0.0275086699119007, 0.0416877914249579, 0, 0.0462053079947119, 0.91210690058033, 0.041687791424958, 0, 0.0462053079947118, 0.0275086699119008, 0.926286022093387, 0, 0, 0, 0, 1], direction: inverse}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-E, direction: inverse}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail BT.2020}
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Guard Rail BT.2020}
 
   - !<ColorSpace>
     name: AgX Base sRGB
