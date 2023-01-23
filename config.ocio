@@ -52,7 +52,7 @@ displays:
     - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Moment Spherical Compression, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
+inactive_colorspaces: [Luminance Correction, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
 
 
 looks:
@@ -75,7 +75,7 @@ looks:
          shadows: {rgb: [0.2, 1.5, 0.2], master: 0.2, start: 0.5, pivot: 0.1}
         - !<CDLTransform> {power: [0.78, 0.78377, 0.7799]}
         - !<CDLTransform> {slope: [1.09693, 1.0972, 1.0969]}
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Luminance Correction}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
@@ -101,7 +101,7 @@ looks:
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Luminance Correction}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
@@ -115,7 +115,7 @@ looks:
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Luminance Correction}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
@@ -129,7 +129,7 @@ looks:
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: AgX Log, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Luminance Correction}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E, direction: inverse}
         - !<GradingPrimaryTransform>
           style: log
@@ -299,7 +299,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Moment Spherical Compression}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.923961377999883, 0.0331173588855897, 0.0429212631145275, 0, 0.110663398758832, 0.805454556512313, 0.0838820447288549, 0, 0.0487707890651072, 0.0245648775087342, 0.926664333426159, 0, 0, 0, 0, 1]}
@@ -572,19 +572,19 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
-    name: Moment Spherical Compression
+    name: Luminance Correction
     aliases: []
     family: Utilities
     equalitygroup: ""
     bitdepth: unknown
-    description: Compress Pre-Formation Chroma Both in the Moment Plane and Spherically, Processed in Linear CIE-XYZ I-E
+    description: Use CIE 2012 Luminance to Compensate for Some Out-of-Domain Values
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 17.5260688117]}
-        - !<FileTransform> {src: moment_spherical_compression.cube, interpolation: best}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.4739311883, 17.5260688117], direction: inverse}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+        - !<FileTransform> {src: luminance_correction.cube, interpolation: best}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
 
   - !<ColorSpace>
     name: Generic Data
