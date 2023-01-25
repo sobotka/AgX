@@ -64,10 +64,11 @@ looks:
 
   - !<Look>
     name: Green Ink
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A High Contrast Look with Green Tint in Low Range and Warm Tint in Mid Range
     transform: !<GroupTransform>
       children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<CDLTransform> {slope: [1, 0.85, 0.9]}
         - !<GradingToneTransform>
          shadows: {rgb: [0.55, 0.8357, 0.7363], master: 1, start: 2, pivot: 0.1}
@@ -75,11 +76,12 @@ looks:
          shadows: {rgb: [0.2, 1.5, 0.2], master: 0.2, start: 0.5, pivot: 0.1}
         - !<CDLTransform> {power: [0.78, 0.78377, 0.7799]}
         - !<CDLTransform> {slope: [1.09693, 1.0972, 1.0969]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
         - !<GradingPrimaryTransform>
-          style: log
+          style: linear
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
           saturation: 0.95
-          pivot: {contrast: 0.21212}
+          pivot: {contrast: 0}
 
   - !<Look>
     name: Greyscale
@@ -95,87 +97,99 @@ looks:
 
   - !<Look>
     name: Very High Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: log
+          style: linear
           contrast: {rgb: [1.57, 1.57, 1.57], master: 1}
           saturation: 0.9
-          pivot: {contrast: 0.21212}
+          pivot: {contrast: 0}
 
   - !<Look>
     name: High Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: log
+          style: linear
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
           saturation: 0.95
-          pivot: {contrast: 0.21212}
+          pivot: {contrast: 0}
 
   - !<Look>
     name: Medium High Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: log
+          style: linear
           contrast: {rgb: [1.2, 1.2, 1.2], master: 1}
           saturation: 1
-          pivot: {contrast: 0.21212}
+          pivot: {contrast: 0}
 
   - !<Look>
     name: Base Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A Base Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: log
+          style: linear
           contrast: {rgb: [1, 1, 1], master: 1}
           saturation: 1
-          pivot: {contrast: 0.21212}
+          pivot: {contrast: 0}
 
   - !<Look>
     name: Medium Low Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A Medium Low Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Luminance Correction}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.9, 0.9, 0.9], master: 1}
           saturation: 1.05
           pivot: {contrast: 0.21212}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
 
   - !<Look>
     name: Low Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A Low Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Luminance Correction}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.8, 0.8, 0.8], master: 1}
           saturation: 1.1
           pivot: {contrast: 0.21212}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
 
   - !<Look>
     name: Very Low Contrast
-    process_space: AgX Log
+    process_space: Linear BT.2020 I-E
     description: A Very Low Contrast Look
     transform: !<GroupTransform>
       children:
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Luminance Correction}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.7, 0.7, 0.7], master: 1}
           saturation: 1.15
           pivot: {contrast: 0.21212}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
 
 colorspaces:
   - !<ColorSpace>
