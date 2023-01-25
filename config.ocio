@@ -97,99 +97,86 @@ looks:
 
   - !<Look>
     name: Very High Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A Very High Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: linear
+          style: log
           contrast: {rgb: [1.57, 1.57, 1.57], master: 1}
           saturation: 0.9
-          pivot: {contrast: 0}
+          pivot: {contrast: -0.2}
 
   - !<Look>
     name: High Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A High Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: linear
+          style: log
           contrast: {rgb: [1.4, 1.4, 1.4], master: 1}
           saturation: 0.95
-          pivot: {contrast: 0}
+          pivot: {contrast: -0.2}
 
   - !<Look>
     name: Medium High Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A Medium High Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: linear
+          style: log
           contrast: {rgb: [1.2, 1.2, 1.2], master: 1}
           saturation: 1
-          pivot: {contrast: 0}
+          pivot: {contrast: -0.2}
 
   - !<Look>
     name: Base Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A Base Contrast Look
     transform: !<GroupTransform>
       children:
         - !<GradingPrimaryTransform>
-          style: linear
+          style: log
           contrast: {rgb: [1, 1, 1], master: 1}
-          saturation: 1
-          pivot: {contrast: 0}
+          pivot: {contrast: -0.2}
 
   - !<Look>
     name: Medium Low Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A Medium Low Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Luminance Correction}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.9, 0.9, 0.9], master: 1}
           saturation: 1.05
-          pivot: {contrast: 0.21212}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
+          pivot: {contrast: -0.2}
 
   - !<Look>
     name: Low Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A Low Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Luminance Correction}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.8, 0.8, 0.8], master: 1}
           saturation: 1.1
-          pivot: {contrast: 0.21212}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
+          pivot: {contrast: -0.2}
 
   - !<Look>
     name: Very Low Contrast
-    process_space: Linear BT.2020 I-E
+    process_space: AgX Log
     description: A Very Low Contrast Look
     transform: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: Luminance Correction}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
         - !<GradingPrimaryTransform>
           style: log
           contrast: {rgb: [0.7, 0.7, 0.7], master: 1}
           saturation: 1.15
-          pivot: {contrast: 0.21212}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
+          pivot: {contrast: -0.2}
 
 colorspaces:
   - !<ColorSpace>
@@ -310,6 +297,11 @@ colorspaces:
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.923961377999883, 0.0331173588855897, 0.0429212631145275, 0, 0.110663398758832, 0.805454556512313, 0.0838820447288549, 0, 0.0487707890651072, 0.0245648775087342, 0.926664333426159, 0, 0, 0, 0, 1]}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117]}
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117], direction: inverse}
+        - !<MatrixTransform> {matrix: [0.923961377999883, 0.0331173588855897, 0.0429212631145275, 0, 0.110663398758832, 0.805454556512313, 0.0838820447288549, 0, 0.0487707890651072, 0.0245648775087342, 0.926664333426159, 0, 0, 0, 0, 1], direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65, direction: inverse}
 
   - !<ColorSpace>
     name: Filmic sRGB
