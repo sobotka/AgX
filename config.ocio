@@ -417,7 +417,8 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 1.1, max_out_value: 1, style: noclamp}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.02606881167], direction: inverse}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117]}
         - !<FileTransform> {src: AgX_Formation.cube, interpolation: best}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<MatrixTransform> {matrix: [0.930803538663141, 0.0275086699119007, 0.0416877914249579, 0, 0.0462053079947119, 0.91210690058033, 0.041687791424958, 0, 0.0462053079947118, 0.0275086699119008, 0.926286022093387, 0, 0, 0, 0, 1], direction: inverse}
