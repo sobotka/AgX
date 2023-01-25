@@ -295,7 +295,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.923961377999883, 0.0331173588855897, 0.0429212631145275, 0, 0.110663398758832, 0.805454556512313, 0.0838820447288549, 0, 0.0487707890651072, 0.0245648775087342, 0.926664333426159, 0, 0, 0, 0, 1]}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117]}
 
   - !<ColorSpace>
     name: Filmic sRGB
@@ -403,11 +403,8 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Log}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
-        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117]}
         - !<FileTransform> {src: AgX_Formation.cube, interpolation: best}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
-        - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<MatrixTransform> {matrix: [0.930803538663141, 0.0275086699119007, 0.0416877914249579, 0, 0.0462053079947119, 0.91210690058033, 0.041687791424958, 0, 0.0462053079947118, 0.0275086699119008, 0.926286022093387, 0, 0, 0, 0, 1], direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Guard Rail BT.2020}
 
@@ -576,9 +573,11 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 2000, max_out_value: 100, style: noclamp}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: luminance_correction.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 2000, max_out_value: 100, style: noclamp, direction: inverse}
 
   - !<ColorSpace>
     name: Generic Data
