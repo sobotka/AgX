@@ -420,6 +420,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
         - !<FileTransform> {src: AgX_Formation.cube, interpolation: best, direction: inverse}
         - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E}
+
   - !<ColorSpace>
     name: AgX Base sRGB
     family: Imagery
