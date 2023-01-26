@@ -413,7 +413,13 @@ colorspaces:
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<MatrixTransform> {matrix: [0.930803538663141, 0.0275086699119007, 0.0416877914249579, 0, 0.0462053079947119, 0.91210690058033, 0.041687791424958, 0, 0.0462053079947118, 0.0275086699119008, 0.926286022093387, 0, 0, 0, 0, 1], direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Guard Rail BT.2020}
-
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
+        - !<MatrixTransform> {matrix: [0.930803538663141, 0.0275086699119007, 0.0416877914249579, 0, 0.0462053079947119, 0.91210690058033, 0.041687791424958, 0, 0.0462053079947118, 0.0275086699119008, 0.926286022093387, 0, 0, 0, 0, 1]}
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
+        - !<FileTransform> {src: AgX_Formation.cube, interpolation: best, direction: inverse}
+        - !<ColorSpaceTransform> {src: AgX Log, dst: Linear CIE-XYZ I-E}
   - !<ColorSpace>
     name: AgX Base sRGB
     family: Imagery
@@ -426,7 +432,11 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail sRGB}
-        
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: sRGB 2.2, dst: BT.2020 2.4}
+        - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: Linear CIE-XYZ I-E}
+
   - !<ColorSpace>
     name: AgX Base Display P3
     family: Imagery
@@ -439,6 +449,10 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail P3}
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Display P3 2.2, dst: BT.2020 2.4}
+        - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: Linear CIE-XYZ I-E}
 
   - !<ColorSpace>
     name: AgX Base BT.1886
@@ -450,8 +464,12 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base sRGB}
-        - !<ColorSpaceTransform> {src: sRGB 2.2, dst: BT.1886 2.4}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Guard Rail BT.1886}
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: BT.1886 2.4, dst: BT.2020 2.4}
+        - !<ColorSpaceTransform> {src: AgX Base BT.2020, dst: Linear CIE-XYZ I-E}
 
   - !<ColorSpace>
     name: AgX False Color
