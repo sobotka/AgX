@@ -52,8 +52,7 @@ displays:
     - !<View> {name: None, colorspace: Generic Data}
 active_displays: []
 active_views: []
-inactive_colorspaces: [Luminance Correction, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
-
+inactive_colorspaces: [Guard Rail sRGB, Guard Rail P3, Guard Rail BT.1886, Guard Rail BT.2020, Luminance Correction BT.2020, Luminance Correction sRGB, Luminance Correction P3, Display P3 2.2 I-E, sRGB 2.2 I-E, BT.2020 2.4 I-E, AgX False Color]
 
 looks:
   - !<Look>
@@ -292,7 +291,7 @@ colorspaces:
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
         - !<RangeTransform> {min_in_value: 0, min_out_value: 0}
         - !<MatrixTransform> {matrix: [0.923961377999883, 0.0331173588855897, 0.0429212631145275, 0, 0.110663398758832, 0.805454556512313, 0.0838820447288549, 0, 0.0487707890651072, 0.0245648775087342, 0.926664333426159, 0, 0, 0, 0, 1]}
@@ -338,6 +337,27 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65, direction: inverse}
 
   - !<ColorSpace>
+    name: Guard Rail BT.2020
+    family: Imagery
+    equalitygroup: ""
+    bitdepth: unknown
+    description: A default Guard Rail image formation for BT.2020 2.4 displays
+    isdata: false
+    allocation: unknown
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+        - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
+    to_scene_reference: !<GroupTransform>
+      children:
+      # Guard Rail is irreversible
+        - !<CDLTransform> {slope: [0, 0, 0]}
+
+  - !<ColorSpace>
     name: Guard Rail sRGB
     family: Imagery
     equalitygroup: ""
@@ -347,11 +367,16 @@ colorspaces:
     allocation: unknown
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction sRGB}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
-        - !<FileTransform> {src: guard_rail_srgb.cube, interpolation: best}
+        - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: sRGB 2.2}
+    to_scene_reference: !<GroupTransform>
+      children:
+      # Guard Rail is irreversible
+        - !<CDLTransform> {slope: [0, 0, 0]}
 
   - !<ColorSpace>
     name: Guard Rail BT.1886
@@ -365,6 +390,10 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Guard Rail sRGB}
         - !<ColorSpaceTransform> {src: sRGB 2.2, dst: BT.1886 2.4}
+    to_scene_reference: !<GroupTransform>
+      children:
+      # Guard Rail is irreversible
+        - !<CDLTransform> {slope: [0, 0, 0]}
 
   - !<ColorSpace>
     name: Guard Rail P3
@@ -376,27 +405,16 @@ colorspaces:
     allocation: unknown
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction P3}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
-        - !<FileTransform> {src: guard_rail_p3.cube, interpolation: best}
+        - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Display P3 2.2}
-
-  - !<ColorSpace>
-    name: Guard Rail BT.2020
-    family: Imagery
-    equalitygroup: ""
-    bitdepth: unknown
-    description: A default Guard Rail image formation for BT.2020 2.4 displays
-    isdata: false
-    allocation: unknown
-    from_scene_reference: !<GroupTransform>
+    to_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
-        - !<FileTransform> {src: guard_rail_bt2020.cube, interpolation: best}
-        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
+      # Guard Rail is irreversible
+        - !<CDLTransform> {slope: [0, 0, 0]}
 
   - !<ColorSpace>
     name: AgX Base BT.2020
@@ -588,21 +606,59 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: 2.4 EOTF Encoding}
 
   - !<ColorSpace>
-    name: Luminance Correction
+    name: Luminance Correction BT.2020
     aliases: []
     family: Utilities
     equalitygroup: ""
     bitdepth: unknown
-    description: Use CIE 2012 Luminance to Compensate for Some Out-of-Domain Values
+    description: Use CIE 2012 Luminance to Compensate for Some Out-of-BT.2020-Domain Values
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 2000, max_out_value: 100, style: noclamp}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 200, max_out_value: 100, style: noclamp}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
-        - !<FileTransform> {src: luminance_correction.cube, interpolation: best}
+        - !<FileTransform> {src: luminance_correction_bt2020.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 2000, max_out_value: 100, style: noclamp, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 200, max_out_value: 100, style: noclamp, direction: inverse}
+
+  - !<ColorSpace>
+    name: Luminance Correction sRGB
+    aliases: []
+    family: Utilities
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Use CIE 2012 Luminance to Compensate for Some Out-of-BT.709-Domain Values
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 200, max_out_value: 100, style: noclamp}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+        - !<FileTransform> {src: luminance_correction_srgb.cube, interpolation: best}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 200, max_out_value: 100, style: noclamp, direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65, direction: inverse}
+
+  - !<ColorSpace>
+    name: Luminance Correction P3
+    aliases: []
+    family: Utilities
+    equalitygroup: ""
+    bitdepth: unknown
+    description: Use CIE 2012 Luminance to Compensate for Some Out-of-BT.709-Domain Values
+    isdata: false
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 200, max_out_value: 100, style: noclamp}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
+        - !<FileTransform> {src: luminance_correction_p3.cube, interpolation: best}
+        - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 200, max_out_value: 100, style: noclamp, direction: inverse}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65, direction: inverse}
 
   - !<ColorSpace>
     name: Generic Data
