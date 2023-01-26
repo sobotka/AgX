@@ -403,7 +403,7 @@ colorspaces:
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding for BT.2020 2.4 Dipsplay
+    description: AgX Base Image Encoding for BT.2020 2.4 Display
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -426,7 +426,7 @@ colorspaces:
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding for sRGB 2.2 Dipsplay
+    description: AgX Base Image Encoding for sRGB 2.2 Display
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -443,7 +443,7 @@ colorspaces:
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding for Display P3 2.2 Dipsplay
+    description: AgX Base Image Encoding for Display P3 2.2 Display
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
@@ -460,7 +460,7 @@ colorspaces:
     family: Imagery
     equalitygroup: ""
     bitdepth: unknown
-    description: AgX Base Image Encoding for BT.1886 2.4 Dipsplay
+    description: AgX Base Image Encoding for BT.1886 2.4 Display
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
