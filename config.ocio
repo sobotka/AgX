@@ -647,7 +647,7 @@ colorspaces:
     family: Utilities
     equalitygroup: ""
     bitdepth: unknown
-    description: Use CIE 2012 Luminance to Compensate for Some Out-of-BT.709-Domain Values
+    description: Use CIE 2012 Luminance to Compensate for Some Out-of-P3-Domain Values
     isdata: false
     allocation: uniform
     from_scene_reference: !<GroupTransform>
