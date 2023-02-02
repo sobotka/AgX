@@ -367,7 +367,8 @@ colorspaces:
     allocation: unknown
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction sRGB}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Guard Rail BT.2020}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Luminance Correction sRGB}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
@@ -405,7 +406,8 @@ colorspaces:
     allocation: unknown
     from_scene_reference: !<GroupTransform>
       children:
-        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction P3}
+        - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Guard Rail BT.2020}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Luminance Correction P3}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
