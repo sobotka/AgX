@@ -59,7 +59,7 @@ looks:
     name: Punchy
     process_space: AgX Log
     description: A punchy look
-    transform: !<CDLTransform> {power: [1.1865, 1.1865, 1.1865]}
+    transform: !<CDLTransform> {power: [1.09055, 1.09055, 1.09055]}
 
   - !<Look>
     name: Green Ink
