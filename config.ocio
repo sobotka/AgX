@@ -197,9 +197,8 @@ colorspaces:
     description: |
       XYZ transform with adapted I-D65 white point
     isdata: false
-    from_scene_reference: !<GroupTransform>
-      children:
-        - !<FileTransform> {src: xyz_D65_to_E.spimtx, interpolation: linear, direction: inverse}
+    from_scene_reference: !<FileTransform> {src: xyz_E_to_D65.spimtx, interpolation: linear}
+    to_scene_reference: !<FileTransform> {src: xyz_D65_to_E.spimtx, interpolation: linear}
 
   - !<ColorSpace>
     name: Linear BT.709 I-E
