@@ -1,6 +1,6 @@
 TITLE "High Side Attenuation for Guard Rail"
 # High Side Attenuation for Guard Rail
-# This LUT assumes input and output to be encoded in ST2084 (50)
+# This LUT assumes input and output to be encoded in ST2084 (80)
 # LUT resolution 40
 LUT_3D_SIZE 40
 0.0000007 0.0000007 0.0000007
