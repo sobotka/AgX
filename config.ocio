@@ -353,8 +353,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
     to_scene_reference: !<GroupTransform>
       children:
-      # Guard Rail is irreversible
-        - !<CDLTransform> {slope: [0, 0, 0]}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear CIE-XYZ I-E}
 
   - !<ColorSpace>
     name: Guard Rail sRGB
@@ -377,8 +376,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: sRGB 2.2}
     to_scene_reference: !<GroupTransform>
       children:
-      # Guard Rail is irreversible
-        - !<CDLTransform> {slope: [0, 0, 0]}
+        - !<ColorSpaceTransform> {src: sRGB 2.2, dst: Linear CIE-XYZ I-E}
 
   - !<ColorSpace>
     name: Guard Rail BT.1886
@@ -394,8 +392,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: sRGB 2.2, dst: BT.1886 2.4}
     to_scene_reference: !<GroupTransform>
       children:
-      # Guard Rail is irreversible
-        - !<CDLTransform> {slope: [0, 0, 0]}
+        - !<ColorSpaceTransform> {src: BT.1886 2.4, dst: Linear CIE-XYZ I-E}
 
   - !<ColorSpace>
     name: Guard Rail P3
@@ -418,8 +415,7 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Display P3 2.2}
     to_scene_reference: !<GroupTransform>
       children:
-      # Guard Rail is irreversible
-        - !<CDLTransform> {slope: [0, 0, 0]}
+        - !<ColorSpaceTransform> {src: Display P3 2.2, dst: Linear CIE-XYZ I-E}
 
   - !<ColorSpace>
     name: AgX Base BT.2020
