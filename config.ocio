@@ -84,15 +84,13 @@ looks:
 
   - !<Look>
     name: Greyscale
-    process_space: Linear BT.2020 I-E
-    description: A Black and White Look with Luminance Coefficient Processed in Linear BT.709 I-E
-    transform: !<MatrixTransform> {matrix: [0.2888897875039249, 0.5893211548002175, 0.1217890576958578, 0, 0.2888897875039249, 0.5893211548002175, 0.1217890576958578, 0, 0.2888897875039249, 0.5893211548002175, 0.1217890576958578, 0, 0, 0, 0, 1]}
-
-  - !<Look>
-    name: Greyscale AgX
     process_space: AgX Log
-    description: A Black and White Look with Luminance Coefficient Processed in AgX Log
-    transform: !<MatrixTransform> {matrix: [0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0, 0, 0, 1]}
+    description: A Black and White Look
+    transform: !<GroupTransform>
+      children:
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117], direction: inverse}
+        - !<MatrixTransform> {matrix: [0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0, 0, 0, 1]}
+        - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 12.5260688117]}
 
   - !<Look>
     name: Very High Contrast
