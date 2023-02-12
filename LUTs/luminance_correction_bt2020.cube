@@ -1,6 +1,6 @@
 TITLE "Pre-formation 2012 Luminance Correction for BT.2020 Target"
 # Use CIE 2012 Luminance to Compensate for Some Out-of-Domain Values
-# This LUT assumes input and output to be XYZ I-E encoded in ST2084 (200)
+# This LUT assumes input and output to be XYZ I-E encoded in ST2084 (400)
 # LUT resolution 45
 LUT_3D_SIZE 45
 0.0000007 0.0000007 0.0000007
