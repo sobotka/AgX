@@ -64,7 +64,7 @@ looks:
   - !<Look>
     name: Green Ink
     process_space: Linear BT.2020 I-E
-    description: A High Contrast Look with Green Tint in Low Range and Warm Tint in Mid Range
+    description: A High Contrast Look with Green Tint in Lower Range and Warm Tint in Higher Range
     transform: !<GroupTransform>
       children:
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069]}
@@ -74,7 +74,7 @@ looks:
         - !<GradingToneTransform>
          shadows: {rgb: [0.2, 1.5, 0.2], master: 0.2, start: 0.5, pivot: 0.1}
         - !<CDLTransform> {power: [0.78, 0.78377, 0.7799]}
-        - !<CDLTransform> {slope: [1.09693, 1.0972, 1.0969]}
+        - !<CDLTransform> {slope: [1.09696, 1.0972, 1.0969]}
         - !<AllocationTransform> {allocation: lg2, vars: [-12.47393, 4.026069], direction: inverse}
         - !<GradingPrimaryTransform>
           style: linear
