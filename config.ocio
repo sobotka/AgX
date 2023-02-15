@@ -434,7 +434,13 @@ colorspaces:
         - !<FileTransform> {src: AgX_Formation.cube, interpolation: best}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<MatrixTransform> {matrix: [0.826070114968099, 0.098987834519732, 0.0749420505121692, 0, 0.068801522808068, 0.856256426679763, 0.0749420505121692, 0, 0.0688015228080681, 0.0989878345197321, 0.8322106426722, 0, 0, 0, 0, 1], direction: inverse}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {power: [1, 1, 0.7]}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Guard Rail BT.2020}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV}
+        - !<CDLTransform> {power: [1, 1, 0.7], direction: inverse}
+        - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
     to_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
