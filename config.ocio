@@ -184,7 +184,7 @@ colorspaces:
     description: |
       XYZ transform with assumed I-E white point
     isdata: false
-    allocation: lg2
+    allocation: uniform
     allocationvars: [-12.4739, 12.5261]
 
   - !<ColorSpace>
@@ -195,6 +195,7 @@ colorspaces:
     description: |
       XYZ transform with adapted I-D65 white point
     isdata: false
+    allocation: uniform
     from_scene_reference: !<FileTransform> {src: xyz_E_to_D65.spimtx, interpolation: linear}
     to_scene_reference: !<FileTransform> {src: xyz_D65_to_E.spimtx, interpolation: linear}
 
@@ -203,7 +204,7 @@ colorspaces:
     aliases: []
     family: Colourspaces
     equalitygroup: ""
-    bitdepth: unknown
+    bitdepth: 32f
     description: Open Domain Linear BT.709 Tristimulus with I-E white point
     isdata: false
     allocation: uniform
@@ -216,7 +217,7 @@ colorspaces:
     aliases: [Linear, Linear BT.709, Linear Tristimulus]
     family: Colourspaces
     equalitygroup: ""
-    bitdepth: unknown
+    bitdepth: 32f
     description: Open Domain Linear BT.709 Tristimulus with I-D65 white point
     isdata: false
     allocation: uniform
@@ -232,7 +233,7 @@ colorspaces:
     bitdepth: 32f
     description: Open Domain Linear DCI-P3 Tristimulus with I-E white point
     isdata: false
-    allocation: lg2
+    allocation: uniform
     allocationvars: [-12.4739, 12.5261]
     from_scene_reference: !<GroupTransform>
       children:
@@ -245,7 +246,7 @@ colorspaces:
     bitdepth: 32f
     description: Open Domain Linear DCI-P3 Tristimulus with I-D65 white point
     isdata: false
-    allocation: lg2
+    allocation: uniform
     allocationvars: [-12.4739, 12.5261]
     from_scene_reference: !<GroupTransform>
       children:
@@ -303,10 +304,11 @@ colorspaces:
     name: Filmic sRGB
     family: Imagery
     equalitygroup:
-    bitdepth: 32f
+    bitdepth: unknown
     description: |
       Filmic sRGB Image Encoding
     isdata: false
+    allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Filmic Log}
@@ -316,11 +318,11 @@ colorspaces:
     name: Filmic Log
     family: Log Encodings
     equalitygroup:
-    bitdepth: 32f
+    bitdepth: unknown
     description: |
       Log based filmic shaper with 16.5 stops of latitude, and 25 stops of dynamic range
     isdata: false
-    allocation: lg2
+    allocation: uniform
     allocationvars: [-12.473931188, 12.526068812]
     from_scene_reference: !<GroupTransform>
       children:
@@ -363,7 +365,7 @@ colorspaces:
     bitdepth: unknown
     description: A default Guard Rail image formation for sRGB 2.2 displays
     isdata: false
-    allocation: unknown
+    allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
@@ -387,7 +389,7 @@ colorspaces:
     bitdepth: unknown
     description: A default Guard Rail image formation for BT.1886 2.4 displays
     isdata: false
-    allocation: unknown
+    allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Guard Rail sRGB}
@@ -403,7 +405,7 @@ colorspaces:
     bitdepth: unknown
     description: A default Guard Rail image formation for Display P3 2.2 displays
     isdata: false
-    allocation: unknown
+    allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
@@ -519,10 +521,11 @@ colorspaces:
     aliases: [False Colour]
     family: Imagery
     equalitygroup:
-    bitdepth: 32f
+    bitdepth: unknown
     description: |
       AgX false color heat map
     isdata: false
+    allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
