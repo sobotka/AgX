@@ -521,7 +521,7 @@ colorspaces:
     aliases: [False Colour]
     family: Imagery
     equalitygroup:
-    bitdepth: 32f
+    bitdepth: unknown
     description: |
       AgX false color heat map
     isdata: false
