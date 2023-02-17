@@ -347,11 +347,11 @@ colorspaces:
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 20, max_out_value: 100, style: noclamp}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 15, max_out_value: 100, style: noclamp}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 20, max_out_value: 100, style: noclamp, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 15, max_out_value: 100, style: noclamp, direction: inverse}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: BT.2020 2.4}
     to_scene_reference: !<GroupTransform>
@@ -371,11 +371,11 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction sRGB}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 20, max_out_value: 100, style: noclamp}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 15, max_out_value: 100, style: noclamp}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 20, max_out_value: 100, style: noclamp, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 15, max_out_value: 100, style: noclamp, direction: inverse}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: sRGB 2.2}
     to_scene_reference: !<GroupTransform>
@@ -411,11 +411,11 @@ colorspaces:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction BT.2020}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Luminance Correction P3}
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 20, max_out_value: 100, style: noclamp}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 15, max_out_value: 100, style: noclamp}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084}
         - !<FileTransform> {src: guard_rail_high_side.cube, interpolation: best}
         - !<BuiltinTransform> {style: CURVE - LINEAR_to_ST-2084, direction: inverse}
-        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 20, max_out_value: 100, style: noclamp, direction: inverse}
+        - !<RangeTransform> {min_in_value: 0, min_out_value: 0, max_in_value: 15, max_out_value: 100, style: noclamp, direction: inverse}
         - !<RangeTransform> {max_in_value: 1, max_out_value: 1}
         - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: Display P3 2.2}
     to_scene_reference: !<GroupTransform>
