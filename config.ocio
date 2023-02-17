@@ -521,18 +521,16 @@ colorspaces:
     aliases: [False Colour]
     family: Imagery
     equalitygroup:
-    bitdepth: unknown
+    bitdepth: 32f
     description: |
       AgX false color heat map
     isdata: false
-    allocation: uniform
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
         - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<MatrixTransform> {matrix: [0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0.2658180370250449, 0.59846986045365, 0.1357121025213052, 0, 0, 0, 0, 1]}
-        - !<ExponentTransform> {value: 3.0, direction: inverse}
-        - !<FileTransform> {src: AgX_False_Color.cube, interpolation: best}
+        - !<FileTransform> {src: AgX_False_Color.spi1d, interpolation: best}
 
   - !<ColorSpace>
     name: sRGB 2.2
