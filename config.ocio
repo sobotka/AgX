@@ -462,11 +462,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.709 I-D65}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
         - !<CDLTransform> {power: [1, 1, 0.7]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: Guard Rail sRGB}
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Guard Rail sRGB}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
         - !<CDLTransform> {power: [1, 1, 0.7], direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
@@ -486,11 +486,11 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: AgX Base BT.2020}
-        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear DCI-P3 I-D65}
+        - !<ColorSpaceTransform> {src: BT.2020 2.4, dst: Linear BT.2020 I-D65}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
         - !<CDLTransform> {power: [1, 1, 0.7]}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: Guard Rail P3}
+        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: Guard Rail P3}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV}
         - !<CDLTransform> {power: [1, 1, 0.7], direction: inverse}
         - !<FixedFunctionTransform> {style: RGB_TO_HSV, direction: inverse}
