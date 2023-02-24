@@ -2,7 +2,7 @@
 cd ../..
 pwd
 
-OCIOCHECK="/F/softwares/apps/ocio/v1/ocio_apps/ocio_apps/ociocheck.exe"
+OCIOCHECK="/F/softwares/apps/ocio/apps/ocio_apps/1.0.0/ocio_apps/ociocheck.exe"
 
 export OCIO="./ocio/config.ocio"
 

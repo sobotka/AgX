@@ -1,0 +1,300 @@
+#! C:/Program Files/Nuke13.2v1/nuke-13.2.1.dll -nx
+#write_info Write1 file:"Z:/packages-dev/AgXc/dev/images/results/test_log.reference.negatives.jpg" format:"1280 720 1" chans:":rgba.red:rgba.green:rgba.blue:" framerange:"1 100" fps:"0" colorspace:"default (matte_paint)" datatype:"8 bit" transfer:"unknown" views:"main" colorManagement:"OCIO"
+version 13.2 v1
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="-1921" y="-8" w="1920" h="1057" maximized="1" screen="1">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1257" stretch="1"/>
+            <splitter orientation="2">
+                <split size="1019"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                    <page id="DAG.2"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+    <window x="0" y="0" w="1918" h="1168" maximized="1" screen="0">
+        <splitter orientation="2">
+            <split size="1168"/>
+            <dock id="" activePageId="Viewer.1">
+                <page id="Viewer.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name Z:/packages-dev/AgXc/dev/scenes/nuke/AgXc.test_pattern.nk
+ format "1280 720 0 0 1280 720 1 HD_720"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement OCIO
+ defaultViewerLUT "OCIO LUTs"
+ workingSpaceLUT scene_linear
+ monitorLut "sRGB/AgX Punchy"
+ monitorOutLUT "AgX Punchy (sRGB)"
+ int8Lut matte_paint
+ int16Lut texture_paint
+ logLut compositing_log
+ floatLut scene_linear
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label "default AgX"
+ xpos 152
+ ypos -339
+}
+Read {
+ inputs 0
+ file_type exr
+ file Z:/packages-dev/AgXc/dev/images/sources/test_pattern.exr
+ format "1280 720 0 0 1280 720 1 HD_720"
+ origset true
+ name Read5
+ xpos -149
+ ypos -491
+}
+Dot {
+ name Dot1
+ xpos -115
+ ypos -366
+}
+set N4909ac00 [stack 0]
+OCIOColorSpace {
+ in_colorspace scene_linear
+ out_colorspace compositing_log
+ name OCIOColorSpace4
+ xpos -149
+ ypos -209
+}
+Group {
+ name display_negatives1
+ tile_color 0x992929ff
+ xpos -149
+ ypos -158
+ addUserKnob {20 User}
+ addUserKnob {7 threshold R -0.02 0}
+ addUserKnob {6 invert +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -74
+  ypos -382
+ }
+ Expression {
+  temp_name0 t
+  temp_expr0 threshold
+  expr0 "r < t? 1: 0"
+  expr1 "g < t? 1: 0"
+  expr2 "b < t? 1: 0"
+  name negatives_mask
+  xpos -74
+  ypos -342
+  addUserKnob {20 User}
+  addUserKnob {7 threshold R -0.05 0}
+  threshold {{parent.threshold x1 0}}
+ }
+ Saturation {
+  saturation 0
+  mode Maximum
+  name Saturation1
+  xpos -74
+  ypos -309
+ }
+set N2a3f7800 [stack 0]
+ Invert {
+  channels rgb
+  name Invert1
+  xpos -13
+  ypos -273
+ }
+push $N2a3f7800
+ Switch {
+  inputs 2
+  which {{parent.invert x1 0}}
+  name Switch1
+  xpos -74
+  ypos -229
+ }
+ Output {
+  name Output1
+  xpos -74
+  ypos -187
+ }
+end_group
+set N3074f00 [stack 0]
+Write {
+ file Z:/packages-dev/AgXc/dev/images/results/test_log.reference.negatives.jpg
+ raw true
+ file_type jpeg
+ _jpeg_quality 1
+ _jpeg_sub_sampling 4:4:4
+ checkHashOnRead false
+ version 3
+ name Write1
+ xpos 156
+ ypos -39
+}
+Read {
+ inputs 0
+ file_type exr
+ file Z:/packages-dev/AgXc/dev/images/references/test_pattern.AgX_log.exr
+ format "1280 720 0 0 1280 720 1 HD_720"
+ origset true
+ raw true
+ name Read6
+ xpos 152
+ ypos -300
+}
+Group {
+ name display_negatives2
+ tile_color 0x992929ff
+ xpos 152
+ ypos -167
+ addUserKnob {20 User}
+ addUserKnob {7 threshold R -0.02 0}
+ addUserKnob {6 invert +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -74
+  ypos -382
+ }
+ Expression {
+  temp_name0 t
+  temp_expr0 threshold
+  expr0 "r < t? 1: 0"
+  expr1 "g < t? 1: 0"
+  expr2 "b < t? 1: 0"
+  name negatives_mask
+  xpos -74
+  ypos -342
+  addUserKnob {20 User}
+  addUserKnob {7 threshold R -0.05 0}
+  threshold {{parent.threshold x1 0}}
+ }
+ Saturation {
+  saturation 0
+  mode Maximum
+  name Saturation1
+  xpos -74
+  ypos -309
+ }
+set N2a3f6000 [stack 0]
+ Invert {
+  channels rgb
+  name Invert1
+  xpos -13
+  ypos -273
+ }
+push $N2a3f6000
+ Switch {
+  inputs 2
+  which {{parent.invert x1 0}}
+  name Switch1
+  xpos -74
+  ypos -229
+ }
+ Output {
+  name Output1
+  xpos -74
+  ypos -187
+ }
+end_group
+push $N4909ac00
+Dot {
+ name Dot2
+ xpos -2
+ ypos -366
+}
+Group {
+ name display_negatives
+ tile_color 0x992a2aff
+ xpos -36
+ ypos -295
+ addUserKnob {20 User}
+ addUserKnob {7 threshold R -0.02 0}
+ addUserKnob {6 invert +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -74
+  ypos -382
+ }
+ Expression {
+  temp_name0 t
+  temp_expr0 threshold
+  expr0 "r < t? 1: 0"
+  expr1 "g < t? 1: 0"
+  expr2 "b < t? 1: 0"
+  name negatives_mask
+  xpos -74
+  ypos -342
+  addUserKnob {20 User}
+  addUserKnob {7 threshold R -0.05 0}
+  threshold {{parent.threshold x1 0}}
+ }
+ Saturation {
+  saturation 0
+  mode Maximum
+  name Saturation1
+  xpos -74
+  ypos -309
+ }
+set N48fd2c00 [stack 0]
+ Invert {
+  channels rgb
+  name Invert1
+  xpos -13
+  ypos -273
+ }
+push $N48fd2c00
+ Switch {
+  inputs 2
+  which {{parent.invert x1 0}}
+  name Switch1
+  xpos -74
+  ypos -229
+ }
+ Output {
+  name Output1
+  xpos -74
+  ypos -187
+ }
+end_group
+Dot {
+ name Dot3
+ xpos -2
+ ypos -193
+}
+push $N3074f00
+Viewer {
+ inputs 4
+ frame 1
+ frame_range 1-100
+ input_number 3
+ viewerProcess "Disabled (sRGB)"
+ translate {-0.01100000739 -0.01100000739}
+ rotate -18.43494415
+ name Viewer1
+ xpos -40
+ ypos -9
+}

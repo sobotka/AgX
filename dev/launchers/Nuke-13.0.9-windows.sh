@@ -4,8 +4,8 @@
 cd ../..
 pwd
 
-NUKE_HOME="/C/Program Files/Nuke13.2v1"
-NUKE_EXE="$NUKE_HOME/Nuke13.2.exe"
+NUKE_HOME="/C/Program Files/Nuke13.0v9"
+NUKE_EXE="$NUKE_HOME/Nuke13.0.exe"
 
 export OCIO="./ocio/config.ocio"
 

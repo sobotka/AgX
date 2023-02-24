@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.9,<3.11"
 colour = { git = "https://github.com/colour-science/colour.git", branch = "develop" }
 numpy = "*"
+opencolorio = "2.1.*"
 
 [tool.poetry.group.dev.dependencies]
 black = "*"
