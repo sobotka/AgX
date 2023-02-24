@@ -24,9 +24,9 @@ You will need :
 1. Modify the `/dev/obs/obs_codegen/__main__.py` by adding the new colorspace.
 This is done by adding a new instance of `AssemblyColorspace`.
 
-2. Generate the HLSL code by running `__main__` (uncomment the print line if needed)
+2. Generate the HLSL code by running `python -m obs_codegen hlsl`
 3. Copy the code generated in `colorspace.hlsl` (using the `//region` `//endregion` comment as marks)
-4. Generate the LUA code (uncomment the print line if needed)
+4. Generate the LUA code `python -m obs_codegen lua`
 5.  Copy the code generated in `AgX.lua` where it "seems" to belong. 
 (for now just adding entries to the properties dropdown)
 
