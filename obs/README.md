@@ -39,12 +39,12 @@ All done ! You can now configure it.
 
 ![screenshot of OBS interface while in the Filters section](doc/img/obs-filter-options.png)
 
-> **Note** Reminder that AgX being a display transform it should be put at the
+> **Note** Reminder that AgX being a display transform it should be placed at the
 > very end of the image processing chain. (so at the bottom in OBS)
 
 The camera/video-source and your lighting setup will affect how much you need
 to tweak the paramaters. There is no setup that work for all cases (but once
-you configured for your camera/ usual lighting you will not need to touch it anymore)
+configured for your camera/usual lighting, you will not need to touch it anymore)
 
 ## Recommended
 
@@ -59,14 +59,24 @@ I recommend to always start by :
 
 Pick in which colorspace your source is encoded. 
 
-Passthrough means the no decoding is applied.
+Passthrough means no decoding is applied.
 
 ### Output Colorspace
 
 Target colorspace encoding. Must correspond to your monitor calibration.
 
+> **Note** You can request adding new colorspace by opening an issue !
 
-### Grading/...
+### DRT
+
+Pick the DRT to use. Technically here we could include other DRT than AgX.
+But for now only None and AgX are available.
+
+None means you can use all the options like grading, input colorspace, ... but
+you will get a look similar to the usual broken imagery workflow.
+
+
+### Pre-Grading/...
 
 Adjust imagery look in a Linear space, before AgX is applied.
 
@@ -93,10 +103,10 @@ via `Highlight Gain Threshold`.
 
 See above.
 
-### Punchy/...
+### Post-Grading/...
 
 Grading modifications applied after AgX on display encoded data. This will
-introduce skews, clipping and other artefact.
+introduce skews, clipping and other artefacts.
 
 Recommended to change small values if used.
 
@@ -111,6 +121,13 @@ Does not create any change visually.
 Not originally included in the first AgX version but should be in the future.
 Restore chroma and avoid having to use Punchy saturation.
 
+### Debug/CAT Method
+
+Chromatic Adaptation Transform method to chose for whitepoint conversion.
+
+Default is Bradford and doesn't need to be changed.
 
 
+# Developer
 
+Developer documentation can be found in [doc/DEV.md](doc/DEV.md).
