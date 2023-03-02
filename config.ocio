@@ -189,6 +189,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear CIE-XYZ I-D65
+    aliases: [cie_xyz_d65, CIE-XYZ-D65]
     family: Chromaticity
     equalitygroup:
     bitdepth: 32f
@@ -214,7 +215,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.709 I-D65
-    aliases: [Linear, Linear BT.709, Linear Tristimulus]
+    aliases: [Linear, Linear BT.709, Linear Tristimulus, Linear Rec.709, linrec709, Utility - Linear - sRGB, Utility - Linear - Rec.709, lin_srgb, Linear Rec.709 (sRGB), lin_rec709_srgb, lin_rec709, lin_srgb]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: 32f
@@ -241,6 +242,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear DCI-P3 I-D65
+    aliases: [Linear P3-D65, lin_p3d65, Utility - Linear - P3-D65]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: 32f
@@ -267,6 +269,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Linear BT.2020 I-D65
+    aliases: [Linear Rec.2020, lin_rec2020, Utility - Linear - Rec.2020]
     family: Colourspaces
     equalitygroup: ""
     bitdepth: 32f
@@ -534,7 +537,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: sRGB 2.2
-    aliases: [sRGB, sRGB 2.2 I-D65]
+    aliases: [sRGB, sRGB 2.2 I-D65, srgb_display, sRGB - Display, g22_rec709, Utility - Gamma 2.2 - Rec.709 - Texture, Utility - sRGB - Texture, sRGB - Texture, srgb_tx, srgb_texture, Input - Generic - sRGB - Texture]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -576,7 +579,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: BT.1886 2.4
-    aliases: [BT.1886, BT.1886 2.4 I-D65]
+    aliases: [BT.1886, BT.1886 2.4 I-D65, Rec.1886 / Rec.709 Video - Display, rec1886_rec709_video_display, Rec.1886 Rec.709 - Display, rec1886_rec709_display]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -590,7 +593,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Display P3 2.2
-    aliases: [Display P3, Display P3 2.2 I-D65]
+    aliases: [Display P3, Display P3 2.2 I-D65, P3-D65 - Display, p3_d65_display, p3d65_display]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -604,7 +607,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: BT.2020 2.4
-    aliases: [BT.2020, BT.2020 2.4 I-D65]
+    aliases: [BT.2020, BT.2020 2.4 I-D65, Rec.1886 / Rec.2020 Video - Display, rec1886_rec2020_video_display, Rec.1886 Rec.2020 - Display, rec1886_rec2020_display]
     family: Displays/SDR
     equalitygroup: ""
     bitdepth: unknown
@@ -683,7 +686,7 @@ colorspaces:
 
   - !<ColorSpace>
     name: Generic Data
-    aliases: [Non-Color, Raw]
+    aliases: [Non-Color, Non-colour Data, Raw]
     family: Data/Generic Data
     equalitygroup: ""
     bitdepth: unknown
