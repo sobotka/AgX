@@ -589,7 +589,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<ExponentTransform> {value: 2.4}
+        - !<ExponentTransform> {value: 2.4, direction: inverse}
 
   - !<ColorSpace>
     name: Display P3 2.2
@@ -617,7 +617,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<ExponentTransform> {value: 2.4}
+        - !<ExponentTransform> {value: 2.4, direction: inverse}
 
   - !<ColorSpace>
     name: BT.2020 2.4 I-E
@@ -631,7 +631,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
-        - !<ExponentTransform> {value: 2.4}
+        - !<ExponentTransform> {value: 2.4, direction: inverse}
 
   - !<ColorSpace>
     name: Luminance Correction BT.2020
