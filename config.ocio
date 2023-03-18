@@ -547,7 +547,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.2 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.2, direction: inverse}
 
   - !<ColorSpace>
     name: sRGB 2.2 I-E
@@ -561,7 +561,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-E}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-E, dst: 2.2 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.2, direction: inverse}
         
   - !<ColorSpace>
     name: Display P3 2.2 I-E
@@ -575,7 +575,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-E}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-E, dst: 2.2 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.2, direction: inverse}
 
   - !<ColorSpace>
     name: BT.1886 2.4
@@ -589,7 +589,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.709 I-D65}
-        - !<ColorSpaceTransform> {src: Linear BT.709 I-D65, dst: 2.4 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.4}
 
   - !<ColorSpace>
     name: Display P3 2.2
@@ -603,7 +603,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear DCI-P3 I-D65}
-        - !<ColorSpaceTransform> {src: Linear DCI-P3 I-D65, dst: 2.2 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.2, direction: inverse}
 
   - !<ColorSpace>
     name: BT.2020 2.4
@@ -617,7 +617,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-D65}
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-D65, dst: 2.4 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.4}
 
   - !<ColorSpace>
     name: BT.2020 2.4 I-E
@@ -631,7 +631,7 @@ colorspaces:
     from_scene_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> {src: Linear CIE-XYZ I-E, dst: Linear BT.2020 I-E}
-        - !<ColorSpaceTransform> {src: Linear BT.2020 I-E, dst: 2.4 EOTF Encoding}
+        - !<ExponentTransform> {value: 2.4}
 
   - !<ColorSpace>
     name: Luminance Correction BT.2020
@@ -700,11 +700,11 @@ named_transforms:
     aliases: [sRGB EOTF Encoding]
     description: 2.2 Exponent EOTF Encoding
     family: Utilities/Curves
-    transform: !<ExponentTransform> {value: 2.2}
+    transform: !<ExponentTransform> {value: 2.2, direction: inverse}
 
   - !<NamedTransform>
     name: 2.4 EOTF Encoding
     aliases: [BT.1886 EOTF Encoding]
     description: 2.4 Exponent EOTF Encoding
     family: Utilities/Curves
-    transform: !<ExponentTransform> {value: 2.4}
+    transform: !<ExponentTransform> {value: 2.4, direction: inverse}
