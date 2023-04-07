@@ -164,6 +164,23 @@ def xyz_to_ap0():
     return matrix
 
 
+def xyz_to_ap1():
+    source = "XYZ"
+    target: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["ACEScg"]
+    target.use_derived_transformation_matrices(True)
+
+    illum_1931 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
+    whitepoint_d65 = illum_1931["D65"]
+
+    matrix = matrix_primaries_transform_ocio(
+        source=source,
+        target=target,
+        source_whitepoint=whitepoint_d65,
+        target_whitepoint=target.whitepoint,
+    )
+    return matrix
+
+
 def srgb_to_xyz():
     source: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["sRGB"]
     source.use_derived_transformation_matrices(True)
@@ -177,6 +194,21 @@ def srgb_to_xyz():
         target=target,
         source_whitepoint=source.whitepoint,
         target_whitepoint=whitepoint_d65,
+    )
+    return matrix
+
+
+def srgb_to_p3():
+    source: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["sRGB"]
+    source.use_derived_transformation_matrices(True)
+    target: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["DCI-P3"]
+    target.use_derived_transformation_matrices(True)
+
+    matrix = matrix_primaries_transform_ocio(
+        source=source,
+        target=target,
+        source_whitepoint=source.whitepoint,
+        target_whitepoint=target.whitepoint,
     )
     return matrix
 
@@ -198,5 +230,7 @@ def ap0_to_srgb():
 
 if __name__ == "__main__":
     print(f"{xyz_to_ap0()=}")
+    print(f"{xyz_to_ap1()=}")
     print(f"{srgb_to_xyz()=}")
+    print(f"{srgb_to_p3()=}")
     print(f"{ap0_to_srgb()=}")
