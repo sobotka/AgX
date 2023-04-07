@@ -108,27 +108,35 @@ def matrix_primaries_transform_ocio(
         4x4 matrix in a single line list.
     """
 
-    if target == "XYZ":
-        matrix = source.matrix_RGB_to_XYZ
+    if source == "XYZ" or target == "XYZ":
+        if target == "XYZ":
+            matrix = source.matrix_RGB_to_XYZ
 
-    elif source == "XYZ":
-        matrix = target.matrix_XYZ_to_RGB
+        else:
+            matrix = target.matrix_XYZ_to_RGB
+
+        if source_whitepoint is not None and target_whitepoint is not None:
+            matrix_cat = matrix_whitepoint_cat(
+                source_whitepoint=source_whitepoint,
+                target_whitepoint=target_whitepoint,
+                cat=cat,
+            )
+
+            matrix = numpy.dot(matrix_cat, matrix)
 
     else:
-        matrix = colour.matrix_RGB_to_RGB(
-            source,
-            target,
-            chromatic_adaptation_transform=None,
-        )
+        matrix = source.matrix_RGB_to_XYZ
 
-    if source_whitepoint is not None and target_whitepoint is not None:
-        wp_m = matrix_whitepoint_cat(
-            source_whitepoint=source_whitepoint,
-            target_whitepoint=target_whitepoint,
-            cat=cat,
-        )
+        if source_whitepoint is not None and target_whitepoint is not None:
+            matrix_cat = matrix_whitepoint_cat(
+                source_whitepoint=source_whitepoint,
+                target_whitepoint=target_whitepoint,
+                cat=cat,
+            )
 
-        matrix = numpy.dot(wp_m, matrix)
+            matrix = numpy.dot(matrix_cat, source.matrix_RGB_to_XYZ)
+
+        matrix = numpy.dot(target.matrix_XYZ_to_RGB, matrix)
 
     matrix = matrix.round(DECIMALS)
     return matrix_format_ocio(matrix)
@@ -142,6 +150,7 @@ Conversions
 def xyz_to_ap0():
     source = "XYZ"
     target: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["ACES2065-1"]
+    target.use_derived_transformation_matrices(True)
 
     illum_1931 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
     whitepoint_d65 = illum_1931["D65"]
@@ -157,6 +166,7 @@ def xyz_to_ap0():
 
 def srgb_to_xyz():
     source: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["sRGB"]
+    source.use_derived_transformation_matrices(True)
     target = "XYZ"
 
     illum_1931 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
@@ -173,7 +183,9 @@ def srgb_to_xyz():
 
 def ap0_to_srgb():
     source: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["ACES2065-1"]
-    target: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["sRGB"]
+    source.use_derived_transformation_matrices(True)
+    target: colour.RGB_Colourspace = colour.RGB_COLOURSPACES["ITU-R BT.709"]
+    target.use_derived_transformation_matrices(True)
 
     matrix = matrix_primaries_transform_ocio(
         source=source,
