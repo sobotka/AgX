@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "AgXc"
-version = "0.5.0"
+version = "0.5.1"
 description = "Fork of Troy.S AgX, a display rendering transform available via OCIO and more."
 authors = ["Liam Collod <monsieurlixm@gmail.com>"]
 readme = "README.md"
