@@ -107,33 +107,31 @@ def matrix_primaries_transform_ocio(
     Returns:
         4x4 matrix in a single line list.
     """
+    matrix_cat = None
+    if source_whitepoint is not None and target_whitepoint is not None:
+        matrix_cat = matrix_whitepoint_cat(
+            source_whitepoint=source_whitepoint,
+            target_whitepoint=target_whitepoint,
+            cat=cat,
+        )
 
     if source == "XYZ" or target == "XYZ":
         if target == "XYZ":
             matrix = source.matrix_RGB_to_XYZ
 
+            if matrix_cat is not None:
+                matrix = numpy.dot(matrix_cat, matrix)
+
         else:
             matrix = target.matrix_XYZ_to_RGB
 
-        if source_whitepoint is not None and target_whitepoint is not None:
-            matrix_cat = matrix_whitepoint_cat(
-                source_whitepoint=source_whitepoint,
-                target_whitepoint=target_whitepoint,
-                cat=cat,
-            )
-
-            matrix = numpy.dot(matrix_cat, matrix)
+            if matrix_cat is not None:
+                matrix = numpy.dot(matrix, matrix_cat)
 
     else:
         matrix = source.matrix_RGB_to_XYZ
 
-        if source_whitepoint is not None and target_whitepoint is not None:
-            matrix_cat = matrix_whitepoint_cat(
-                source_whitepoint=source_whitepoint,
-                target_whitepoint=target_whitepoint,
-                cat=cat,
-            )
-
+        if matrix_cat is not None:
             matrix = numpy.dot(matrix_cat, source.matrix_RGB_to_XYZ)
 
         matrix = numpy.dot(target.matrix_XYZ_to_RGB, matrix)
