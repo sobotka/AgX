@@ -77,10 +77,10 @@ colorspaces:
       children:
         # the 2 CLDTransform are a hack to clamp negatives
         # 2nd one has an offset else considered no-op and no clamp applied
-        - !<CDLTransform> {power: [2.0, 2.0, 2.0]}
-        - !<CDLTransform> {power: [0.500001, 0.500001, 0.500001]}
+        - !<CDLTransform> { power: [ 2.0, 2.0, 2.0 ] }
+        - !<CDLTransform> { power: [ 0.500001, 0.500001, 0.500001 ] }
         - !<MatrixTransform> { matrix: [ 0.842479062253094, 0.0784335999999992, 0.0792237451477643, 0, 0.0423282422610123, 0.878468636469772, 0.0791661274605434, 0, 0.0423756549057051, 0.0784336, 0.879142973793104, 0, 0, 0, 0, 1 ] }
-        - !<AllocationTransform> { allocation: lg2, vars: [ -12.47393, 4.026069] }
+        - !<AllocationTransform> { allocation: lg2, vars: [ -12.47393, 4.026069 ] }
 
   - !<ColorSpace>
     name: 2.2 EOTF Encoding
@@ -139,7 +139,7 @@ colorspaces:
     allocationvars: [ 0.0, 1.0 ]
     from_reference: !<GroupTransform>
       children:
-        - !<MatrixTransform> { matrix: [ 0.822533651175139, 0.17754580666797, 5.36947712599933e-05, 0, 0.0331170846132368, 0.966848142976822, -3.14995811217383e-06, 0, 0.0170564417474994, 0.0724006113523901, 0.910489265923157, 0, 0, 0, 0, 1 ] }
+        - !<MatrixTransform> { matrix: [ 0.868579739716, 0.128919138461, 0.002501121823, 0.0, 0.034540410254, 0.961811386362, 0.003648203384, 0.0, 0.016771429041, 0.071039997787, 0.912188573172, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
         - !<ColorSpaceTransform> { src: reference, dst: 2.2 EOTF Encoding }
 
   - !<ColorSpace>
@@ -255,7 +255,7 @@ colorspaces:
     description: Passthrough means no transformations. Also know as "raw".
     isdata: true
     allocation: uniform
-    allocationvars: [0, 1]
+    allocationvars: [ 0, 1 ]
 
   - !<ColorSpace>
     name: ACEScg
@@ -269,7 +269,7 @@ colorspaces:
     from_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> { src: reference, dst: CIE - XYZ - D65 }
-        - !<MatrixTransform> { matrix: [ 1.658186658708, -0.319051035652, -0.254201372847, 0.0, -0.649869953145, 1.609906073438, 0.009931879448, 0.0, 0.003064930409, 0.000831933457, 0.914527376674, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
+        - !<MatrixTransform> { matrix: [ 1.660585326491, -0.315295560826, -0.241509327608, 0.0, -0.659926063224, 1.608391469566, 0.017298594705, 0.0, 0.009002569138, -0.00356687639, 0.913643312763, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
 
   - !<ColorSpace>
     name: ACES2065-1
@@ -283,7 +283,7 @@ colorspaces:
     from_reference: !<GroupTransform>
       children:
         - !<ColorSpaceTransform> { src: reference, dst: CIE - XYZ - D65 }
-        - !<MatrixTransform> { matrix: [ 1.0604675987, 0.008384430217, -0.014338952537, 0.0, -0.486910537062, 1.370790753303, 0.093070834934, 0.0, -0.005306229727, 0.006434186849, 0.916879121543, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
+        - !<MatrixTransform> { matrix: [ 1.063495491494, 0.006408910197, -0.015806786618, 0.0, -0.492074127924, 1.368223407473, 0.091337088314, 0.0, -0.002816461639, 0.004644171057, 0.916418574594, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
 
   - !<ColorSpace>
     name: CIE - XYZ - D65
@@ -292,4 +292,4 @@ colorspaces:
     description: CIE 1931 Colorspace with a D65 whitepoint.
     allocation: lg2
     allocationvars: [ -8, 5, 0.00390625 ]
-    from_reference: !<MatrixTransform> { matrix: [ 0.4124, 0.3576, 0.1805, 0.0, 0.2126, 0.7152, 0.0722, 0.0, 0.0193, 0.1192, 0.9505, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
+    from_reference: !<MatrixTransform> { matrix: [ 0.412390799266, 0.357584339384, 0.180480788402, 0.0, 0.212639005872, 0.715168678768, 0.072192315361, 0.0, 0.019330818716, 0.119194779795, 0.95053215225, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
